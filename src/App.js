@@ -2,6 +2,7 @@ import './App.css';
 import styled from 'styled-components'
 import React, { useReducer } from 'react'
 import { Activity, activityReducer } from './activity/Activity';
+import { Button } from './components/Theme'
 
 const TabList = styled.div`
   border-bottom: 1px solid #ccc;
@@ -62,11 +63,13 @@ const initMeetingState = {
     users: {
       "alpha@aarvalabs.com": {
         userId: "alpha@aarvalabs.com",
-        userName: "Alpha"
+        userName: "Alpha",
+        role: "host"
       },
       "bravo@aarvalabs.com": {
         userId: "bravo@aarvalabs.com",
-        userName: "Bravo"
+        userName: "Bravo",
+        role: "guest"
       }
     }
   }
@@ -108,7 +111,9 @@ function App() {
 }
 const Setup = ({ sandboxDispatch }) => {
   return (
-    <div style={{ cursor: "pointer" }} onClick={() => sandboxDispatch({ type: "TOGGLE_SPLIT" })}>TOGGLE SPLIT</div>
+    <div style={{ padding: "20px" }}>
+      <Button onClick={() => sandboxDispatch({ type: "TOGGLE_SPLIT" })}>TOGGLE SPLIT</Button>
+    </div>
   )
 
 }

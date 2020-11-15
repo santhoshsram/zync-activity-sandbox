@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Switch } from '../components/Switch'
-
+import { Button } from '../components/Theme'
 const activityReducer = (state, action) => {
     switch (action.type) {
         case 'ADD_MESSAGE':
@@ -27,11 +27,10 @@ const Activity = ({ activity, users, user, dispatch }) => {
     return (
         <>
             <h1> Activity {userName}</h1>
-            <div
-                style={{ display: "inline-block", padding: "15px", margin: "10px", cursor: "pointer", background: "green" }}
+            <Button
                 onClick={() => dispatch({ type: "ADD_MESSAGE", userId, text: "BAZINGA" })}>
                 BAZINGA
-            </div>
+            </Button>
             <div style={{ border: "1px solid black", height: "500px", background: "#ccc" }}>
                 {(messages || []).map((m, i) => <div key={i}>{m.sender} says {m.text}</div>)}
             </div>
