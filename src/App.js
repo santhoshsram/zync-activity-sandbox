@@ -9,7 +9,6 @@ const TabList = styled.div`
 `
 
 const sandboxReducer = (state, action) => {
-  console.log(action)
   switch (action.type) {
     case 'SELECT_TAB':
       return {
@@ -116,7 +115,8 @@ const Setup = ({ sandboxDispatch }) => {
 const TabbedView = (props) => {
 
   const { section, sandboxState, sandboxDispatch, meetingState, meetingDispatch } = props
-  const { state } = meetingState || {}
+  const { state, activities } = meetingState || {}
+  const { activity_instance } = activities || {}
   const { users } = state || {}
 
   const { activeTab } = sandboxState[section] || {}
@@ -143,7 +143,7 @@ const TabbedView = (props) => {
     { activeTab === "setup" && <Setup {...props} />}
     {
       activeTab !== "setup" &&
-      <Activity dispatch={meetingDispatch} />
+      <Activity activity={activity_instance} users={users} user={users[activeTab]} dispatch={meetingDispatch} />
     }
   </div>)
 
