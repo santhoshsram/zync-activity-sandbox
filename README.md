@@ -1,70 +1,113 @@
-# Getting Started with Create React App
+# Starting the Sandbox
+```
+npm install 
+npm start
+```
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Creating an activity 
 
-## Available Scripts
+## 1. List Activity
+Information that will be presented in the Activity Picker.
 
-In the project directory, you can run:
+| Field                      | Description                                                  |
+| -------------------------- | :----------------------------------------------------------- |
+| `title` (_required_)       | Title of the activity. Limit 24 characters                   |
+| `description` (_required_) | Short description of the activity. Limit 256 characters.     |
+| `icon` (_required_)        | URL for the icon. Must be square. Maximum size `1024px x 1024px` |
 
-### `yarn start`
+Example
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```json
+{
+  "title": "Status Update",
+	"description": "Go around the table and give a status update",
+	"icon": "https://iconurl.com"
+}
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 2. Default Configuration 
+Configuration settings for the activity <br/>You can include additional configuration settings here. <br/>
 
-### `yarn test`
+When users pick the activity they can be allowed to customize these settings using the Customization component. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Field                   | Description                                                  |
+| ----------------------- | ------------------------------------------------------------ |
+| `videohub` (_required_) | This describes how you want the video hub to behave when you run your activity. <br/> This can be set to one of `Docked` or `Minimized`<br/>When set to `Docked`, the video hub provided by platform is Docked. Participants are visible on the side. You get a frame with `800px` width to implement your activity. <br/>When set to `Minimized` the video hub provided by platform is Minimized and only the bottom bar with the Mute, Camera Off and End Meeting buttons are visible. You get a frame with `1080px` width to implment your activity. Users will not be able to see each others' video in this mode. You can implement your custom video visualization. See example below in Activity section |
+|                         |                                                              |
 
-### `yarn build`
+Example: 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+{
+    videoHub: "minimized",
+    updateTimeInSeconds: 90,
+    statusUpdatePrompt: "What are you working on ? Are you on track ? Are you blocked ?"
+}
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+## 3. Customization Settings
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Modal to configure this activity when launched. <br/>Modal shows up when activity clicked from activity picker. 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This component implments the settings that go in the modal 
+Launch button will be provided by the platform. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Props passed to your component 
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+| Prop                | Description                                       |
+| ------------------- | ------------------------------------------------- |
+| `settings`          | Default settings provided from above.             |
+| `setLaunchSettings` | Function to call when these settings are updated. |
 
-## Learn More
+### Guidelines: 
+* Component cannot make a call to an external service 
+* Space is a constraint, do not set component width and height. 
+* Expect this to render within a `500 x 500` frame. 
+* Not every configuration setting need to be made customizable. 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Example
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+const Settings = ({ settings, setLaunchSettings }) => {
+    const [updateTimeInSeconds, setUpdateTimeInSeconds] = useState(settings.updateTimeInSeconds)
+    const updateTimeChange = (e) => {
+        const time = parseInt(e.target.value) || settings.updateTimeInSeconds
+        if (isNaN(time)) return;
+        setUpdateTimeInSeconds(time)
+        setLaunchSettings({ ...settings, updateTimeInSeconds: time })
+    }
+    return (<div>
+        <div>Update Time In Seconds</div>
+        <Input onChange={updateTimeChange} value={updateTimeInSeconds} />
+    </div>)
+}
+```
 
-### Code Splitting
+## 4. Activity 
+The main activity is implemented here. 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+| Props                      | Description                                                  |
+| -------------------------- | ------------------------------------------------------------ |
+| `activity`                 | Activity Object with all details about the activity          |
+| `activity.activityId`      | Unique Activity Id is allocated for your Application and will have to be passed on all server dispatch calls. |
+| `activity.instanceId`      | Unique Instance Id allocated for this running instance of the activity. You'll need to provide this on your server dispatch calls. |
+| `activity.details`         | The details about your application. See 1 above.             |
+| `activity.settings`        | The configuration settings for your application that was set at the time of launch. This is the launch settings that was configured by the user. |
+| `users`                    | User Object that contains the list of all active users in the list. |
+| `users[<userId>].userName` | Name of the user                                             |
+| `users[<userId>].videoUrl` |                                                              |
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Guidelines:   
+* 
 
-### Making a Progressive Web App
+## 5. Summary 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The Summary section will be part of the Meeting Summary at the end of the meeting. 
 
-### Advanced Configuration
+| Props      | Description |
+| ---------- | ----------- |
+| `activity` |             |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
