@@ -21,12 +21,12 @@ const activityReducer = (state, action) => {
 
 const Activity = ({ activity, users, user, dispatch }) => {
     const { activityId, instanceId, settings, state, details, messages } = activity || {}
-    const { userId, host, userName } = user || {}
+    const { userId, role, userName } = user || {}
     const { title, description, icon } = details || {}
 
     return (
         <>
-            <h1> Activity {userName}</h1>
+            <h1> Activity {userName} - {role}</h1>
             <Button
                 onClick={() => dispatch({ type: "ADD_MESSAGE", userId, text: "BAZINGA" })}>
                 BAZINGA
