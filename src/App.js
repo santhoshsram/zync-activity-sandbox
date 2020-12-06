@@ -1,6 +1,8 @@
 import "./App.css"
 import styled from "styled-components"
-import React, { useReducer } from "react"
+import React from "react"
+import { connect } from "react-redux"
+import { selectTab, toggleSplit } from "./sandboxActions"
 import { Activity, ActivityInfo } from "./activity/Activity"
 import { Button, Border } from "./components/Theme"
 
@@ -9,67 +11,24 @@ const TabList = styled.div`
   padding-left: 0;
 `
 
-const sandboxReducer = (state, action) => {
-  switch (action.type) {
-    case "SELECT_TAB":
-      return {
-        ...state,
-        [action.section]: {
-          activeTab: action.tabId
-        }
-      }
-    case "TOGGLE_SPLIT":
-      return {
-        ...state,
-        split: !state.split
-      }
-    default:
-      return {
-        ...state
-      }
-  }
-}
-/*
-XXX TODO: Perhaps we don't need a meeting reducer. All it does is update
-the activity state. This should be done in the activity's reducer
+const Split = styled.span`
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+`
 
-Later when we add ability to add and remove users, we can add a meeting
-reducer, since the users are maintained in the meeting state
-
-const meetingReducer = (state, action) => {
-  switch (action.type) {
-    case "UPDATE_SETTINGS":
-      return {
-        ...state,
-        activities: {
-          activity_instance: {
-            ...state.activities["activity_instance"],
-            settings: action.settings
-          }
-        }
-      }
-    default:
-      return {
-        ...state,
-        activities: {
-          activity_instance: activityReducer(
-            state.activities["activity_instance"],
-            action
-          )
-        }
-      }
-  }
-}
-*/
+const TabHeader = styled.span`
+  display: inline-block;
+  list-style: none;
+  margin-bottom: -1px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+`
 
 const initMeetingState = {
-  /* activities: {
-    activity_instance: {
-      ...activityListing,
-      instanceId: "activity_instance"
-    }
-  }, */
-  // state: {
   users: {
     "alpha@aarvalabs.com": {
       userId: "alpha@aarvalabs.com",
@@ -87,45 +46,17 @@ const initMeetingState = {
       role: "guest"
     }
   }
-  // }
 }
 
-const initSandboxState = {
-  mainSection: {
-    activeTab: "setup"
-  },
-  splitSection: {
-    activeTab: "setup"
-  },
-  split: false
-}
-
-const Split = styled.span`
-  height: 100%;
-  width: 50%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  overflow-x: hidden;
-`
-
-function App() {
-  /* const [meetingState, meetingDispatch] = useReducer(
-    meetingReducer,
-    initMeetingState
-  ) */
-  const [sandboxState, sandboxDispatch] = useReducer(
-    sandboxReducer,
-    initSandboxState
-  )
+function App({ sandboxState, toggleSplit, selectTab }) {
   const props = {
-    /*     meetingState,
-    meetingDispatch, */
     meetingState: initMeetingState,
-    sandboxState,
-    sandboxDispatch
+    sandboxState: sandboxState,
+    toggleSplit: toggleSplit,
+    selectTab: selectTab
   }
   const { split } = sandboxState
+
   return (
     <>
       {!split && <TabbedView section="mainSection" {...props} />}
@@ -145,20 +76,11 @@ function App() {
   )
 }
 
-// const Setup = ({ meetingState, sandboxDispatch, meetingDispatch }) => {
-const Setup = ({ meetingState, sandboxDispatch }) => {
-  /*   const { state, activities } = meetingState || {}
-  const { activity_instance } = activities || {}
-  const { users } = state || {} */
-
-  const { users } = meetingState
-
+const Setup = ({ users, toggleSplit }) => {
   return (
     <div style={{ padding: "20px" }}>
       <h1>Sandbox settings</h1>
-      <Button onClick={() => sandboxDispatch({ type: "TOGGLE_SPLIT" })}>
-        TOGGLE SPLIT
-      </Button>
+      <Button onClick={toggleSplit}>TOGGLE SPLIT</Button>
       <p>Toggle Split screen to see 2 users side by side</p>
 
       <Border>
@@ -168,18 +90,8 @@ const Setup = ({ meetingState, sandboxDispatch }) => {
   )
 }
 const TabbedView = (props) => {
-  const {
-    section,
-    sandboxState,
-    sandboxDispatch,
-    meetingState
-    // meetingDispatch
-  } = props
-  /*   const { state, activities } = meetingState || {}
-  const { activity_instance } = activities || {}
-  const { users } = state || {} */
+  const { section, sandboxState, toggleSplit, selectTab, meetingState } = props
   const { users } = meetingState
-
   const { activeTab } = sandboxState[section] || {}
 
   return (
@@ -189,9 +101,7 @@ const TabbedView = (props) => {
           label="Setup"
           tabId="setup"
           active={activeTab === "setup"}
-          selectTab={() =>
-            sandboxDispatch({ type: "SELECT_TAB", section, tabId: "setup" })
-          }
+          selectTab={() => selectTab(section, "setup")}
         />
         {(Object.values(users || {}) || []).map((user, i) => {
           const { userId, userName } = user
@@ -201,36 +111,20 @@ const TabbedView = (props) => {
               label={userName}
               tabId={userId}
               active={activeTab === userId}
-              selectTab={() =>
-                sandboxDispatch({ type: "SELECT_TAB", section, tabId: userId })
-              }
+              selectTab={() => selectTab(section, userId)}
             />
           )
         })}
       </TabList>
-      {activeTab === "setup" && <Setup {...props} />}
+      {activeTab === "setup" && (
+        <Setup users={users} toggleSplit={toggleSplit} />
+      )}
       {activeTab !== "setup" && (
         <Activity users={users} user={users[activeTab]} />
       )}
-      {/*       {activeTab !== "setup" && (
-        <Activity
-          activity={activity_instance}
-          users={users}
-          user={users[activeTab]}
-          dispatch={meetingDispatch}
-        />
-      )} */}
     </div>
   )
 }
-
-const TabHeader = styled.span`
-  display: inline-block;
-  list-style: none;
-  margin-bottom: -1px;
-  padding: 0.5rem 0.75rem;
-  cursor: pointer;
-`
 
 const Tab = ({ label, tabId, active, selectTab }) => {
   const addStyle = active
@@ -243,11 +137,20 @@ const Tab = ({ label, tabId, active, selectTab }) => {
 
   return (
     <>
-      <TabHeader style={addStyle} onClick={() => selectTab(tabId)}>
+      <TabHeader style={addStyle} onClick={selectTab}>
         {label}
       </TabHeader>
     </>
   )
 }
 
-export default App
+const mapStateToProps = (state) => ({
+  sandboxState: state.sandbox
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  toggleSplit: () => dispatch(toggleSplit()),
+  selectTab: (section, tabId) => dispatch(selectTab(section, tabId))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
