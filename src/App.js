@@ -1,31 +1,14 @@
 import "./App.css"
 import styled from "styled-components"
 import React, { useReducer } from "react"
-import {
-  Activity,
-  activityReducer,
-  Summary,
-  Settings,
-  activityListing
-} from "./activity/Activity"
-import {
-  Button,
-  Border,
-  ActivityTitle,
-  ActivityDescription,
-  ActivityIcon
-} from "./components/Theme"
+import { Activity, ActivityInfo } from "./activity/Activity"
+import { Button, Border } from "./components/Theme"
 
 const TabList = styled.div`
   border-bottom: 1px solid #ccc;
   padding-left: 0;
 `
-const HR = styled.hr`
-  color: #ccc;
-  opacity: 0.4;
-  margin: 25px 95px 25px 0px;
-  box-shadow: 0px 0px 10px rgba(102, 102, 102, 0.25);
-`
+
 const sandboxReducer = (state, action) => {
   switch (action.type) {
     case "SELECT_TAB":
@@ -46,6 +29,12 @@ const sandboxReducer = (state, action) => {
       }
   }
 }
+/*
+XXX TODO: Perhaps we don't need a meeting reducer. All it does is update
+the activity state. This should be done in the activity's reducer
+
+Later when we add ability to add and remove users, we can add a meeting
+reducer, since the users are maintained in the meeting state
 
 const meetingReducer = (state, action) => {
   switch (action.type) {
@@ -71,28 +60,34 @@ const meetingReducer = (state, action) => {
       }
   }
 }
+*/
 
 const initMeetingState = {
-  activities: {
+  /* activities: {
     activity_instance: {
       ...activityListing,
       instanceId: "activity_instance"
     }
-  },
-  state: {
-    users: {
-      "alpha@aarvalabs.com": {
-        userId: "alpha@aarvalabs.com",
-        userName: "Alpha",
-        role: "host"
-      },
-      "bravo@aarvalabs.com": {
-        userId: "bravo@aarvalabs.com",
-        userName: "Bravo",
-        role: "guest"
-      }
+  }, */
+  // state: {
+  users: {
+    "alpha@aarvalabs.com": {
+      userId: "alpha@aarvalabs.com",
+      userName: "Alpha",
+      role: "host"
+    },
+    "bravo@aarvalabs.com": {
+      userId: "bravo@aarvalabs.com",
+      userName: "Bravo",
+      role: "guest"
+    },
+    "charlie@aarvalabs.com": {
+      userId: "charlie@aarvalabs.com",
+      userName: "Charlie",
+      role: "guest"
     }
   }
+  // }
 }
 
 const initSandboxState = {
@@ -115,17 +110,18 @@ const Split = styled.span`
 `
 
 function App() {
-  const [meetingState, meetingDispatch] = useReducer(
+  /* const [meetingState, meetingDispatch] = useReducer(
     meetingReducer,
     initMeetingState
-  )
+  ) */
   const [sandboxState, sandboxDispatch] = useReducer(
     sandboxReducer,
     initSandboxState
   )
   const props = {
-    meetingState,
-    meetingDispatch,
+    /*     meetingState,
+    meetingDispatch, */
+    meetingState: initMeetingState,
     sandboxState,
     sandboxDispatch
   }
@@ -148,66 +144,25 @@ function App() {
     </>
   )
 }
-const Setup = ({ meetingState, sandboxDispatch, meetingDispatch }) => {
-  const { state, activities } = meetingState || {}
+
+// const Setup = ({ meetingState, sandboxDispatch, meetingDispatch }) => {
+const Setup = ({ meetingState, sandboxDispatch }) => {
+  /*   const { state, activities } = meetingState || {}
   const { activity_instance } = activities || {}
-  const { users } = state || {}
-  const { activityId, settings } = activity_instance || {}
-  const { details } = activity_instance || {}
-  const { title, description, icon } = details || {}
+  const { users } = state || {} */
+
+  const { users } = meetingState
 
   return (
     <div style={{ padding: "20px" }}>
+      <h1>Sandbox settings</h1>
+      <Button onClick={() => sandboxDispatch({ type: "TOGGLE_SPLIT" })}>
+        TOGGLE SPLIT
+      </Button>
+      <p>Toggle Split screen to see 2 users side by side</p>
+
       <Border>
-        <h3>Sandbox settings</h3>
-        <p>Raw JSON - activity</p>
-        <textarea
-          value={JSON.stringify(activity_instance, null, 2)}
-          rows="20"
-          cols="80"
-        />
-        <p>Toggle Split screen to see 2 users side by side</p>
-        <Button onClick={() => sandboxDispatch({ type: "TOGGLE_SPLIT" })}>
-          TOGGLE SPLIT
-        </Button>
-      </Border>
-      <Border>
-        <h3>Activity Listing</h3>
-        <p style={{ fontSize: "13px", marginTop: "0px", color: "#333" }}>
-          ActivityId: {activityId}
-        </p>
-        <ActivityIcon src={icon} alt={`icon`}></ActivityIcon>
-        <ActivityTitle>{title}</ActivityTitle>
-        <ActivityDescription>{description}</ActivityDescription>
-      </Border>
-      <Border>
-        <h3>Settings</h3>
-        <p style={{ fontSize: "13px", marginTop: "0px", color: "#333" }}>
-          In Zync Meet, settings are only allowed to be edited before activity
-          launch. <br />
-          Once Launched settings are immutable. <br />
-          In Sandbox, activity is launched on load settings can be updated at
-          any time. <br />
-          Change settings at the beginning of activity launch and never change
-          them here.
-        </p>
-        <HR />
-        <Settings
-          settings={settings}
-          setLaunchSettings={(newSettings) =>
-            meetingDispatch({ type: "UPDATE_SETTINGS", settings: newSettings })
-          }
-        />
-        <HR />
-      </Border>
-      <Border>
-        <h3>Summary</h3>
-        <p style={{ fontSize: "13px", marginTop: "0px", color: "#aaa" }}>
-          Summary is only displayed at the end of the activity.
-        </p>
-        <HR />
-        <Summary activity={activity_instance} users={users} />
-        <HR />
+        <ActivityInfo users={users} />
       </Border>
     </div>
   )
@@ -217,12 +172,13 @@ const TabbedView = (props) => {
     section,
     sandboxState,
     sandboxDispatch,
-    meetingState,
-    meetingDispatch
+    meetingState
+    // meetingDispatch
   } = props
-  const { state, activities } = meetingState || {}
+  /*   const { state, activities } = meetingState || {}
   const { activity_instance } = activities || {}
-  const { users } = state || {}
+  const { users } = state || {} */
+  const { users } = meetingState
 
   const { activeTab } = sandboxState[section] || {}
 
@@ -254,13 +210,16 @@ const TabbedView = (props) => {
       </TabList>
       {activeTab === "setup" && <Setup {...props} />}
       {activeTab !== "setup" && (
+        <Activity users={users} user={users[activeTab]} />
+      )}
+      {/*       {activeTab !== "setup" && (
         <Activity
           activity={activity_instance}
           users={users}
           user={users[activeTab]}
           dispatch={meetingDispatch}
         />
-      )}
+      )} */}
     </div>
   )
 }
