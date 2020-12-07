@@ -42,7 +42,8 @@ const Activity = ({ users, user, messages, addMessage }) => {
         style={{
           border: "1px solid black",
           height: "500px",
-          background: "#ccc"
+          background: "#ccc",
+          margin: "10px"
         }}
       >
         {(messages || []).map((m, i) => (
