@@ -1,8 +1,10 @@
 import { createStore, combineReducers } from "redux"
 import { sandbox } from "./sandboxReducers"
+import { activity } from "./activity/activityReducers"
 
 const reducers = {
-  sandbox
+  sandbox,
+  activity
 }
 
 const rootReducer = combineReducers(reducers)

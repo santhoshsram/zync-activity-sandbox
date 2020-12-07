@@ -3,6 +3,7 @@ import styled from "styled-components"
 import React from "react"
 import { connect } from "react-redux"
 import { selectTab, toggleSplit } from "./sandboxActions"
+
 import { Activity, ActivityInfo } from "./activity/Activity"
 import { Button, Border } from "./components/Theme"
 
