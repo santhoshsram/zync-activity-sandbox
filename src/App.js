@@ -80,11 +80,14 @@ function App({ sandboxState, toggleSplit, selectTab }) {
 const Setup = ({ users, toggleSplit }) => {
   return (
     <div style={{ padding: "20px" }}>
-      <h1>Sandbox settings</h1>
-      <Button onClick={toggleSplit}>TOGGLE SPLIT</Button>
-      <p>Toggle Split screen to see 2 users side by side</p>
+      <Border>
+        <h1>Sandbox settings</h1>
+        <Button onClick={toggleSplit}>TOGGLE SPLIT</Button>
+        <p>Toggle Split screen to see 2 users side by side</p>
+      </Border>
 
       <Border>
+        <h1>Activity Specific Settings</h1>
         <ActivityInfo users={users} />
       </Border>
     </div>

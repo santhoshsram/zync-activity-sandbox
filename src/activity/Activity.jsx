@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import { Switch } from "../components/Switch"
 import {
   Button,
-  Border,
+  Modal,
   ActivityTitle,
   ActivityDescription,
   ActivityIcon
@@ -15,11 +15,17 @@ import { addMessage, toggleSettings } from "./activityActions"
 const HR = styled.hr`
   color: #ccc;
   opacity: 0.4;
-  margin: 25px 95px 25px 0px;
+  margin: 25px 0px 25px 0px;
   box-shadow: 0px 0px 10px rgba(102, 102, 102, 0.25);
 `
-const BorderSection = styled(Border)`
-  width: 685px;
+
+const BoxedTextArea = styled.textarea`
+  width: 100%;
+`
+
+const ModalSection = styled(Modal)`
+  background: #f0f0f0;
+  margin: 5px;
 `
 
 const activityInfo = {
@@ -82,11 +88,12 @@ const ActivityInfo = ({
 }) => {
   return (
     <>
-      <BorderSection>
+      <ModalSection>
         <p>Raw JSON - activity</p>
-        <textarea value={rawActivityState} rows="20" cols="80" />
-      </BorderSection>
-      <BorderSection>
+        <BoxedTextArea value={rawActivityState} rows="20" />
+      </ModalSection>
+
+      <ModalSection>
         <h3>Activity Listing</h3>
         <p style={{ fontSize: "13px", marginTop: "0px", color: "#333" }}>
           ActivityId: activityId
@@ -95,8 +102,9 @@ const ActivityInfo = ({
         <ActivityIcon src={activityInfo.icon} alt={`icon`}></ActivityIcon>
         <ActivityTitle>{activityInfo.title}</ActivityTitle>
         <ActivityDescription>{activityInfo.description}</ActivityDescription>
-      </BorderSection>
-      <BorderSection>
+      </ModalSection>
+
+      <ModalSection>
         <h3>Settings</h3>
         <p style={{ fontSize: "13px", marginTop: "0px", color: "#333" }}>
           In Zync Meet, settings are only allowed to be edited before activity
@@ -110,9 +118,10 @@ const ActivityInfo = ({
         <HR />
         <Settings settings={settings} toggleSettings={toggleSettings} />
         <HR />
-      </BorderSection>
-      <BorderSection>
-        <h3>Summary</h3>
+      </ModalSection>
+
+      <ModalSection>
+        <h3>Activity Summary</h3>
         <p style={{ fontSize: "13px", marginTop: "0px", color: "#aaa" }}>
           Summary is only displayed at the end of the activity.
         </p>
@@ -120,7 +129,7 @@ const ActivityInfo = ({
         <p>{Object.keys(users).join(", ")} participated in the activity.</p>
         {summary}
         <HR />
-      </BorderSection>
+      </ModalSection>
     </>
   )
 }
