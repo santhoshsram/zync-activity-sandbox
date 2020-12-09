@@ -112,9 +112,9 @@ const Activity = ({ activity, users, user, dispatch }) => {
 
   return (
     <div className="container-fluid">
-      <div className="display-4">
-        Activity {userName} | ({userId})- {role}
-      </div>
+      <h2 className="mb-3 mt-3 ml-1">
+        {userName} | ({userId})- {role}
+      </h2>
       <IdeasListing
         ideas={ideas}
         deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
