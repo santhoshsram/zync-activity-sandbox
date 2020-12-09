@@ -6,7 +6,7 @@ const IdeasListing = ({ ideas = [] }) => {
       <div className="card-columns">
         {ideas.map((idea) => (
           <div className="card border p-0 m-1 bg-dark text-light">
-            <div className="card-body" key={idea.ideaId}>
+            <div className="card-body" key={idea.id}>
               {idea.ideaContent}
             </div>
           </div>

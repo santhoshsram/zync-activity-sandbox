@@ -1,9 +1,12 @@
 // THIS IS BOILER PLATE FOR CREATING NEW ACTIVITY
 import React from "react"
+import { nanoid } from "nanoid"
 import { Switch } from "../components/Switch"
 import IdeasListing from "./IdeasListing"
 import AddNewIdea from "./AddNewIdea"
 import { ADD_IDEA, addIdea } from "./BrainstormActions"
+
+const ID_LEN = 11
 
 /*
 Sample content of an idea
@@ -83,9 +86,10 @@ const activityReducer = (state, action) => {
   switch (type) {
     case ADD_IDEA:
       const { ideaContent, creator } = payload
+      const id = nanoid(ID_LEN)
       return {
         ...state,
-        ideas: state.ideas.concat({ ideaContent, creator })
+        ideas: state.ideas.concat({ id, ideaContent, creator })
       }
     default:
       return {
