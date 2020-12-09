@@ -24,10 +24,13 @@ const Activity = ({ activity, users, user, dispatch }) => {
   const { userId, role, userName } = user || {}
 
   return (
-    <>
-      <h1>
+    <div className="container-fluid">
+      <div className="display-4">
         Activity {userName} - {role}
-      </h1>
+      </div>
+      <div className="card">
+        <div className="card-body">This is some text within a card block.</div>
+      </div>
       <Button
         onClick={() =>
           dispatch({ type: "ADD_MESSAGE", userId, text: "BAZINGA" })
@@ -35,20 +38,16 @@ const Activity = ({ activity, users, user, dispatch }) => {
       >
         BAZINGA
       </Button>
-      <div
-        style={{
-          border: "1px solid black",
-          height: "500px",
-          background: "#ccc"
-        }}
-      >
+      <div className="card-columns">
         {(messages || []).map((m, i) => (
-          <div key={i}>
-            {m.sender} says {m.text}
+          <div className="card border p-0 mb-2">
+            <div className="card-body" key={i}>
+              {m.sender} says {m.text}
+            </div>
           </div>
         ))}
       </div>
-    </>
+    </div>
   )
 }
 
