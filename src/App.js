@@ -7,7 +7,7 @@ import {
   Summary,
   Settings,
   activityListing
-} from "./activity/Activity"
+} from "./brainstorm/Brainstorm"
 import {
   Button,
   Border,

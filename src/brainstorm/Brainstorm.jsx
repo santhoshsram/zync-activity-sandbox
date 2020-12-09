@@ -76,10 +76,10 @@ const Summary = ({ activity, users, user }) => {
 }
 
 const activityListing = {
-  activityId: "bazinga",
+  activityId: "ZyncBrainstorming",
   details: {
-    title: "Bazinga",
-    description: "You say bazinga. I say bazinga. ",
+    title: "Brainstorming Activity",
+    description: "Virtual brainstorming made effective.",
     icon: "https://aarvalabs.imfast.io/mydawn/activiity_icon.png"
   },
   settings: {
