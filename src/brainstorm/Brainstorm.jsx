@@ -81,6 +81,9 @@ const sampleIdeas = [
   }
 ]
 
+const myIdeas = (state, userId) =>
+  state.ideas.filter((idea) => idea.creator === userId)
+
 const activityReducer = (state, action) => {
   const { type, payload } = action
   switch (type) {
@@ -116,7 +119,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
         {userName} | ({userId})- {role}
       </h2>
       <IdeasListing
-        ideas={ideas}
+        ideas={myIdeas(activity, userId)}
         deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
       />
       <AddNewIdea
