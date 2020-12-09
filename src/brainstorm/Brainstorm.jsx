@@ -4,7 +4,7 @@ import { nanoid } from "nanoid"
 import { Switch } from "../components/Switch"
 import IdeasListing from "./IdeasListing"
 import AddNewIdea from "./AddNewIdea"
-import { ADD_IDEA, addIdea } from "./BrainstormActions"
+import { ADD_IDEA, DELETE_IDEA, addIdea, deleteIdea } from "./BrainstormActions"
 
 const ID_LEN = 11
 
@@ -84,13 +84,21 @@ const sampleIdeas = [
 const activityReducer = (state, action) => {
   const { type, payload } = action
   switch (type) {
-    case ADD_IDEA:
+    case ADD_IDEA: {
       const { ideaContent, creator } = payload
       const id = nanoid(ID_LEN)
       return {
         ...state,
         ideas: state.ideas.concat({ id, ideaContent, creator })
       }
+    }
+    case DELETE_IDEA: {
+      const { id } = payload
+      return {
+        ...state,
+        ideas: state.ideas.filter((idea) => idea.id !== id)
+      }
+    }
     default:
       return {
         ...state
@@ -107,7 +115,10 @@ const Activity = ({ activity, users, user, dispatch }) => {
       <div className="display-4">
         Activity {userName} | ({userId})- {role}
       </div>
-      <IdeasListing ideas={ideas} />
+      <IdeasListing
+        ideas={ideas}
+        deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
+      />
       <AddNewIdea
         onAddClicked={(ideaContent) => {
           dispatch(addIdea(ideaContent, userId))
