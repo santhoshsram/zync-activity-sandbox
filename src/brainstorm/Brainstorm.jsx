@@ -1,16 +1,91 @@
 // THIS IS BOILER PLATE FOR CREATING NEW ACTIVITY
 import React from "react"
 import { Switch } from "../components/Switch"
-import { Button } from "../components/Theme"
+import IdeasListing from "./IdeasListing"
+import AddNewIdea from "./AddNewIdea"
+import { ADD_IDEA, addIdea } from "./BrainstormActions"
+
+/*
+Sample content of an idea
+
+const idea = {
+  ideaId: "uuid",
+  ideaContent: "This is an idea",
+  creator: "alpha@aarvalabs.com",
+  assignee: "alpha@aarvalabs.com",
+  comments: [
+    {
+      commenter: "beta@aarvalabs.com",
+      comment: "nice idea"
+    },
+    {
+      commenter: "charlie@aarvalabs.com",
+      comment: "let me make it a better idea, by adding sprinkling some magic"
+    }
+  ]
+}
+*/
+
+const sampleIdeas = [
+  {
+    ideaId: "idea-1",
+    ideaContent: "This is an idea",
+    creator: "alpha@aarvalabs.com",
+    assignee: "alpha@aarvalabs.com",
+    comments: [
+      {
+        commenter: "beta@aarvalabs.com",
+        comment: "nice idea"
+      },
+      {
+        commenter: "charlie@aarvalabs.com",
+        comment: "let me make it a better idea, by adding sprinkling some magic"
+      }
+    ]
+  },
+  {
+    ideaId: "idea-2",
+    ideaContent:
+      "This is a really long idea. Let us see if there is space to fit this idea in the sticky.",
+    creator: "beta@aarvalabs.com",
+    assignee: "beta@aarvalabs.com",
+    comments: [
+      {
+        commenter: "alpha@aarvalabs.com",
+        comment: "nice idea"
+      },
+      {
+        commenter: "charlie@aarvalabs.com",
+        comment: "let me make it a better idea, by adding sprinkling some magic"
+      }
+    ]
+  },
+  {
+    ideaId: "idea-3",
+    ideaContent: "Ideas are dime a dozen, execution is what matters.",
+    creator: "charlie@aarvalabs.com",
+    assignee: "charlie@aarvalabs.com",
+    comments: [
+      {
+        commenter: "alpha@aarvalabs.com",
+        comment: "nice idea"
+      },
+      {
+        commenter: "beta@aarvalabs.com",
+        comment: "let me make it a better idea, by adding sprinkling some magic"
+      }
+    ]
+  }
+]
 
 const activityReducer = (state, action) => {
-  switch (action.type) {
-    case "ADD_MESSAGE":
-      let msg = Object.assign([], state.messages)
-      msg.push({ sender: action.userId, text: action.text })
+  const { type, payload } = action
+  switch (type) {
+    case ADD_IDEA:
+      const { ideaContent, creator } = payload
       return {
         ...state,
-        messages: msg
+        ideas: state.ideas.concat({ ideaContent, creator })
       }
     default:
       return {
@@ -20,33 +95,20 @@ const activityReducer = (state, action) => {
 }
 
 const Activity = ({ activity, users, user, dispatch }) => {
-  const { messages } = activity || {}
+  const { ideas } = activity || {}
   const { userId, role, userName } = user || {}
 
   return (
     <div className="container-fluid">
       <div className="display-4">
-        Activity {userName} - {role}
+        Activity {userName} | ({userId})- {role}
       </div>
-      <div className="card">
-        <div className="card-body">This is some text within a card block.</div>
-      </div>
-      <Button
-        onClick={() =>
-          dispatch({ type: "ADD_MESSAGE", userId, text: "BAZINGA" })
-        }
-      >
-        BAZINGA
-      </Button>
-      <div className="card-columns">
-        {(messages || []).map((m, i) => (
-          <div className="card border p-0 mb-2">
-            <div className="card-body" key={i}>
-              {m.sender} says {m.text}
-            </div>
-          </div>
-        ))}
-      </div>
+      <IdeasListing ideas={ideas} />
+      <AddNewIdea
+        onAddClicked={(ideaContent) => {
+          dispatch(addIdea(ideaContent, userId))
+        }}
+      />
     </div>
   )
 }
@@ -85,7 +147,8 @@ const activityListing = {
     videoLayout: "docked", // This should be either 'docked' or 'minimized' which tells how the video hub should be when your activity is launched
     // You can add other settings over here
     booleanValue: true
-  }
+  },
+  ideas: []
 }
 
 export { Activity, Settings, Summary, activityReducer, activityListing }
