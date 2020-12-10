@@ -110,7 +110,9 @@ const activityReducer = (state, action) => {
 }
 
 const Activity = ({ activity, users, user, dispatch }) => {
-  // const { ideas } = activity || {}
+  const { ideas } = activity || {}
+  const { settings } = activity || {}
+  const { seeEveryonesIdeas } = settings || false
   const { userId, role, userName } = user || {}
 
   return (
@@ -119,7 +121,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
         {userName} | ({userId})- {role}
       </h2>
       <IdeasListing
-        ideas={myIdeas(activity, userId)}
+        ideas={seeEveryonesIdeas ? ideas : myIdeas(activity, userId)}
         deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
       />
       <AddNewIdea
@@ -132,9 +134,9 @@ const Activity = ({ activity, users, user, dispatch }) => {
 }
 
 const Settings = ({ settings, setLaunchSettings }) => {
-  const { booleanValue } = settings || {}
+  const { seeEveryonesIdeas } = settings || {}
   const toggle = () => {
-    setLaunchSettings({ ...settings, booleanValue: !booleanValue })
+    setLaunchSettings({ ...settings, seeEveryonesIdeas: !seeEveryonesIdeas })
   }
   return (
     <div
@@ -144,8 +146,8 @@ const Settings = ({ settings, setLaunchSettings }) => {
         justifyContent: "space-between"
       }}
     >
-      <div>Setting Switch</div>
-      <Switch checked={booleanValue} onChange={toggle}></Switch>
+      <div>Everyone see&rsquo;s everyone&rsquo;s ideas</div>
+      <Switch checked={seeEveryonesIdeas} onChange={toggle}></Switch>
     </div>
   )
 }
@@ -164,7 +166,7 @@ const activityListing = {
   settings: {
     videoLayout: "docked", // This should be either 'docked' or 'minimized' which tells how the video hub should be when your activity is launched
     // You can add other settings over here
-    booleanValue: true
+    seeEveryonesIdeas: false
   },
   ideas: []
 }
