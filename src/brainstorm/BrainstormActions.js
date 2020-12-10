@@ -20,3 +20,18 @@ export const deleteIdea = (id) => ({
     id
   }
 })
+
+/*
+Action to start BRAINSTORM_IDEATE step
+*/
+export const START_IDEATION = "START_IDEATION"
+export const startIdeation = () => ({ type: START_IDEATION })
+
+/*
+Action to start BRAINSTORM_ROUND_ROBIN step
+*/
+export const START_ROUND_ROBIN = "START_ROUND_ROBIN"
+export const startRoundRobin = (userIds) => ({
+  type: START_ROUND_ROBIN,
+  payload: { userIds }
+})

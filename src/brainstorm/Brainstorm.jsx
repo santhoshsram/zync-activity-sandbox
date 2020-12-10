@@ -4,9 +4,22 @@ import { nanoid } from "nanoid"
 import { Switch } from "../components/Switch"
 import IdeasListing from "./IdeasListing"
 import AddNewIdea from "./AddNewIdea"
-import { ADD_IDEA, DELETE_IDEA, addIdea, deleteIdea } from "./BrainstormActions"
+import {
+  ADD_IDEA,
+  DELETE_IDEA,
+  START_IDEATION,
+  START_ROUND_ROBIN,
+  addIdea,
+  deleteIdea,
+  startIdeation,
+  startRoundRobin
+} from "./BrainstormActions"
 
 const ID_LEN = 11
+const BRAINSTORM_NOT_STARTED = "BRAINSTORM_NOT_STARTED"
+const BRAINSTORM_IDEATE = "BRAINSTORM_IDEATE"
+const BRAINSTORM_ROUND_ROBIN = "BRAINSTORM_ROUND_ROBIN"
+const BRAINSTORM_CONVERGE = "BRAINSTORM_CONVERGE"
 
 /*
 Sample content of an idea
@@ -50,6 +63,22 @@ const activityReducer = (state, action) => {
         ideas: state.ideas.filter((idea) => idea.id !== id)
       }
     }
+    case START_IDEATION:
+      return {
+        ...state,
+        currentStage: BRAINSTORM_IDEATE
+      }
+    case START_ROUND_ROBIN:
+      const { userIds } = payload
+      let roundRobinQueue = {}
+      userIds.forEach((userId) => {
+        roundRobinQueue[userId] = userIds.filter((id) => id !== userId)
+      })
+      return {
+        ...state,
+        currentStage: BRAINSTORM_ROUND_ROBIN,
+        roundRobinQueue
+      }
     default:
       return {
         ...state
@@ -63,11 +92,52 @@ const Activity = ({ activity, users, user, dispatch }) => {
   const { seeEveryonesIdeas } = settings || false
   const { userId, role, userName } = user || {}
 
+  if (activity.currentStage === BRAINSTORM_NOT_STARTED) {
+    /*
+    XXX TODO:
+    Instead of comparing role directly to a string "host" the values for
+    roles should be defined as constants in some file and imported into
+    Activity.
+    */
+    if (role === "host") {
+      return (
+        <button
+          type="button"
+          className="m-3 btn btn-danger"
+          onClick={() => dispatch(startIdeation())}
+        >
+          Start Brainstorming
+        </button>
+      )
+    } else {
+      return (
+        <h4 className="m-3">
+          Host has not started the brainstorming activity yet. Please wait.
+        </h4>
+      )
+    }
+  } else if (activity.currentStage === BRAINSTORM_ROUND_ROBIN) {
+    return (
+      <h4 className="m-3">Round robin stage has not been implemented yet.</h4>
+    )
+  }
+
   return (
     <div className="container-fluid">
       <h2 className="mb-3 mt-3 ml-1">
         {userName} | ({userId})- {role}
       </h2>
+      {role === "host" ? (
+        <button
+          type="button"
+          className="mr-2 mt-3 mb-3 btn btn-danger float-right"
+          onClick={() => dispatch(startRoundRobin(Object.keys(users)))}
+        >
+          Start Round Robin
+        </button>
+      ) : (
+        ""
+      )}
       <AddNewIdea
         onAddClicked={(ideaContent) => {
           dispatch(addIdea(ideaContent, userId))
@@ -116,6 +186,8 @@ const activityListing = {
     // You can add other settings over here
     seeEveryonesIdeas: false
   },
+  currentStage: BRAINSTORM_NOT_STARTED,
+  roundRobinQueue: {},
   ideas: []
 }
 
