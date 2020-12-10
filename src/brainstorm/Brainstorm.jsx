@@ -110,7 +110,7 @@ const activityReducer = (state, action) => {
 }
 
 const Activity = ({ activity, users, user, dispatch }) => {
-  const { ideas } = activity || {}
+  // const { ideas } = activity || {}
   const { userId, role, userName } = user || {}
 
   return (

@@ -165,6 +165,7 @@ const Setup = ({ meetingState, sandboxDispatch, meetingDispatch }) => {
           value={JSON.stringify(activity_instance, null, 2)}
           rows="20"
           cols="80"
+          readOnly
         />
         <p>Toggle Split screen to see 2 users side by side</p>
         <Button onClick={() => sandboxDispatch({ type: "TOGGLE_SPLIT" })}>
