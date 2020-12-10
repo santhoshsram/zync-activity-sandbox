@@ -22,9 +22,8 @@ const Idea = ({ idea, deleteIdeaHandler }) => {
         className="card border pb-0 m-1 bg-dark text-light"
         data-toggle="modal"
         data-target={`#editIdeaModal-${idea.id}`}
-        key={idea.id}
       >
-        <div className="card-body" stye={{ display: "inline-block" }}>
+        <div className="card-body">
           <p className="card-text">{idea.ideaContent}</p>
           <p className="card-text text-right">
             <a
@@ -42,7 +41,7 @@ const Idea = ({ idea, deleteIdeaHandler }) => {
       <div
         className="modal"
         id={`editIdeaModal-${idea.id}`}
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="exampleModalScrollableLabel"
         aria-hidden="true"
@@ -68,7 +67,7 @@ const Idea = ({ idea, deleteIdeaHandler }) => {
 
             <form id={`editIdeaForm-${idea.id}`}>
               <div className="modal-body">
-                <label for="ideaContent">Idea Content</label>
+                <label>Idea Content</label>
                 <textarea
                   id={`ideaContent-${idea.id}`}
                   className="form-control"

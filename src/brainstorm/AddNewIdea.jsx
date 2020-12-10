@@ -6,7 +6,7 @@ const AddNewIdea = ({ onAddClicked }) => {
   const [inputValue, setInputValue] = useState("")
 
   return (
-    <div className="fixed-bottom m-2">
+    <div className="mb-3 m-2">
       <div className="input-group">
         <input
           type="text"

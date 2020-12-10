@@ -120,14 +120,14 @@ const Activity = ({ activity, users, user, dispatch }) => {
       <h2 className="mb-3 mt-3 ml-1">
         {userName} | ({userId})- {role}
       </h2>
-      <IdeasListing
-        ideas={seeEveryonesIdeas ? ideas : myIdeas(activity, userId)}
-        deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
-      />
       <AddNewIdea
         onAddClicked={(ideaContent) => {
           dispatch(addIdea(ideaContent, userId))
         }}
+      />
+      <IdeasListing
+        ideas={seeEveryonesIdeas ? ideas : myIdeas(activity, userId)}
+        deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
       />
     </div>
   )
