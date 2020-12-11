@@ -2,7 +2,8 @@ import React from "react"
 import IdeasListing from "./IdeasListing"
 import { ideasOfUser } from "./ideaSelectors"
 
-const RoundRobin = ({ userId, ideas, roundRobinInfo, updateIdeaHandler }) => {
+const RoundRobin = ({ user, ideas, roundRobinInfo, updateIdeaHandler }) => {
+  const { userId } = user
   const usersCurIdxInQ = roundRobinInfo.idxInQ[userId]
   const reviewedUserId = roundRobinInfo.userIdQ[usersCurIdxInQ]
   return (

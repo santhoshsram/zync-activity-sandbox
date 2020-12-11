@@ -140,7 +140,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
           {userName} | ({userId})- {role}
         </h2>
         <RoundRobin
-          userId={userId}
+          user={user}
           ideas={ideas}
           roundRobinInfo={activity.roundRobinInfo}
           updateIdeaHandler={(updatedIdea) => dispatch(updateIdea(updatedIdea))}
