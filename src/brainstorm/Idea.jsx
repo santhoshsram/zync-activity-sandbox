@@ -1,56 +1,45 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import $ from "jquery"
 
-const Idea = ({ idea, deleteIdeaHandler }) => {
+const Idea = ({ idea, deleteIdeaHandler, updateIdeaHandler }) => {
+  const [inputState, setInputState] = useState({
+    ideaContent: idea.ideaContent
+  })
+
+  const modalFormHandler = (event, modalId) => {
+    event.preventDefault()
+    $(modalId).modal("toggle")
+
+    const newIdea = {
+      ...idea,
+      ...inputState
+    }
+
+    updateIdeaHandler(newIdea)
+  }
+
+  const inputChangeHandler = (event) => {
+    const value = event.target.value
+    const name = event.target.name
+
+    setInputState({ ...inputState, [name]: value })
+  }
+
   useEffect(() => {
     /*
-    Problem 1: 
-      Below is a very ugly hack to handle how bootstrap shows modal
-    and modal-backdrop.
-    
-    Modal-backdrop is an empty, translucent div that bootstrap renders
-    behind the modal to blur the background. Bootstrap adds the
-    modal-backdrop as a direct child of the "body" element in the DOM.
-
-    However, bootstrap renders the modal itself as a child of the element
-    (usually div) in which it is defined. **There in lies the problem that
-    needs this ugly hack.**
-
-    When sandbox is in split view, each span (left and right) element's
-    position is fixed and it's z-Index is 1. All of the span element's
-    children, including the modal, inherit these properties. Consequently
-    the modal is rendered behind the modal-backdrop, and other div elements
-    in some cases.
-
-    Fix for Problem 1:
-      To fix this, below code does the following.
-
-      1. When the modal is displayed, make it a child of "body" element in
-         the DOM
-      2. When the modal is hidden (closed), make it a child of its original
-         parent. This is important. If we don't do this, then react will throw
-         an error when it tries to clean up the DOM and does not find the modal
-         under its original parent.
-
-    Problem 2:
+    Problem:
         If I make any change to the modal content and close it,
     the changes are preserved when I open the model the next time.
 
-    Fix for Problem 2:
-      To avoid this we need to reset the contents of the form when the modal
-    is hidden (closed) so that next time it is opened, the original content is
-    shown in the form.
+    Fix for Problem:
+      To avoid this we need to reset the contents of the form just before
+    modal is shown so that the original content is shown in the form.
     */
-
-    $(`#editIdeaModal-${idea.id}`).on("shown.bs.modal", function () {
-      $(this).appendTo("body")
+    $(`#editIdeaModal-${idea.id}`).on("show.bs.modal", function () {
+      // $(this).find("form").trigger("reset")
+      setInputState({ ideaContent: idea.ideaContent })
     })
-
-    $(`#editIdeaModal-${idea.id}`).on("hidden.bs.modal", function () {
-      $(this).find("form").trigger("reset")
-      $(this).appendTo(`#ideaContainer-${idea.id}`)
-    })
-  }, [idea.id])
+  }, [idea.id, idea.ideaContent])
 
   return (
     <div id={`ideaContainer-${idea.id}`}>
@@ -101,14 +90,21 @@ const Idea = ({ idea, deleteIdeaHandler }) => {
               </button>
             </div>
 
-            <form id={`editIdeaForm-${idea.id}`}>
+            <form
+              id={`editIdeaForm-${idea.id}`}
+              onSubmit={(event) =>
+                modalFormHandler(event, `#editIdeaModal-${idea.id}`)
+              }
+            >
               <div className="modal-body">
                 <label>Idea Content</label>
                 <textarea
                   id={`ideaContent-${idea.id}`}
+                  name="ideaContent"
                   className="form-control"
                   placeholder="Your idea..."
-                  defaultValue={idea.ideaContent}
+                  value={inputState.ideaContent}
+                  onChange={inputChangeHandler}
                 />
               </div>
               <div className="modal-footer">
@@ -119,7 +115,7 @@ const Idea = ({ idea, deleteIdeaHandler }) => {
                 >
                   Close
                 </button>
-                <button type="button" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary">
                   Save Changes
                 </button>
               </div>

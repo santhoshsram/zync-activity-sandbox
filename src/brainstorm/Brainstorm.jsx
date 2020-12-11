@@ -7,10 +7,12 @@ import AddNewIdea from "./AddNewIdea"
 import {
   ADD_IDEA,
   DELETE_IDEA,
+  UPDATE_IDEA,
   START_IDEATION,
   START_ROUND_ROBIN,
   addIdea,
   deleteIdea,
+  updateIdea,
   startIdeation,
   startRoundRobin
 } from "./BrainstormActions"
@@ -61,6 +63,18 @@ const activityReducer = (state, action) => {
       return {
         ...state,
         ideas: state.ideas.filter((idea) => idea.id !== id)
+      }
+    }
+    case UPDATE_IDEA: {
+      const { updatedIdea } = payload
+      return {
+        ...state,
+        ideas: state.ideas.map((idea) => {
+          if (idea.id === updatedIdea.id) {
+            return updatedIdea
+          }
+          return idea
+        })
       }
     }
     case START_IDEATION:
@@ -146,6 +160,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
       <IdeasListing
         ideas={seeEveryonesIdeas ? ideas : myIdeas(activity, userId)}
         deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
+        updateIdeaHandler={(updatedIdea) => dispatch(updateIdea(updatedIdea))}
       />
     </div>
   )

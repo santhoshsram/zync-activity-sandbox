@@ -1,7 +1,7 @@
 import React from "react"
 import Idea from "./Idea"
 
-const IdeasListing = ({ ideas = [], deleteIdeaHandler }) => {
+const IdeasListing = ({ ideas = [], deleteIdeaHandler, updateIdeaHandler }) => {
   return (
     <>
       <div className="card-columns">
@@ -9,6 +9,7 @@ const IdeasListing = ({ ideas = [], deleteIdeaHandler }) => {
           <Idea
             idea={idea}
             deleteIdeaHandler={deleteIdeaHandler}
+            updateIdeaHandler={updateIdeaHandler}
             key={idea.id}
           />
         ))}

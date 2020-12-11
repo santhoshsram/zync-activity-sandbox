@@ -22,6 +22,17 @@ export const deleteIdea = (id) => ({
 })
 
 /*
+Action to update an idea
+*/
+export const UPDATE_IDEA = "UPDATE_IDEA"
+export const updateIdea = (updatedIdea) => ({
+  type: UPDATE_IDEA,
+  payload: {
+    updatedIdea
+  }
+})
+
+/*
 Action to start BRAINSTORM_IDEATE step
 */
 export const START_IDEATION = "START_IDEATION"
