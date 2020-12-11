@@ -16,6 +16,8 @@ import {
   startIdeation,
   startRoundRobin
 } from "./BrainstormActions"
+import { ideasOfUser } from "./ideaSelectors"
+import RoundRobin from "./RoundRobin"
 
 const ID_LEN = 11
 const BRAINSTORM_NOT_STARTED = "BRAINSTORM_NOT_STARTED"
@@ -43,9 +45,6 @@ const idea = {
   ]
 }
 */
-
-const myIdeas = (state, userId) =>
-  state.ideas.filter((idea) => idea.creator === userId)
 
 const activityReducer = (state, action) => {
   const { type, payload } = action
@@ -84,14 +83,18 @@ const activityReducer = (state, action) => {
       }
     case START_ROUND_ROBIN:
       const { userIds } = payload
-      let roundRobinQueue = {}
-      userIds.forEach((userId) => {
-        roundRobinQueue[userId] = userIds.filter((id) => id !== userId)
+      let roundRobinInfo = {
+        userIdQ: userIds,
+        idxInQ: {},
+        roundsToGo: userIds.length - 2
+      }
+      userIds.forEach((userId, idx) => {
+        roundRobinInfo["idxInQ"][userId] = (idx + 1) % userIds.length
       })
       return {
         ...state,
         currentStage: BRAINSTORM_ROUND_ROBIN,
-        roundRobinQueue
+        roundRobinInfo
       }
     default:
       return {
@@ -117,7 +120,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
       return (
         <button
           type="button"
-          className="m-3 btn btn-danger"
+          className="m-3 btn btn-danger float-right"
           onClick={() => dispatch(startIdeation())}
         >
           Start Brainstorming
@@ -132,7 +135,17 @@ const Activity = ({ activity, users, user, dispatch }) => {
     }
   } else if (activity.currentStage === BRAINSTORM_ROUND_ROBIN) {
     return (
-      <h4 className="m-3">Round robin stage has not been implemented yet.</h4>
+      <div className="container-fluid">
+        <h2 className="mb-3 mt-3 ml-1">
+          {userName} | ({userId})- {role}
+        </h2>
+        <RoundRobin
+          userId={userId}
+          ideas={ideas}
+          roundRobinInfo={activity.roundRobinInfo}
+          updateIdeaHandler={(updatedIdea) => dispatch(updateIdea(updatedIdea))}
+        />
+      </div>
     )
   }
 
@@ -158,7 +171,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
         }}
       />
       <IdeasListing
-        ideas={seeEveryonesIdeas ? ideas : myIdeas(activity, userId)}
+        ideas={seeEveryonesIdeas ? ideas : ideasOfUser(ideas, userId)}
         deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
         updateIdeaHandler={(updatedIdea) => dispatch(updateIdea(updatedIdea))}
       />
@@ -202,7 +215,11 @@ const activityListing = {
     seeEveryonesIdeas: false
   },
   currentStage: BRAINSTORM_NOT_STARTED,
-  roundRobinQueue: {},
+  roundRobinInfo: {
+    userIdQ: [],
+    idxInQ: {},
+    roundsToGo: -1
+  },
   ideas: []
 }
 
