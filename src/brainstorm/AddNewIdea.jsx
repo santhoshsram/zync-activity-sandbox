@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { addIdea } from "./BrainstormActions"
 
 const ENTER_KEY_CHAR_CODE = 13
 
