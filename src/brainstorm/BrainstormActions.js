@@ -58,3 +58,14 @@ Action to start BRAINSTORM_IDEATE step
 */
 export const START_CONVERGING = "START_CONVERGING"
 export const startConverging = () => ({ type: START_CONVERGING })
+
+/*
+Action to load sample ideas
+*/
+export const LOAD_SAMPLE_IDEAS = "LOAD_SAMPLE_IDEAS"
+export const loadSampleIdeas = (sampleIdeas) => ({
+  type: LOAD_SAMPLE_IDEAS,
+  payload: {
+    sampleIdeas
+  }
+})

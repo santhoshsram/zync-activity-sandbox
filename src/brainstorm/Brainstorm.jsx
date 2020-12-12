@@ -10,18 +10,21 @@ import {
   START_ROUND_ROBIN,
   MOVE_TO_NEXT_ROUND_RR,
   START_CONVERGING,
+  LOAD_SAMPLE_IDEAS,
   addIdea,
   deleteIdea,
   updateIdea,
   startIdeation,
   startRoundRobin,
   nextRoundRR,
-  startConverging
+  startConverging,
+  loadSampleIdeas
 } from "./BrainstormActions"
 
 import Ideate from "./Ideate"
 import RoundRobin from "./RoundRobin"
 import NotStarted from "./NotStarted"
+import { sampleIdeas } from "./sampleIdeas"
 
 const ID_LEN = 11
 const BRAINSTORM_NOT_STARTED = "BRAINSTORM_NOT_STARTED"
@@ -53,6 +56,13 @@ const idea = {
 const activityReducer = (state, action) => {
   const { type, payload } = action
   switch (type) {
+    case LOAD_SAMPLE_IDEAS: {
+      const { sampleIdeas } = payload
+      return {
+        ...state,
+        ideas: sampleIdeas
+      }
+    }
     case ADD_IDEA: {
       const { ideaContent, creator } = payload
       const id = nanoid(ID_LEN)
@@ -140,8 +150,17 @@ const Activity = ({ activity, users, user, dispatch }) => {
   return (
     <div className="container-fluid">
       <h2 className="mb-3 mt-3 ml-1">
-        {userName} | ({userId})- {role}
+        {userName} | ({userId}) - {role}
       </h2>
+      {role === "host" && (
+        <button
+          type="button"
+          className="ml-2 mt-3 btn btn-outline-info float-left"
+          onClick={() => dispatch(loadSampleIdeas(sampleIdeas))}
+        >
+          Load Sample Ideas
+        </button>
+      )}
 
       {(() => {
         switch (activity.currentStage) {

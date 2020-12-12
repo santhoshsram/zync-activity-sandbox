@@ -95,6 +95,11 @@ const initMeetingState = {
         userId: "charlie@aarvalabs.com",
         userName: "Charlie",
         role: "guest"
+      },
+      "delta@aarvalabs.com": {
+        userId: "delta@aarvalabs.com",
+        userName: "Delta",
+        role: "guest"
       }
     }
   }

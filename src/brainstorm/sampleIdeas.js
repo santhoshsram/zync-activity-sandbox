@@ -1,51 +1,42 @@
 export const sampleIdeas = [
   {
-    ideaId: "idea-1",
-    ideaContent: "This is an idea",
-    creator: "alpha@aarvalabs.com",
-    assignee: "alpha@aarvalabs.com",
-    comments: [
-      {
-        commenter: "beta@aarvalabs.com",
-        comment: "nice idea"
-      },
-      {
-        commenter: "charlie@aarvalabs.com",
-        comment: "let me make it a better idea, by adding sprinkling some magic"
-      }
-    ]
+    id: "pcncQ9P_O90",
+    ideaContent: "alpha idea 1",
+    creator: "alpha@aarvalabs.com"
   },
   {
-    ideaId: "idea-2",
-    ideaContent:
-      "This is a really long idea. Let us see if there is space to fit this idea in the sticky.",
-    creator: "beta@aarvalabs.com",
-    assignee: "beta@aarvalabs.com",
-    comments: [
-      {
-        commenter: "alpha@aarvalabs.com",
-        comment: "nice idea"
-      },
-      {
-        commenter: "charlie@aarvalabs.com",
-        comment: "let me make it a better idea, by adding sprinkling some magic"
-      }
-    ]
+    id: "_QjzWgA4tED",
+    ideaContent: "alpha idea 2",
+    creator: "alpha@aarvalabs.com"
   },
   {
-    ideaId: "idea-3",
-    ideaContent: "Ideas are dime a dozen, execution is what matters.",
-    creator: "charlie@aarvalabs.com",
-    assignee: "charlie@aarvalabs.com",
-    comments: [
-      {
-        commenter: "alpha@aarvalabs.com",
-        comment: "nice idea"
-      },
-      {
-        commenter: "beta@aarvalabs.com",
-        comment: "let me make it a better idea, by adding sprinkling some magic"
-      }
-    ]
+    id: "IYXd1N-aatb",
+    ideaContent: "bravo idea 1",
+    creator: "bravo@aarvalabs.com"
+  },
+  {
+    id: "0sV9zIPLbqa",
+    ideaContent: "bravo idea 2",
+    creator: "bravo@aarvalabs.com"
+  },
+  {
+    id: "yfYX04JeX3H",
+    ideaContent: "charlie idea 1",
+    creator: "charlie@aarvalabs.com"
+  },
+  {
+    id: "7ULXy5jyNlq",
+    ideaContent: "charlie idea 2",
+    creator: "charlie@aarvalabs.com"
+  },
+  {
+    id: "MOCcv0M-HQU",
+    ideaContent: "delta idea 1",
+    creator: "delta@aarvalabs.com"
+  },
+  {
+    id: "k5uX81czkHd",
+    ideaContent: "delta idea 2",
+    creator: "delta@aarvalabs.com"
   }
 ]
