@@ -18,7 +18,7 @@ const Ideate = ({
       {role === "host" ? (
         <button
           type="button"
-          className="mr-2 mt-3 mb-3 btn btn-danger float-right"
+          className="mb-2 btn btn-danger float-right"
           onClick={startNextStage}
         >
           Start Round Robin

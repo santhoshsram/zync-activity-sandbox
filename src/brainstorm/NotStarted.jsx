@@ -12,7 +12,7 @@ const NotStarted = ({ role, startNextStage }) => {
       {role === "host" ? (
         <button
           type="button"
-          className="m-3 btn btn-danger float-right"
+          className="mb-2 btn btn-danger float-right"
           onClick={startNextStage}
         >
           Start Brainstorming

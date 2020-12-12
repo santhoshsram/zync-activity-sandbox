@@ -25,7 +25,7 @@ const RoundRobin = ({
               {roundRobinInfo.roundsToGo === 0 ? (
                 <button
                   type="button"
-                  className="m-3 btn btn-danger float-right"
+                  className="mb-2 btn btn-danger float-right"
                   onClick={startNextStage}
                 >
                   Start Converging
@@ -33,7 +33,7 @@ const RoundRobin = ({
               ) : (
                 <button
                   type="button"
-                  className="m-3 btn btn-primary float-right"
+                  className="mb-2 btn btn-primary float-right"
                   onClick={moveToNextRoundRR}
                 >
                   Next Round
@@ -43,8 +43,8 @@ const RoundRobin = ({
           ) : (
             ""
           )}
-          <h3 className="mt-4">Idea Review Round: {curRound}</h3>
-          <h5 className="mt-3 mb-5">
+          <h3 className="mt-3">Idea Review Round: {curRound}</h3>
+          <h5 className="mt-3 mb-3">
             Add your comments / suggestions / improvements to the below ideas.
           </h5>
           <IdeasListing

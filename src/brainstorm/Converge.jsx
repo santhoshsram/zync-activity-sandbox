@@ -6,16 +6,13 @@ const Converge = ({ user, ideas, deleteIdeaHandler, updateIdeaHandler }) => {
   return (
     <>
       {role === "host" ? (
-        <button
-          type="button"
-          className="mr-2 mt-3 mb-3 btn btn-danger float-right"
-        >
+        <button type="button" className="mb-2 btn btn-danger float-right">
           End Brainstorming
         </button>
       ) : (
         ""
       )}
-      <h3 className="mt-4 mb-5">Converge on below ideas</h3>
+      <h3 className="mb-3">Converge on below ideas</h3>
       <IdeasListing
         ideas={ideas}
         deleteIdeaHandler={deleteIdeaHandler}
