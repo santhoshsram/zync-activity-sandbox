@@ -13,7 +13,7 @@ const AddNewIdea = ({ onAddClicked }) => {
   }
 
   return (
-    <div className="input-group">
+    <div className="input-group mb-3">
       <input
         type="text"
         className="form-control"

@@ -4,7 +4,7 @@ import Idea from "./Idea"
 const IdeasListing = ({
   viewerId,
   ideas = [],
-  allowAnyoneToDelete,
+  allowAnyoneToEdit,
   deleteIdeaHandler,
   updateIdeaHandler
 }) => {
@@ -15,7 +15,7 @@ const IdeasListing = ({
           <Idea
             viewerId={viewerId}
             idea={idea}
-            allowAnyoneToDelete={allowAnyoneToDelete}
+            allowAnyoneToEdit={allowAnyoneToEdit}
             deleteIdeaHandler={deleteIdeaHandler}
             updateIdeaHandler={updateIdeaHandler}
             key={idea.id}

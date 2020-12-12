@@ -4,11 +4,11 @@ import $ from "jquery"
 const Idea = ({
   viewerId,
   idea,
-  allowAnyoneToDelete,
+  allowAnyoneToEdit,
   deleteIdeaHandler,
   updateIdeaHandler
 }) => {
-  const allowDelete = allowAnyoneToDelete || viewerId === idea.creator
+  const allowEdit = allowAnyoneToEdit || viewerId === idea.creator
 
   const [inputState, setInputState] = useState({
     ideaContent: idea.ideaContent
@@ -58,7 +58,7 @@ const Idea = ({
       >
         <div className="card-body">
           <p className="card-text">{idea.ideaContent}</p>
-          {allowDelete ? (
+          {allowEdit ? (
             <p className="card-text text-right">
               <a
                 href="#!"
@@ -109,7 +109,7 @@ const Idea = ({
               }
             >
               <div className="modal-body">
-                <label>Idea Content</label>
+                <label>Idea</label>
                 <textarea
                   id={`ideaContent-${idea.id}`}
                   name="ideaContent"
@@ -117,6 +117,7 @@ const Idea = ({
                   placeholder="Your idea..."
                   value={inputState.ideaContent}
                   onChange={inputChangeHandler}
+                  readOnly={!allowEdit}
                 />
               </div>
               <div className="modal-footer">

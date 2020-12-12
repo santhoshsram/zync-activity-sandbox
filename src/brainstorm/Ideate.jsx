@@ -30,7 +30,7 @@ const Ideate = ({
       <IdeasListing
         viewerId={userId}
         ideas={seeEveryonesIdeas ? ideas : ideasOfUser(ideas, userId)}
-        allowAnyoneToDelete={false}
+        allowAnyoneToEdit={false}
         deleteIdeaHandler={deleteIdeaHandler}
         updateIdeaHandler={updateIdeaHandler}
       />
