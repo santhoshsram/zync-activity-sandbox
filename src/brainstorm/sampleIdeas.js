@@ -38,5 +38,25 @@ export const sampleIdeas = [
     id: "k5uX81czkHd",
     ideaContent: "delta idea 2",
     creator: "delta@aarvalabs.com"
+  },
+  {
+    id: "-1NqBaeNqFo",
+    ideaContent: "alpha idea 3",
+    creator: "alpha@aarvalabs.com"
+  },
+  {
+    id: "tevGhaEot9z",
+    ideaContent: "bravo idea 3",
+    creator: "bravo@aarvalabs.com"
+  },
+  {
+    id: "xj_XNYQW_0f",
+    ideaContent: "charlie idea 3",
+    creator: "charlie@aarvalabs.com"
+  },
+  {
+    id: "tpU2olNuMJE",
+    ideaContent: "delta idea 3",
+    creator: "delta@aarvalabs.com"
   }
 ]
