@@ -17,6 +17,7 @@ import {
 
 import Ideate from "./Ideate"
 import RoundRobin from "./RoundRobin"
+import NotStarted from "./NotStarted"
 
 const ID_LEN = 11
 const BRAINSTORM_NOT_STARTED = "BRAINSTORM_NOT_STARTED"
@@ -108,62 +109,63 @@ const Activity = ({ activity, users, user, dispatch }) => {
   const { seeEveryonesIdeas } = settings || false
   const { userId, role, userName } = user || {}
 
-  if (activity.currentStage === BRAINSTORM_NOT_STARTED) {
-    /*
-    XXX TODO:
-    Instead of comparing role directly to a string "host" the values for
-    roles should be defined as constants in some file and imported into
-    Activity.
-    */
-    if (role === "host") {
-      return (
-        <button
-          type="button"
-          className="m-3 btn btn-danger float-right"
-          onClick={() => dispatch(startIdeation())}
-        >
-          Start Brainstorming
-        </button>
-      )
-    } else {
-      return (
-        <h4 className="m-3">
-          Host has not started the brainstorming activity yet. Please wait.
-        </h4>
-      )
-    }
-  } else if (activity.currentStage === BRAINSTORM_ROUND_ROBIN) {
-    return (
-      <div className="container-fluid">
-        <h2 className="mb-3 mt-3 ml-1">
-          {userName} | ({userId})- {role}
-        </h2>
-        <RoundRobin
-          user={user}
-          ideas={ideas}
-          roundRobinInfo={activity.roundRobinInfo}
-          updateIdeaHandler={(updatedIdea) => dispatch(updateIdea(updatedIdea))}
-        />
-      </div>
-    )
-  }
-
   return (
     <div className="container-fluid">
       <h2 className="mb-3 mt-3 ml-1">
         {userName} | ({userId})- {role}
       </h2>
-      <Ideate
-        user={user}
-        ideas={ideas}
-        seeEveryonesIdeas={seeEveryonesIdeas}
-        onAddClicked={(ideaContent) => {
-          dispatch(addIdea(ideaContent, userId))
-        }}
-        deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
-        updateIdeaHandler={(updatedIdea) => dispatch(updateIdea(updatedIdea))}
-        startNextStage={() => dispatch(startRoundRobin(Object.keys(users)))}
-      />
+
+      {(() => {
+        switch (activity.currentStage) {
+          case BRAINSTORM_NOT_STARTED: {
+            return (
+              <NotStarted
+                role={role}
+                startNextStage={() => dispatch(startIdeation())}
+              />
+            )
+          }
+          case BRAINSTORM_IDEATE: {
+            return (
+              <Ideate
+                user={user}
+                ideas={ideas}
+                seeEveryonesIdeas={seeEveryonesIdeas}
+                onAddClicked={(ideaContent) => {
+                  dispatch(addIdea(ideaContent, userId))
+                }}
+                deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
+                updateIdeaHandler={(updatedIdea) =>
+                  dispatch(updateIdea(updatedIdea))
+                }
+                startNextStage={() =>
+                  dispatch(startRoundRobin(Object.keys(users)))
+                }
+              />
+            )
+          }
+          case BRAINSTORM_ROUND_ROBIN: {
+            return (
+              <RoundRobin
+                user={user}
+                ideas={ideas}
+                roundRobinInfo={activity.roundRobinInfo}
+                updateIdeaHandler={(updatedIdea) =>
+                  dispatch(updateIdea(updatedIdea))
+                }
+              />
+            )
+          }
+          default: {
+            return (
+              <h2>
+                You have reached an unsupported stage of brainstorming. How did
+                you get here?
+              </h2>
+            )
+          }
+        }
+      })()}
     </div>
   )
 }
