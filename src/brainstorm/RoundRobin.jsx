@@ -44,9 +44,9 @@ const RoundRobin = ({
             ""
           )}
           <h3 className="mt-3">Idea Review Round: {curRound}</h3>
-          <h5 className="mt-3 mb-3">
+          <p className="mt-3 mb-3">
             Add your comments / suggestions / improvements to the below ideas.
-          </h5>
+          </p>
           <IdeasListing
             viewerId={userId}
             ideas={ideasOfUser(ideas, reviewedUserId)}
