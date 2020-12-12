@@ -1,7 +1,6 @@
 import React from "react"
 import IdeasListing from "./IdeasListing"
 import { ideasOfUser } from "./ideaSelectors"
-import { startConverging } from "./BrainstormActions"
 
 const RoundRobin = ({
   user,
@@ -45,7 +44,7 @@ const RoundRobin = ({
             ""
           )}
           <h3 className="mt-4">Idea Review Round: {curRound}</h3>
-          <h5 className="mt-3">
+          <h5 className="mt-3 mb-5">
             Add your comments / suggestions / improvements to the below ideas.
           </h5>
           <IdeasListing

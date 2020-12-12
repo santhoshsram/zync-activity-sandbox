@@ -13,29 +13,27 @@ const AddNewIdea = ({ onAddClicked }) => {
   }
 
   return (
-    <div className="mb-3 m-2">
-      <div className="input-group">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="New idea..."
-          value={inputValue}
-          onChange={(event) => setInputValue(event.target.value)}
-          onKeyPress={(event) => {
-            if (event.charCode === ENTER_KEY_CHAR_CODE) {
-              addIdeaHandler()
-            }
-          }}
-        />
-        <div className="input-group-append">
-          <button
-            className="btn btn-primary"
-            type="button"
-            onClick={addIdeaHandler}
-          >
-            Add Idea
-          </button>
-        </div>
+    <div className="input-group">
+      <input
+        type="text"
+        className="form-control"
+        placeholder="New idea..."
+        value={inputValue}
+        onChange={(event) => setInputValue(event.target.value)}
+        onKeyPress={(event) => {
+          if (event.charCode === ENTER_KEY_CHAR_CODE) {
+            addIdeaHandler()
+          }
+        }}
+      />
+      <div className="input-group-append">
+        <button
+          className="btn btn-primary"
+          type="button"
+          onClick={addIdeaHandler}
+        >
+          Add Idea
+        </button>
       </div>
     </div>
   )

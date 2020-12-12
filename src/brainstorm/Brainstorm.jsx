@@ -25,6 +25,7 @@ import Ideate from "./Ideate"
 import RoundRobin from "./RoundRobin"
 import NotStarted from "./NotStarted"
 import { sampleIdeas } from "./sampleIdeas"
+import Converge from "./Converge"
 
 const ID_LEN = 11
 const BRAINSTORM_NOT_STARTED = "BRAINSTORM_NOT_STARTED"
@@ -153,75 +154,81 @@ const Activity = ({ activity, users, user, dispatch }) => {
         {userName} | ({userId}) - {role}
       </h2>
       {role === "host" && (
-        <button
-          type="button"
-          className="ml-2 mt-3 btn btn-outline-info float-left"
+        <a
+          href="#!"
+          className="ml-1 text-decoration-none text-primary"
           onClick={() => dispatch(loadSampleIdeas(sampleIdeas))}
         >
           Load Sample Ideas
-        </button>
+        </a>
       )}
-
-      {(() => {
-        switch (activity.currentStage) {
-          case BRAINSTORM_NOT_STARTED: {
-            return (
-              <NotStarted
-                role={role}
-                startNextStage={() => dispatch(startIdeation())}
-              />
-            )
+      <div className="mb-3 m-2">
+        {(() => {
+          switch (activity.currentStage) {
+            case BRAINSTORM_NOT_STARTED: {
+              return (
+                <NotStarted
+                  role={role}
+                  startNextStage={() => dispatch(startIdeation())}
+                />
+              )
+            }
+            case BRAINSTORM_IDEATE: {
+              return (
+                <Ideate
+                  user={user}
+                  ideas={ideas}
+                  seeEveryonesIdeas={seeEveryonesIdeas}
+                  onAddClicked={(ideaContent) => {
+                    dispatch(addIdea(ideaContent, userId))
+                  }}
+                  deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
+                  updateIdeaHandler={(updatedIdea) =>
+                    dispatch(updateIdea(updatedIdea))
+                  }
+                  startNextStage={() =>
+                    dispatch(startRoundRobin(Object.keys(users)))
+                  }
+                />
+              )
+            }
+            case BRAINSTORM_ROUND_ROBIN: {
+              return (
+                <RoundRobin
+                  user={user}
+                  ideas={ideas}
+                  roundRobinInfo={activity.roundRobinInfo}
+                  updateIdeaHandler={(updatedIdea) =>
+                    dispatch(updateIdea(updatedIdea))
+                  }
+                  moveToNextRoundRR={() => dispatch(nextRoundRR())}
+                  startNextStage={() => dispatch(startConverging())}
+                />
+              )
+            }
+            case BRAINSTORM_CONVERGE: {
+              return (
+                <Converge
+                  user={user}
+                  ideas={ideas}
+                  deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
+                  updateIdeaHandler={(updatedIdea) =>
+                    dispatch(updateIdea(updatedIdea))
+                  }
+                />
+              )
+            }
+            default: {
+              return (
+                <h2 className="text-danger">
+                  You have reached an unsupported stage of brainstorming. How
+                  did you get here?
+                </h2>
+              )
+            }
           }
-          case BRAINSTORM_IDEATE: {
-            return (
-              <Ideate
-                user={user}
-                ideas={ideas}
-                seeEveryonesIdeas={seeEveryonesIdeas}
-                onAddClicked={(ideaContent) => {
-                  dispatch(addIdea(ideaContent, userId))
-                }}
-                deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
-                updateIdeaHandler={(updatedIdea) =>
-                  dispatch(updateIdea(updatedIdea))
-                }
-                startNextStage={() =>
-                  dispatch(startRoundRobin(Object.keys(users)))
-                }
-              />
-            )
-          }
-          case BRAINSTORM_ROUND_ROBIN: {
-            return (
-              <RoundRobin
-                user={user}
-                ideas={ideas}
-                roundRobinInfo={activity.roundRobinInfo}
-                updateIdeaHandler={(updatedIdea) =>
-                  dispatch(updateIdea(updatedIdea))
-                }
-                moveToNextRoundRR={() => dispatch(nextRoundRR())}
-                startNextStage={() => dispatch(startConverging())}
-              />
-            )
-          }
-          case BRAINSTORM_CONVERGE: {
-            return (
-              <h4 className="text-warning">
-                Converge stage is still under development.
-              </h4>
-            )
-          }
-          default: {
-            return (
-              <h2 className="text-danger">
-                You have reached an unsupported stage of brainstorming. How did
-                you get here?
-              </h2>
-            )
-          }
-        }
-      })()}
+        })()}
+      </div>
     </div>
   )
 }
