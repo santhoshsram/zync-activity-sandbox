@@ -8,11 +8,15 @@ import {
   UPDATE_IDEA,
   START_IDEATION,
   START_ROUND_ROBIN,
+  MOVE_TO_NEXT_ROUND_RR,
+  START_CONVERGING,
   addIdea,
   deleteIdea,
   updateIdea,
   startIdeation,
-  startRoundRobin
+  startRoundRobin,
+  nextRoundRR,
+  startConverging
 } from "./BrainstormActions"
 
 import Ideate from "./Ideate"
@@ -81,7 +85,7 @@ const activityReducer = (state, action) => {
         ...state,
         currentStage: BRAINSTORM_IDEATE
       }
-    case START_ROUND_ROBIN:
+    case START_ROUND_ROBIN: {
       const { userIds } = payload
       let roundRobinInfo = {
         userIdQ: userIds,
@@ -96,6 +100,30 @@ const activityReducer = (state, action) => {
         currentStage: BRAINSTORM_ROUND_ROBIN,
         roundRobinInfo
       }
+    }
+    case MOVE_TO_NEXT_ROUND_RR: {
+      const idxInQ = {}
+      state.roundRobinInfo.userIdQ.forEach((userId) => {
+        idxInQ[userId] =
+          (state.roundRobinInfo.idxInQ[userId] + 1) %
+          state.roundRobinInfo.userIdQ.length
+      })
+      const roundsToGo = state.roundRobinInfo.roundsToGo - 1
+      return {
+        ...state,
+        roundRobinInfo: {
+          ...state.roundRobinInfo,
+          idxInQ,
+          roundsToGo
+        }
+      }
+    }
+    case START_CONVERGING: {
+      return {
+        ...state,
+        currentStage: BRAINSTORM_CONVERGE
+      }
+    }
     default:
       return {
         ...state
@@ -153,12 +181,21 @@ const Activity = ({ activity, users, user, dispatch }) => {
                 updateIdeaHandler={(updatedIdea) =>
                   dispatch(updateIdea(updatedIdea))
                 }
+                moveToNextRoundRR={() => dispatch(nextRoundRR())}
+                startNextStage={() => dispatch(startConverging())}
               />
+            )
+          }
+          case BRAINSTORM_CONVERGE: {
+            return (
+              <h4 className="text-warning">
+                Converge stage is still under development.
+              </h4>
             )
           }
           default: {
             return (
-              <h2>
+              <h2 className="text-danger">
                 You have reached an unsupported stage of brainstorming. How did
                 you get here?
               </h2>

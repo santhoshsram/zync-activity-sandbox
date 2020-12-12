@@ -46,3 +46,15 @@ export const startRoundRobin = (userIds) => ({
   type: START_ROUND_ROBIN,
   payload: { userIds }
 })
+
+/*
+Action to move to next round in round robin step
+*/
+export const MOVE_TO_NEXT_ROUND_RR = "MOVE_TO_NEXT_ROUND_RR"
+export const nextRoundRR = () => ({ type: MOVE_TO_NEXT_ROUND_RR })
+
+/*
+Action to start BRAINSTORM_IDEATE step
+*/
+export const START_CONVERGING = "START_CONVERGING"
+export const startConverging = () => ({ type: START_CONVERGING })
