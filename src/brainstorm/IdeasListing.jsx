@@ -5,6 +5,7 @@ const IdeasListing = ({
   viewerId,
   ideas = [],
   allowAnyoneToEdit,
+  allowNewComments,
   deleteIdeaHandler,
   updateIdeaHandler
 }) => {
@@ -16,6 +17,7 @@ const IdeasListing = ({
             viewerId={viewerId}
             idea={idea}
             allowAnyoneToEdit={allowAnyoneToEdit}
+            allowNewComments={allowNewComments}
             deleteIdeaHandler={deleteIdeaHandler}
             updateIdeaHandler={updateIdeaHandler}
             key={idea.id}

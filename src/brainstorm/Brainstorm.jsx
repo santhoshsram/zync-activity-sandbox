@@ -69,7 +69,7 @@ const activityReducer = (state, action) => {
       const id = nanoid(ID_LEN)
       return {
         ...state,
-        ideas: state.ideas.concat({ id, ideaContent, creator })
+        ideas: state.ideas.concat({ id, ideaContent, creator, comments: [] })
       }
     }
     case DELETE_IDEA: {

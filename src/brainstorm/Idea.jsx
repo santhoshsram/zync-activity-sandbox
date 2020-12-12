@@ -5,13 +5,15 @@ const Idea = ({
   viewerId,
   idea,
   allowAnyoneToEdit,
+  allowNewComments,
   deleteIdeaHandler,
   updateIdeaHandler
 }) => {
   const allowEdit = allowAnyoneToEdit || viewerId === idea.creator
 
   const [inputState, setInputState] = useState({
-    ideaContent: idea.ideaContent
+    ideaContent: idea.ideaContent,
+    newComment: ""
   })
 
   const modalFormHandler = (event, modalId) => {
@@ -20,7 +22,14 @@ const Idea = ({
 
     const newIdea = {
       ...idea,
-      ...inputState
+      ideaContent: inputState.ideaContent,
+      comments:
+        inputState.newComment !== ""
+          ? idea.comments.concat({
+              commenter: viewerId,
+              comment: inputState.newComment
+            })
+          : idea.comments
     }
 
     updateIdeaHandler(newIdea)
@@ -45,7 +54,7 @@ const Idea = ({
     */
     $(`#editIdeaModal-${idea.id}`).on("show.bs.modal", function () {
       // $(this).find("form").trigger("reset")
-      setInputState({ ideaContent: idea.ideaContent })
+      setInputState({ ideaContent: idea.ideaContent, newComment: "" })
     })
   }, [idea.id, idea.ideaContent])
 
@@ -119,6 +128,32 @@ const Idea = ({
                   onChange={inputChangeHandler}
                   readOnly={!allowEdit}
                 />
+                {idea.comments.length > 0 && (
+                  <>
+                    <label className="mt-3">Previous comments</label>
+                    {idea.comments.map((c) => (
+                      <div
+                        className="p-2 mb-2 border border-info"
+                        key={idea.id}
+                      >
+                        {c.comment}
+                      </div>
+                    ))}
+                  </>
+                )}
+                {allowNewComments && (
+                  <>
+                    <label className="mt-3">Add your comment</label>
+                    <textarea
+                      id={`newComment-${idea.id}`}
+                      name="newComment"
+                      className="form-control mb-2"
+                      placeholder="Your comment..."
+                      value={inputState.newComment}
+                      onChange={inputChangeHandler}
+                    />
+                  </>
+                )}
               </div>
               <div className="modal-footer">
                 <button

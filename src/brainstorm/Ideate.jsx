@@ -31,6 +31,7 @@ const Ideate = ({
         viewerId={userId}
         ideas={seeEveryonesIdeas ? ideas : ideasOfUser(ideas, userId)}
         allowAnyoneToEdit={false}
+        allowNewComments={false}
         deleteIdeaHandler={deleteIdeaHandler}
         updateIdeaHandler={updateIdeaHandler}
       />

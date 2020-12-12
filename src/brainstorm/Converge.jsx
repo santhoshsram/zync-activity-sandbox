@@ -17,6 +17,7 @@ const Converge = ({ user, ideas, deleteIdeaHandler, updateIdeaHandler }) => {
         viewerId={userId}
         ideas={ideas}
         allowAnyoneToEdit={true}
+        allowNewComments={true}
         deleteIdeaHandler={deleteIdeaHandler}
         updateIdeaHandler={updateIdeaHandler}
       />

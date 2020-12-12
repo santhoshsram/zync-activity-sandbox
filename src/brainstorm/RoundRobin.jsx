@@ -51,6 +51,7 @@ const RoundRobin = ({
             viewerId={userId}
             ideas={ideasOfUser(ideas, reviewedUserId)}
             allowAnyoneToEdit={false}
+            allowNewComments={true}
             deleteIdeaHandler={null}
             updateIdeaHandler={updateIdeaHandler}
           />
