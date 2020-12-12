@@ -2,8 +2,6 @@
 import React from "react"
 import { nanoid } from "nanoid"
 import { Switch } from "../components/Switch"
-import IdeasListing from "./IdeasListing"
-import AddNewIdea from "./AddNewIdea"
 import {
   ADD_IDEA,
   DELETE_IDEA,
@@ -16,7 +14,8 @@ import {
   startIdeation,
   startRoundRobin
 } from "./BrainstormActions"
-import { ideasOfUser } from "./ideaSelectors"
+
+import Ideate from "./Ideate"
 import RoundRobin from "./RoundRobin"
 
 const ID_LEN = 11
@@ -154,26 +153,16 @@ const Activity = ({ activity, users, user, dispatch }) => {
       <h2 className="mb-3 mt-3 ml-1">
         {userName} | ({userId})- {role}
       </h2>
-      {role === "host" ? (
-        <button
-          type="button"
-          className="mr-2 mt-3 mb-3 btn btn-danger float-right"
-          onClick={() => dispatch(startRoundRobin(Object.keys(users)))}
-        >
-          Start Round Robin
-        </button>
-      ) : (
-        ""
-      )}
-      <AddNewIdea
+      <Ideate
+        user={user}
+        ideas={ideas}
+        seeEveryonesIdeas={seeEveryonesIdeas}
         onAddClicked={(ideaContent) => {
           dispatch(addIdea(ideaContent, userId))
         }}
-      />
-      <IdeasListing
-        ideas={seeEveryonesIdeas ? ideas : ideasOfUser(ideas, userId)}
         deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
         updateIdeaHandler={(updatedIdea) => dispatch(updateIdea(updatedIdea))}
+        startNextStage={() => dispatch(startRoundRobin(Object.keys(users)))}
       />
     </div>
   )
