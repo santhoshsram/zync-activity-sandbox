@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react"
 import $ from "jquery"
 
-const Idea = ({ idea, deleteIdeaHandler, updateIdeaHandler }) => {
+const Idea = ({
+  viewerId,
+  idea,
+  allowAnyoneToDelete,
+  deleteIdeaHandler,
+  updateIdeaHandler
+}) => {
+  const allowDelete = allowAnyoneToDelete || viewerId === idea.creator
+
   const [inputState, setInputState] = useState({
     ideaContent: idea.ideaContent
   })
@@ -50,15 +58,19 @@ const Idea = ({ idea, deleteIdeaHandler, updateIdeaHandler }) => {
       >
         <div className="card-body">
           <p className="card-text">{idea.ideaContent}</p>
-          <p className="card-text text-right">
-            <a
-              href="#!"
-              className="text-decoration-none text-primary"
-              onClick={() => deleteIdeaHandler(idea.id)}
-            >
-              Delete
-            </a>
-          </p>
+          {allowDelete ? (
+            <p className="card-text text-right">
+              <a
+                href="#!"
+                className="text-decoration-none text-primary"
+                onClick={() => deleteIdeaHandler(idea.id)}
+              >
+                Delete
+              </a>
+            </p>
+          ) : (
+            ""
+          )}
         </div>
       </div>
 

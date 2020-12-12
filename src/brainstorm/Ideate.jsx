@@ -28,7 +28,9 @@ const Ideate = ({
       )}
       <AddNewIdea onAddClicked={onAddClicked} />
       <IdeasListing
+        viewerId={userId}
         ideas={seeEveryonesIdeas ? ideas : ideasOfUser(ideas, userId)}
+        allowAnyoneToDelete={false}
         deleteIdeaHandler={deleteIdeaHandler}
         updateIdeaHandler={updateIdeaHandler}
       />

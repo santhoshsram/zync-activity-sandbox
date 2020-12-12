@@ -1,8 +1,8 @@
-import React from "react"
+import React, { useImperativeHandle } from "react"
 import IdeasListing from "./IdeasListing"
 
 const Converge = ({ user, ideas, deleteIdeaHandler, updateIdeaHandler }) => {
-  const { role } = user
+  const { role, userId } = user
   return (
     <>
       {role === "host" ? (
@@ -14,7 +14,9 @@ const Converge = ({ user, ideas, deleteIdeaHandler, updateIdeaHandler }) => {
       )}
       <h3 className="mb-3">Converge on below ideas</h3>
       <IdeasListing
+        viewerId={userId}
         ideas={ideas}
+        allowAnyoneToDelete={true}
         deleteIdeaHandler={deleteIdeaHandler}
         updateIdeaHandler={updateIdeaHandler}
       />

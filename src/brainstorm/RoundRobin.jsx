@@ -48,7 +48,9 @@ const RoundRobin = ({
             Add your comments / suggestions / improvements to the below ideas.
           </h5>
           <IdeasListing
+            viewerId={userId}
             ideas={ideasOfUser(ideas, reviewedUserId)}
+            allowAnyoneToDelete={false}
             deleteIdeaHandler={null}
             updateIdeaHandler={updateIdeaHandler}
           />
