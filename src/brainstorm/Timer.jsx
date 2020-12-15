@@ -20,9 +20,19 @@ const Timer = ({ secs }) => {
     )
   }
 
+  const getBadgeStyle = () => {
+    if (counter / secs <= 0.1) {
+      return "badge-danger"
+    } else if (counter / secs <= 0.4) {
+      return "badge-warning"
+    } else {
+      return "badge-success"
+    }
+  }
+
   return (
     <span
-      className="font-weight-bolder badge badge-success p-2"
+      className={`font-weight-bolder badge ${getBadgeStyle()} p-2`}
       style={{ width: "75px" }}
     >
       {getHHMMSS(counter)}
