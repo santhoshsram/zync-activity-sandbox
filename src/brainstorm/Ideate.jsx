@@ -9,23 +9,12 @@ const Ideate = ({
   seeEveryonesIdeas,
   onAddClicked,
   deleteIdeaHandler,
-  updateIdeaHandler,
-  startNextStage
+  updateIdeaHandler
 }) => {
-  const { userId, role } = user
+  const { userId } = user
   return (
     <>
-      {role === "host" ? (
-        <button
-          type="button"
-          className="mb-2 btn btn-danger float-right"
-          onClick={startNextStage}
-        >
-          Start Round Robin
-        </button>
-      ) : (
-        ""
-      )}
+      <h3>Add your ideas</h3>
       <AddNewIdea onAddClicked={onAddClicked} />
       <IdeasListing
         viewerId={userId}

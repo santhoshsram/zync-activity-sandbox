@@ -1,6 +1,7 @@
 import React from "react"
 
-const NotStarted = ({ role, startNextStage }) => {
+const NotStarted = ({ user }) => {
+  const { role } = user
   /*
     XXX TODO:
     Instead of comparing role directly to a string "host" the values for
@@ -10,17 +11,14 @@ const NotStarted = ({ role, startNextStage }) => {
   return (
     <>
       {role === "host" ? (
-        <button
-          type="button"
-          className="mb-2 btn btn-danger float-right"
-          onClick={startNextStage}
-        >
-          Start Brainstorming
-        </button>
+        <h5>
+          Click <span className="text-primary">Start Brainstorming</span> to
+          begin activity .
+        </h5>
       ) : (
-        <h4 className="m-3">
+        <h5>
           Host has not started the brainstorming activity yet. Please wait.
-        </h4>
+        </h5>
       )}
     </>
   )

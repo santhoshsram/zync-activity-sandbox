@@ -17,21 +17,22 @@ import {
   startIdeation,
   startRoundRobin,
   nextRoundRR,
-  startConverging,
-  loadSampleIdeas
+  startConverging
 } from "./BrainstormActions"
 
 import Ideate from "./Ideate"
 import RoundRobin from "./RoundRobin"
 import NotStarted from "./NotStarted"
-import { sampleIdeas } from "./sampleIdeas"
 import Converge from "./Converge"
 
-const ID_LEN = 11
-const BRAINSTORM_NOT_STARTED = "BRAINSTORM_NOT_STARTED"
-const BRAINSTORM_IDEATE = "BRAINSTORM_IDEATE"
-const BRAINSTORM_ROUND_ROBIN = "BRAINSTORM_ROUND_ROBIN"
-const BRAINSTORM_CONVERGE = "BRAINSTORM_CONVERGE"
+import {
+  ID_LEN,
+  BRAINSTORM_NOT_STARTED,
+  BRAINSTORM_IDEATE,
+  BRAINSTORM_ROUND_ROBIN,
+  BRAINSTORM_CONVERGE
+} from "./brainstormUtils"
+import ActivityControls from "./ActivityControls"
 
 /*
 Sample content of an idea
@@ -146,29 +147,24 @@ const Activity = ({ activity, users, user, dispatch }) => {
   const { ideas } = activity || {}
   const { settings } = activity || {}
   const { seeEveryonesIdeas } = settings || false
-  const { userId, role, userName } = user || {}
+  const { userId } = user || {}
 
   return (
     <div className="container-fluid">
-      <h2 className="mb-3 mt-3 ml-1">
-        {userName} | ({userId}) - {role}
-      </h2>
-      {role === "host" && (
-        <a
-          href="#!"
-          className="ml-1 text-decoration-none text-primary"
-          onClick={() => dispatch(loadSampleIdeas(sampleIdeas))}
-        >
-          Load Sample Ideas
-        </a>
-      )}
-      <div className="mb-3 m-2">
+      <ActivityControls
+        user={user}
+        users={users}
+        activityState={activity}
+        dispatch={dispatch}
+      />
+
+      <div className="mb-3 ml-2 mr-2 mt-4">
         {(() => {
           switch (activity.currentStage) {
             case BRAINSTORM_NOT_STARTED: {
               return (
                 <NotStarted
-                  role={role}
+                  user={user}
                   startNextStage={() => dispatch(startIdeation())}
                 />
               )
