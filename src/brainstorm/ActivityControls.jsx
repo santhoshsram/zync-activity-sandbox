@@ -40,7 +40,7 @@ const ActivityControls = ({ user, users, activityState, dispatch }) => {
       )}
 
       <div className="ml-3">
-        <Timer hours={"00"} mins={"05"} secs={"00"} />
+        <Timer secs={300} />
       </div>
 
       {role === "host"
