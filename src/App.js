@@ -174,7 +174,7 @@ const Setup = ({ meetingState, sandboxDispatch, meetingDispatch }) => {
         <textarea
           value={JSON.stringify(activity_instance, null, 2)}
           rows="20"
-          cols="80"
+          style={{ width: "100%" }}
           readOnly
         />
         <p>Toggle Split screen to see 2 users side by side</p>
