@@ -21,12 +21,10 @@ const Timer = ({ secs }) => {
   }
 
   const getBadgeStyle = () => {
-    if (counter / secs <= 0.1) {
+    if (counter === 0) {
       return "badge-danger"
-    } else if (counter / secs <= 0.4) {
-      return "badge-warning"
     } else {
-      return "badge-success"
+      return "badge-secondary"
     }
   }
 
