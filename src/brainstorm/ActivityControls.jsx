@@ -1,5 +1,5 @@
 import React from "react"
-import Timer from "./Timer"
+import Timer, { TIMER_COUNTUP } from "./Timer"
 import {
   BRAINSTORM_NOT_STARTED,
   BRAINSTORM_IDEATE,
@@ -40,7 +40,7 @@ const ActivityControls = ({ user, users, activityState, dispatch }) => {
       )}
 
       <div className="ml-3">
-        <Timer secs={300} />
+        <Timer type={TIMER_COUNTUP} />
       </div>
 
       {role === "host"
