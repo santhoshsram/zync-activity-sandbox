@@ -31,6 +31,8 @@ const Idea = ({
           >
             {idea.ideaContent}
           </p>
+        </div>
+        <div className="card-footer p-0 pr-2 pb-1 border-0 bg-transparent">
           {allowEdit ? (
             <p className="card-text text-right">
               <a
@@ -38,7 +40,7 @@ const Idea = ({
                 className="text-decoration-none text-primary"
                 onClick={() => deleteIdeaHandler(idea.id)}
               >
-                Delete
+                <small>Delete</small>
               </a>
             </p>
           ) : (

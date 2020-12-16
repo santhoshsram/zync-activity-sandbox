@@ -13,7 +13,8 @@ const RoundRobin = ({ user, ideas, roundRobinInfo, updateIdeaHandler }) => {
     <>
       {roundRobinInfo.roundsToGo >= 0 ? (
         <>
-          <h3>Idea Review Round: {curRound}</h3>
+          <h3>Idea Review Round {curRound}</h3>
+          <hr />
           <p className="mt-3 mb-3">
             Add your comments / suggestions / improvements to the below ideas.
           </p>

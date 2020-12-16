@@ -150,82 +150,86 @@ const Activity = ({ activity, users, user, dispatch }) => {
   const { userId } = user || {}
 
   return (
-    <div className="container">
-      <ActivityControls
-        user={user}
-        users={users}
-        activityState={activity}
-        dispatch={dispatch}
-      />
-
-      <div className="mb-3 ml-2 mr-2 mt-4">
-        {(() => {
-          switch (activity.currentStage) {
-            case BRAINSTORM_NOT_STARTED: {
-              return (
-                <NotStarted
-                  user={user}
-                  startNextStage={() => dispatch(startIdeation())}
-                />
-              )
-            }
-            case BRAINSTORM_IDEATE: {
-              return (
-                <Ideate
-                  user={user}
-                  ideas={ideas}
-                  seeEveryonesIdeas={seeEveryonesIdeas}
-                  onAddClicked={(ideaContent) => {
-                    dispatch(addIdea(ideaContent, userId))
-                  }}
-                  deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
-                  updateIdeaHandler={(updatedIdea) =>
-                    dispatch(updateIdea(updatedIdea))
-                  }
-                  startNextStage={() =>
-                    dispatch(startRoundRobin(Object.keys(users)))
-                  }
-                />
-              )
-            }
-            case BRAINSTORM_ROUND_ROBIN: {
-              return (
-                <RoundRobin
-                  user={user}
-                  ideas={ideas}
-                  roundRobinInfo={activity.roundRobinInfo}
-                  updateIdeaHandler={(updatedIdea) =>
-                    dispatch(updateIdea(updatedIdea))
-                  }
-                  moveToNextRoundRR={() => dispatch(nextRoundRR())}
-                  startNextStage={() => dispatch(startConverging())}
-                />
-              )
-            }
-            case BRAINSTORM_CONVERGE: {
-              return (
-                <Converge
-                  user={user}
-                  ideas={ideas}
-                  deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
-                  updateIdeaHandler={(updatedIdea) =>
-                    dispatch(updateIdea(updatedIdea))
-                  }
-                />
-              )
-            }
-            default: {
-              return (
-                <h2 className="text-danger">
-                  You have reached an unsupported stage of brainstorming. How
-                  did you get here?
-                </h2>
-              )
-            }
-          }
-        })()}
+    <>
+      <div className="container-fluid">
+        <ActivityControls
+          user={user}
+          users={users}
+          activityState={activity}
+          dispatch={dispatch}
+        />
+        <hr />
       </div>
-    </div>
+      <div className="container">
+        <div className="mb-3 ml-2 mr-2 mt-4">
+          {(() => {
+            switch (activity.currentStage) {
+              case BRAINSTORM_NOT_STARTED: {
+                return (
+                  <NotStarted
+                    user={user}
+                    startNextStage={() => dispatch(startIdeation())}
+                  />
+                )
+              }
+              case BRAINSTORM_IDEATE: {
+                return (
+                  <Ideate
+                    user={user}
+                    ideas={ideas}
+                    seeEveryonesIdeas={seeEveryonesIdeas}
+                    onAddClicked={(ideaContent) => {
+                      dispatch(addIdea(ideaContent, userId))
+                    }}
+                    deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
+                    updateIdeaHandler={(updatedIdea) =>
+                      dispatch(updateIdea(updatedIdea))
+                    }
+                    startNextStage={() =>
+                      dispatch(startRoundRobin(Object.keys(users)))
+                    }
+                  />
+                )
+              }
+              case BRAINSTORM_ROUND_ROBIN: {
+                return (
+                  <RoundRobin
+                    user={user}
+                    ideas={ideas}
+                    roundRobinInfo={activity.roundRobinInfo}
+                    updateIdeaHandler={(updatedIdea) =>
+                      dispatch(updateIdea(updatedIdea))
+                    }
+                    moveToNextRoundRR={() => dispatch(nextRoundRR())}
+                    startNextStage={() => dispatch(startConverging())}
+                  />
+                )
+              }
+              case BRAINSTORM_CONVERGE: {
+                return (
+                  <Converge
+                    user={user}
+                    ideas={ideas}
+                    deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
+                    updateIdeaHandler={(updatedIdea) =>
+                      dispatch(updateIdea(updatedIdea))
+                    }
+                  />
+                )
+              }
+              default: {
+                return (
+                  <h2 className="text-danger">
+                    You have reached an unsupported stage of brainstorming. How
+                    did you get here?
+                  </h2>
+                )
+              }
+            }
+          })()}
+        </div>
+      </div>
+    </>
   )
 }
 

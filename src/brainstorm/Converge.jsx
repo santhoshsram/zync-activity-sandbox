@@ -6,6 +6,7 @@ const Converge = ({ user, ideas, deleteIdeaHandler, updateIdeaHandler }) => {
   return (
     <>
       <h3 className="mb-3">Converge on below ideas</h3>
+      <hr />
       <IdeasListing
         viewerId={userId}
         ideas={ideas}

@@ -15,6 +15,7 @@ const Ideate = ({
   return (
     <>
       <h3>Add your ideas</h3>
+      <hr />
       <AddNewIdea onAddClicked={onAddClicked} />
       <IdeasListing
         viewerId={userId}

@@ -9,7 +9,7 @@ const NotStarted = ({ user }) => {
     Activity.
     */
   return (
-    <>
+    <div className="text-center mt-5">
       {role === "host" ? (
         <h5>
           Click <span className="text-primary">Start Brainstorming</span> to
@@ -20,7 +20,7 @@ const NotStarted = ({ user }) => {
           Host has not started the brainstorming activity yet. Please wait.
         </h5>
       )}
-    </>
+    </div>
   )
 }
 
