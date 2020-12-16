@@ -11,7 +11,7 @@ const IdeasListing = ({
 }) => {
   return (
     <>
-      <div className="card-columns">
+      <div className="card-columns" style={{ "column-count": "6" }}>
         {ideas.map((idea) => (
           <Idea
             viewerId={viewerId}

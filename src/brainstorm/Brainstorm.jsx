@@ -150,7 +150,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
   const { userId } = user || {}
 
   return (
-    <div className="container-fluid">
+    <div className="container">
       <ActivityControls
         user={user}
         users={users}
