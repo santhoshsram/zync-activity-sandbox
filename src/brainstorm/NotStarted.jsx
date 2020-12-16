@@ -9,16 +9,17 @@ const NotStarted = ({ user }) => {
     Activity.
     */
   return (
-    <div className="text-center mt-5">
+    <div className="text-center mt-5 bg-light">
       {role === "host" ? (
-        <h5>
-          Click <span className="text-primary">Start Brainstorming</span> to
+        <div>
+          Click{" "}
+          <span className="text-primary bg-light">Start Brainstorming</span> to
           begin activity .
-        </h5>
+        </div>
       ) : (
-        <h5>
+        <div>
           Host has not started the brainstorming activity yet. Please wait.
-        </h5>
+        </div>
       )}
     </div>
   )

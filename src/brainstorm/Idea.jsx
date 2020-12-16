@@ -21,7 +21,7 @@ const Idea = ({
 
   return (
     <div id={`ideaContainer-${idea.id}`}>
-      <div className="card border pb-0 m-1">
+      <div className="card border pb-0 m-1 bg-light">
         <div className="card-body">
           <p
             className="card-text"

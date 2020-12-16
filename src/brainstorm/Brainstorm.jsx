@@ -234,20 +234,51 @@ const Activity = ({ activity, users, user, dispatch }) => {
 }
 
 const Settings = ({ settings, setLaunchSettings }) => {
-  const { seeEveryonesIdeas } = settings || {}
+  const { seeEveryonesIdeas, instructions } = settings || {}
+
   const toggle = () => {
     setLaunchSettings({ ...settings, seeEveryonesIdeas: !seeEveryonesIdeas })
   }
+
+  const updateInstructions = (instructions) => {
+    setLaunchSettings({ ...settings, instructions: instructions })
+  }
+
   return (
     <div
       style={{
-        display: "flex",
-        width: "500px",
-        justifyContent: "space-between"
+        width: "500px"
       }}
     >
-      <div>Everyone see&rsquo;s everyone&rsquo;s ideas</div>
-      <Switch checked={seeEveryonesIdeas} onChange={toggle}></Switch>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between"
+        }}
+      >
+        <label>Everyone see&rsquo;s everyone&rsquo;s ideas</label>
+        <Switch checked={seeEveryonesIdeas} onChange={toggle}></Switch>
+      </div>
+      <hr />
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between"
+        }}
+      >
+        <label>Instructions for the activity </label>
+        <textarea
+          className="border border-secondary pl-2 pr-2 pt-1 pb-1"
+          style={{ width: "70%" }}
+          contentEditable
+          suppressContentEditableWarning
+          placeholder="Enter activity instructions..."
+          defaultValue={instructions}
+          onBlur={(event) => updateInstructions(event.target.value)}
+        />
+      </div>
     </div>
   )
 }
@@ -266,7 +297,8 @@ const activityListing = {
   settings: {
     videoLayout: "docked", // This should be either 'docked' or 'minimized' which tells how the video hub should be when your activity is launched
     // You can add other settings over here
-    seeEveryonesIdeas: false
+    seeEveryonesIdeas: false,
+    instructions: ""
   },
   currentStage: BRAINSTORM_NOT_STARTED,
   roundRobinInfo: {
