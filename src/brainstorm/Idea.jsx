@@ -20,8 +20,11 @@ const Idea = ({
   }
 
   return (
-    <div id={`ideaContainer-${idea.id}`}>
-      <div className="card border pb-0 m-1 bg-light">
+    <div>
+      <div
+        className="card border pb-0 m-1 bg-light"
+        style={{ maxWidth: "250px", minWidth: "150px" }}
+      >
         <div className="card-body">
           <p
             className="card-text"

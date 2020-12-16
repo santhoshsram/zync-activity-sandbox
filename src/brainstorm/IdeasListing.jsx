@@ -11,7 +11,7 @@ const IdeasListing = ({
 }) => {
   return (
     <>
-      <div className="card-columns" style={{ "column-count": "6" }}>
+      <div className="d-flex flex-wrap justify-content-between">
         {ideas.map((idea) => (
           <Idea
             viewerId={viewerId}
