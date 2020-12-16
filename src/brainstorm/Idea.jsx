@@ -1,4 +1,5 @@
 import React from "react"
+import { FaRegTrashAlt, FaTags } from "react-icons/fa"
 
 const Idea = ({
   viewerId,
@@ -23,9 +24,9 @@ const Idea = ({
     <div>
       <div
         className="card border pb-0 m-1 bg-light"
-        style={{ maxWidth: "250px", minWidth: "150px" }}
+        style={{ maxWidth: "275px", minWidth: "175px" }}
       >
-        <div className="card-body">
+        <div className="card-body p-3">
           <p
             className="card-text"
             contentEditable={allowEdit}
@@ -35,17 +36,28 @@ const Idea = ({
             {idea.ideaContent}
           </p>
         </div>
-        <div className="card-footer p-0 pr-2 pb-1 border-0 bg-transparent">
+        <div className="card-footer px-2 pt-0 pb-2 border-0 bg-transparent">
           {allowEdit ? (
-            <p className="card-text text-right">
-              <a
-                href="#!"
-                className="text-decoration-none text-primary"
-                onClick={() => deleteIdeaHandler(idea.id)}
-              >
-                <small>Delete</small>
+            <div className="card-text d-flex justify-content-between">
+              <span className="p-0 m-0 ml-2 text-truncate">
+                <small>
+                  <FaTags className="text-dark" />
+                  <input
+                    className="p-0 m-0 ml-1 text-primary"
+                    style={{ border: "none", outline: "none", maxWidth: "80%" }}
+                    placeholder="enter tags"
+                  />
+                </small>
+              </span>
+              <a href="#!">
+                <small>
+                  <FaRegTrashAlt
+                    className="text-dark"
+                    onClick={() => deleteIdeaHandler(idea.id)}
+                  />
+                </small>
               </a>
-            </p>
+            </div>
           ) : (
             ""
           )}

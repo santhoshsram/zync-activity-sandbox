@@ -11,7 +11,7 @@ const IdeasListing = ({
 }) => {
   return (
     <>
-      <div className="d-flex flex-wrap justify-content-between">
+      <div className="d-flex flex-wrap">
         {ideas.map((idea) => (
           <Idea
             viewerId={viewerId}
