@@ -19,7 +19,7 @@ const ActivityControls = ({ user, users, activityState, dispatch }) => {
   const { userId, role, userName } = user
 
   return (
-    <div class="d-flex mt-3 pr-2 align-items-center">
+    <div className="d-flex mt-3 pr-2 align-items-center">
       <div className="mr-auto">
         <h4>
           {userName} | {userId} -&nbsp;
