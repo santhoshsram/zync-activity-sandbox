@@ -166,12 +166,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
           {(() => {
             switch (activity.currentStage) {
               case BRAINSTORM_NOT_STARTED: {
-                return (
-                  <NotStarted
-                    user={user}
-                    startNextStage={() => dispatch(startIdeation())}
-                  />
-                )
+                return <NotStarted user={user} />
               }
               case BRAINSTORM_IDEATE: {
                 return (
@@ -186,9 +181,6 @@ const Activity = ({ activity, users, user, dispatch }) => {
                     updateIdeaHandler={(updatedIdea) =>
                       dispatch(updateIdea(updatedIdea))
                     }
-                    startNextStage={() =>
-                      dispatch(startRoundRobin(Object.keys(users)))
-                    }
                   />
                 )
               }
@@ -202,7 +194,6 @@ const Activity = ({ activity, users, user, dispatch }) => {
                       dispatch(updateIdea(updatedIdea))
                     }
                     moveToNextRoundRR={() => dispatch(nextRoundRR())}
-                    startNextStage={() => dispatch(startConverging())}
                   />
                 )
               }
