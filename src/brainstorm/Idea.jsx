@@ -20,6 +20,17 @@ const Idea = ({
     updateIdeaHandler(newIdea)
   }
 
+  const onTagsChange = (event) => {
+    const newIdea = {
+      ...idea,
+      tags: event.target.value === "" ? [] : event.target.value.split(/[\s,]+/)
+    }
+
+    updateIdeaHandler(newIdea)
+    event.target.value = newIdea.tags.join(", ")
+    event.target.setSelectionRange(0, 0)
+  }
+
   return (
     <div>
       <div
@@ -36,16 +47,20 @@ const Idea = ({
             {idea.ideaContent}
           </p>
         </div>
-        <div className="card-footer px-2 pt-0 pb-2 border-0 bg-transparent">
-          {allowEdit ? (
+        {allowEdit ? (
+          <div className="card-footer px-2 pt-0 pb-2 border-0 bg-transparent">
             <div className="card-text d-flex justify-content-between">
               <span className="p-0 m-0 ml-2 text-truncate">
                 <small>
                   <FaTags className="text-dark" />
                   <input
-                    className="p-0 m-0 ml-1 text-primary"
+                    className="p-0 m-0 ml-1 text-primary bg-transparent text-truncate"
                     style={{ border: "none", outline: "none", maxWidth: "80%" }}
-                    placeholder="enter tags"
+                    placeholder="tags..."
+                    defaultValue={idea.tags.join(",")}
+                    onBlur={(event) => {
+                      onTagsChange(event)
+                    }}
                   />
                 </small>
               </span>
@@ -58,10 +73,10 @@ const Idea = ({
                 </small>
               </a>
             </div>
-          ) : (
-            ""
-          )}
-        </div>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   )

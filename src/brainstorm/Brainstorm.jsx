@@ -42,6 +42,7 @@ const idea = {
   ideaContent: "This is an idea",
   creator: "alpha@aarvalabs.com",
   assignee: "alpha@aarvalabs.com",
+  tags: ["tag1", "tag2", "tag2"]
   comments: [
     {
       commenter: "beta@aarvalabs.com",
