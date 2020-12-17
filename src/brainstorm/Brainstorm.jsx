@@ -14,10 +14,7 @@ import {
   addIdea,
   deleteIdea,
   updateIdea,
-  startIdeation,
-  startRoundRobin,
-  nextRoundRR,
-  startConverging
+  nextRoundRR
 } from "./BrainstormActions"
 
 import Ideate from "./Ideate"
@@ -148,6 +145,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
   const { ideas } = activity || {}
   const { settings } = activity || {}
   const { seeEveryonesIdeas } = settings || false
+  const { meetingInfo } = settings || {}
   const { userId } = user || {}
 
   return (
@@ -166,7 +164,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
           {(() => {
             switch (activity.currentStage) {
               case BRAINSTORM_NOT_STARTED: {
-                return <NotStarted user={user} />
+                return <NotStarted user={user} meetingInfo={meetingInfo} />
               }
               case BRAINSTORM_IDEATE: {
                 return (
@@ -226,14 +224,31 @@ const Activity = ({ activity, users, user, dispatch }) => {
 }
 
 const Settings = ({ settings, setLaunchSettings }) => {
-  const { seeEveryonesIdeas, instructions } = settings || {}
+  const { seeEveryonesIdeas, meetingInfo } = settings || {}
+  const { title, agenda } = meetingInfo
 
   const toggle = () => {
     setLaunchSettings({ ...settings, seeEveryonesIdeas: !seeEveryonesIdeas })
   }
 
-  const updateInstructions = (instructions) => {
-    setLaunchSettings({ ...settings, instructions: instructions })
+  const updateTitle = (title) => {
+    setLaunchSettings({
+      ...settings,
+      meetingInfo: {
+        ...meetingInfo,
+        title: title
+      }
+    })
+  }
+
+  const updateAgenda = (agenda) => {
+    setLaunchSettings({
+      ...settings,
+      meetingInfo: {
+        ...meetingInfo,
+        agenda: agenda
+      }
+    })
   }
 
   return (
@@ -254,21 +269,40 @@ const Settings = ({ settings, setLaunchSettings }) => {
       </div>
       <hr />
       <div
+        className="mb-2"
         style={{
           width: "100%",
           display: "flex",
           justifyContent: "space-between"
         }}
       >
-        <label>Instructions for the activity </label>
-        <textarea
-          className="border border-secondary pl-2 pr-2 pt-1 pb-1"
+        <label>Title</label>
+        <input
+          className="border border-secondary px-2 py-1"
           style={{ width: "70%" }}
           contentEditable
           suppressContentEditableWarning
-          placeholder="Enter activity instructions..."
-          defaultValue={instructions}
-          onBlur={(event) => updateInstructions(event.target.value)}
+          placeholder="Brainstorm title..."
+          defaultValue={title}
+          onBlur={(event) => updateTitle(event.target.value)}
+        />
+      </div>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between"
+        }}
+      >
+        <label>Agenda</label>
+        <textarea
+          className="border border-secondary px-2 py-1"
+          style={{ width: "70%" }}
+          contentEditable
+          suppressContentEditableWarning
+          placeholder="Brainstorm genda..."
+          defaultValue={agenda}
+          onBlur={(event) => updateAgenda(event.target.value)}
         />
       </div>
     </div>
@@ -290,8 +324,12 @@ const activityListing = {
     videoLayout: "docked", // This should be either 'docked' or 'minimized' which tells how the video hub should be when your activity is launched
     // You can add other settings over here
     seeEveryonesIdeas: false,
-    instructions: ""
+    meetingInfo: {
+      title: "",
+      agenda: ""
+    }
   },
+
   currentStage: BRAINSTORM_NOT_STARTED,
   roundRobinInfo: {
     userIdQ: [],
