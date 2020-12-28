@@ -148,10 +148,9 @@ const activityReducer = (state, action) => {
 }
 
 const Activity = ({ activity, users, user, dispatch }) => {
-  const { ideas } = activity || {}
+  const { ideas, details } = activity || {}
   const { settings } = activity || {}
-  const { seeEveryonesIdeas } = settings || false
-  const { meetingInfo } = settings || {}
+  const { seeEveryonesIdeas, showStepwiseInstructions } = settings || false
   const { userId } = user || {}
 
   return (
@@ -170,7 +169,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
           {(() => {
             switch (activity.currentStage) {
               case BRAINSTORM_NOT_STARTED: {
-                return <NotStarted user={user} meetingInfo={meetingInfo} />
+                return <NotStarted user={user} details={details} />
               }
               case BRAINSTORM_IDEATE: {
                 return (
@@ -178,6 +177,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
                     user={user}
                     ideas={ideas}
                     seeEveryonesIdeas={seeEveryonesIdeas}
+                    showInstructions={showStepwiseInstructions}
                     onAddClicked={(ideaContent) => {
                       dispatch(addIdea(ideaContent, userId))
                     }}
@@ -230,30 +230,16 @@ const Activity = ({ activity, users, user, dispatch }) => {
 }
 
 const Settings = ({ settings, setLaunchSettings }) => {
-  const { seeEveryonesIdeas, meetingInfo } = settings || {}
-  const { title, agenda } = meetingInfo
+  const { seeEveryonesIdeas, showStepwiseInstructions } = settings || {}
 
-  const toggle = () => {
+  const toggleSeeEveryonesIdeas = () => {
     setLaunchSettings({ ...settings, seeEveryonesIdeas: !seeEveryonesIdeas })
   }
 
-  const updateTitle = (title) => {
+  const toggleShowStepwiseInstructions = () => {
     setLaunchSettings({
       ...settings,
-      meetingInfo: {
-        ...meetingInfo,
-        title: title
-      }
-    })
-  }
-
-  const updateAgenda = (agenda) => {
-    setLaunchSettings({
-      ...settings,
-      meetingInfo: {
-        ...meetingInfo,
-        agenda: agenda
-      }
+      showStepwiseInstructions: !showStepwiseInstructions
     })
   }
 
@@ -271,46 +257,27 @@ const Settings = ({ settings, setLaunchSettings }) => {
         }}
       >
         <label>Everyone see&rsquo;s everyone&rsquo;s ideas</label>
-        <Switch checked={seeEveryonesIdeas} onChange={toggle}></Switch>
+        <Switch
+          id="seeEveryonesIdeas"
+          checked={seeEveryonesIdeas}
+          onChange={toggleSeeEveryonesIdeas}
+        />
+      </div>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between"
+        }}
+      >
+        <label>Show instructrions at the beginning of each step</label>
+        <Switch
+          id="showStepwiseInstructions"
+          checked={showStepwiseInstructions}
+          onChange={toggleShowStepwiseInstructions}
+        />
       </div>
       <hr />
-      <div
-        className="mb-2"
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between"
-        }}
-      >
-        <label>Title</label>
-        <input
-          className="border border-secondary px-2 py-1"
-          style={{ width: "70%" }}
-          contentEditable
-          suppressContentEditableWarning
-          placeholder="Brainstorm title..."
-          defaultValue={title}
-          onBlur={(event) => updateTitle(event.target.value)}
-        />
-      </div>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between"
-        }}
-      >
-        <label>Agenda</label>
-        <textarea
-          className="border border-secondary px-2 py-1"
-          style={{ width: "70%" }}
-          contentEditable
-          suppressContentEditableWarning
-          placeholder="Brainstorm genda..."
-          defaultValue={agenda}
-          onBlur={(event) => updateAgenda(event.target.value)}
-        />
-      </div>
     </div>
   )
 }
@@ -322,7 +289,7 @@ const Summary = ({ activity, users, user }) => {
 const activityListing = {
   activityId: "ZyncBrainstorming",
   details: {
-    title: "Brainstorming Activity",
+    title: "Zync Brainstorming",
     description: "Virtual brainstorming made effective.",
     icon: "https://aarvalabs.imfast.io/mydawn/activiity_icon.png"
   },
@@ -330,12 +297,8 @@ const activityListing = {
     videoLayout: "docked", // This should be either 'docked' or 'minimized' which tells how the video hub should be when your activity is launched
     // You can add other settings over here
     seeEveryonesIdeas: false,
-    meetingInfo: {
-      title: "",
-      agenda: ""
-    }
+    showStepwiseInstructions: true
   },
-
   currentStage: BRAINSTORM_NOT_STARTED,
   roundRobinInfo: {
     userIdQ: [],
