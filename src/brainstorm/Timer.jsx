@@ -6,10 +6,30 @@ const Timer = ({ secs = 0, type = TIMER_COUNTUP }) => {
   const [counter, setCounter] = useState(secs)
 
   useEffect(() => {
+    /*
+    XXX TODO
+    The current implemententation restarts the timer from 0 everytime the
+    component is re-rendered. Need to fix this so that the timer continues
+    to update even when the component is unmounted.
+
+    Should this be done in react? Or, should serverside code handle it. After
+    all, if I log out and log in and completely clear browser history, timer
+    should still continue without pause and not restart.
+
+    Food for thought.
+    */
+
+    let timer
+
     type === TIMER_COUNTDOWN &&
       counter > 0 &&
-      setTimeout(() => setCounter(counter - 1), 1000)
-    type === TIMER_COUNTUP && setTimeout(() => setCounter(counter + 1), 1000)
+      (timer = setTimeout(() => setCounter(counter - 1), 1000))
+    type === TIMER_COUNTUP &&
+      (timer = setTimeout(() => setCounter(counter + 1), 1000))
+
+    return () => {
+      clearTimeout(timer)
+    }
   }, [counter, type])
 
   const getHHMMSS = (secs) => {
