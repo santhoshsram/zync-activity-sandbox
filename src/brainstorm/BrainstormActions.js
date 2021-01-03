@@ -39,19 +39,13 @@ export const START_IDEATION = "START_IDEATION"
 export const startIdeation = () => ({ type: START_IDEATION })
 
 /*
-Action to start BRAINSTORM_ROUND_ROBIN step
+Action to start BRAINSTORM_REVIEW step
 */
-export const START_ROUND_ROBIN = "START_ROUND_ROBIN"
-export const startRoundRobin = (userIds) => ({
-  type: START_ROUND_ROBIN,
+export const START_REVIEW = "START_REVIEW"
+export const startReview = (userIds) => ({
+  type: START_REVIEW,
   payload: { userIds }
 })
-
-/*
-Action to move to next round in round robin step
-*/
-export const MOVE_TO_NEXT_ROUND_RR = "MOVE_TO_NEXT_ROUND_RR"
-export const nextRoundRR = () => ({ type: MOVE_TO_NEXT_ROUND_RR })
 
 /*
 Action to start BRAINSTORM_IDEATE step
@@ -67,5 +61,16 @@ export const loadSampleIdeas = (sampleIdeas) => ({
   type: LOAD_SAMPLE_IDEAS,
   payload: {
     sampleIdeas
+  }
+})
+
+/*
+Action to get the next idea from the user's review Q
+*/
+export const NEXT_IDEA = "NEXT_IDEA"
+export const nextIdea = (userId) => ({
+  type: NEXT_IDEA,
+  payload: {
+    userId
   }
 })

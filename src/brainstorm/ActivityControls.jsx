@@ -3,13 +3,12 @@ import Timer, { TIMER_COUNTUP } from "./Timer"
 import {
   BRAINSTORM_NOT_STARTED,
   BRAINSTORM_IDEATE,
-  BRAINSTORM_ROUND_ROBIN,
+  BRAINSTORM_REVIEW,
   BRAINSTORM_CONVERGE
 } from "./brainstormUtils"
 import {
   startIdeation,
-  startRoundRobin,
-  nextRoundRR,
+  startReview,
   startConverging,
   loadSampleIdeas
 } from "./BrainstormActions"
@@ -65,27 +64,17 @@ const ActivityControls = ({ user, users, activityState, dispatch }) => {
                     <button
                       type="button"
                       className="btn btn-primary"
-                      onClick={() =>
-                        dispatch(startRoundRobin(Object.keys(users)))
-                      }
+                      onClick={() => {
+                        dispatch(startReview(Object.keys(users)))
+                      }}
                     >
-                      Start Round Robin
+                      Start Review
                     </button>
                   </div>
                 )
               }
-              case BRAINSTORM_ROUND_ROBIN: {
-                return activityState.roundRobinInfo.roundsToGo > 0 ? (
-                  <div className="ml-3">
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      onClick={() => dispatch(nextRoundRR())}
-                    >
-                      Next Round
-                    </button>
-                  </div>
-                ) : (
+              case BRAINSTORM_REVIEW: {
+                return (
                   <div className="ml-3">
                     <button
                       type="button"

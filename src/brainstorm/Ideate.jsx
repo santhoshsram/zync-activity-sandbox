@@ -2,7 +2,7 @@ import React from "react"
 import IdeasListing from "./IdeasListing"
 import AddNewIdea from "./AddNewIdea"
 import InstructionsModal from "./InstructionsModal"
-import { ideasOfUser } from "./ideaSelectors"
+import { ideasOfUser } from "./brainstormUtils"
 
 const ideateInstructions = [
   "Add as many ideas as possible in the available time.",

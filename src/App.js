@@ -264,12 +264,37 @@ const TabbedView = (props) => {
         })}
       </TabList>
       {activeTab === "setup" && <Setup {...props} />}
+      {/* 
+        Note the user of 'key' property in the below component. This is
+        probably specific only to the sandbox and may not be needed in
+        the actual implementation.
+
+        The Activity component keeps track of local state for controlled
+        components. In the sandbox, each user has a tab with a unique
+        tabid = userid. When a tab change occurs the components are not
+        remounted, they are just passed a different set of properties (i.e
+        different userid + other properties).
+
+        Since Activity's local state is common across all tabs (state is maintained
+        per component instance only one instance of Activity component is created,
+        not one per tab (user)), a change in one tab affects all the tabs.
+
+        To avoid this, we use the 'key' property and set it to the userId,
+        which forces react to remount the component each time userId changes
+        (changing tab changes userId).
+
+        However, one unexpected side effect of this is that, any changes not
+        pushed to the central state (meeting reducer) will be lost on moving
+        away from that tab. This is not so bad in the sandbox.
+      */}
+
       {activeTab !== "setup" && (
         <Activity
           activity={activity_instance}
           users={users}
           user={users[activeTab]}
           dispatch={meetingDispatch}
+          key={`${users[activeTab].userId}`}
         />
       )}
     </div>

@@ -1,7 +1,7 @@
 import React from "react"
 import { FaRegTrashAlt, FaTags } from "react-icons/fa"
 
-const Idea = ({
+const IdeaCard = ({
   viewerId,
   idea,
   allowAnyoneToEdit,
@@ -11,7 +11,7 @@ const Idea = ({
 }) => {
   const allowEdit = allowAnyoneToEdit || viewerId === idea.creator
 
-  const onIdeaContentChange = (event) => {
+  const updateIdeaContent = (event) => {
     const newIdea = {
       ...idea,
       ideaContent: event.target.innerText
@@ -20,7 +20,7 @@ const Idea = ({
     updateIdeaHandler(newIdea)
   }
 
-  const onTagsChange = (event) => {
+  const updateTags = (event) => {
     const newIdea = {
       ...idea,
       tags: event.target.value === "" ? [] : event.target.value.split(/[\s,]+/)
@@ -42,7 +42,7 @@ const Idea = ({
             className="card-text"
             contentEditable={allowEdit}
             suppressContentEditableWarning={allowEdit}
-            onBlur={(event) => onIdeaContentChange(event)}
+            onBlur={(event) => updateIdeaContent(event)}
           >
             {idea.ideaContent}
           </p>
@@ -57,9 +57,9 @@ const Idea = ({
                     className="p-0 m-0 ml-1 text-primary bg-transparent text-truncate"
                     style={{ border: "none", outline: "none", maxWidth: "80%" }}
                     placeholder="tags..."
-                    defaultValue={idea.tags.join(",")}
+                    defaultValue={idea.tags.join(", ")}
                     onBlur={(event) => {
-                      onTagsChange(event)
+                      updateTags(event)
                     }}
                   />
                 </small>
@@ -82,4 +82,4 @@ const Idea = ({
   )
 }
 
-export default Idea
+export default IdeaCard

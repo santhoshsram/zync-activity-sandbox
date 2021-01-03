@@ -7,26 +7,28 @@ import {
   DELETE_IDEA,
   UPDATE_IDEA,
   START_IDEATION,
-  START_ROUND_ROBIN,
-  MOVE_TO_NEXT_ROUND_RR,
+  START_REVIEW,
+  NEXT_IDEA,
   START_CONVERGING,
   LOAD_SAMPLE_IDEAS,
   addIdea,
   deleteIdea,
   updateIdea,
-  nextRoundRR
+  nextIdea
 } from "./BrainstormActions"
 
 import Ideate from "./Ideate"
-import RoundRobin from "./RoundRobin"
+import Review from "./Review"
 import NotStarted from "./NotStarted"
 import Converge from "./Converge"
 
 import {
+  ideasOfUser,
+  ideaFromId,
   ID_LEN,
   BRAINSTORM_NOT_STARTED,
   BRAINSTORM_IDEATE,
-  BRAINSTORM_ROUND_ROBIN,
+  BRAINSTORM_REVIEW,
   BRAINSTORM_CONVERGE
 } from "./brainstormUtils"
 import ActivityControls from "./ActivityControls"
@@ -40,14 +42,16 @@ const idea = {
   creator: "alpha@aarvalabs.com",
   assignee: "alpha@aarvalabs.com",
   tags: ["tag1", "tag2", "tag2"]
-  comments: [
+  likes: 2,
+  unlikes: 1,
+  reviews: [
     {
-      commenter: "beta@aarvalabs.com",
-      comment: "nice idea"
+      reviewer: "beta@aarvalabs.com",
+      review: "nice idea"
     },
     {
-      commenter: "charlie@aarvalabs.com",
-      comment: "let me make it a better idea, by adding sprinkling some magic"
+      reviewer: "charlie@aarvalabs.com",
+      review: "let me make it a better idea, by adding sprinkling some magic"
     }
   ]
 }
@@ -72,8 +76,10 @@ const activityReducer = (state, action) => {
           id,
           ideaContent,
           creator,
-          comments: [],
-          tags: []
+          reviews: [],
+          tags: [],
+          likes: 0,
+          unlikes: 0
         })
       }
     }
@@ -101,36 +107,123 @@ const activityReducer = (state, action) => {
         ...state,
         currentStage: BRAINSTORM_IDEATE
       }
-    case START_ROUND_ROBIN: {
+    case START_REVIEW: {
       const { userIds } = payload
-      let roundRobinInfo = {
-        userIdQ: userIds,
-        idxInQ: {},
-        roundsToGo: userIds.length - 2
+
+      // Set reviewInfo for each user
+      let reviewInfo = {
+        userIds: userIds
       }
       userIds.forEach((userId, idx) => {
-        roundRobinInfo["idxInQ"][userId] = (idx + 1) % userIds.length
+        reviewInfo[userId] = {}
+        reviewInfo[userId]["pos"] = idx
+        reviewInfo[userId]["numIdeasToReview"] =
+          state.ideas.length - ideasOfUser(state.ideas, userId).length
+        /*
+        Now let's pre-fill this user's review Q with ideas of the
+        previous user i.e. the user to the left of the current user. 
+        */
+        const prevUserId =
+          userIds[(userIds.length + (idx - 1)) % userIds.length]
+        reviewInfo[userId]["ideaQ"] = []
+        ideasOfUser(state.ideas, prevUserId).forEach((idea) => {
+          reviewInfo[userId]["ideaQ"].push(idea.id)
+        })
+
+        /*
+        Set the idea that the user will review first.
+        Pop the first idea IDs from the queue and set it as the curIdeaId.
+        */
+        reviewInfo[userId]["curIdeaId"] = reviewInfo[userId]["ideaQ"].shift()
       })
+
       return {
         ...state,
-        currentStage: BRAINSTORM_ROUND_ROBIN,
-        roundRobinInfo
+        currentStage: BRAINSTORM_REVIEW,
+        reviewInfo
       }
     }
-    case MOVE_TO_NEXT_ROUND_RR: {
-      const idxInQ = {}
-      state.roundRobinInfo.userIdQ.forEach((userId) => {
-        idxInQ[userId] =
-          (state.roundRobinInfo.idxInQ[userId] + 1) %
-          state.roundRobinInfo.userIdQ.length
-      })
-      const roundsToGo = state.roundRobinInfo.roundsToGo - 1
+    case NEXT_IDEA: {
+      /*
+      **BAD CODE ALERT**
+      This whole switch case completely ignores concurrency handling.
+      Popping from the Q and pushing into the Q should have concurrency
+      checks. Otherwise we'll have a mess in our hands.
+
+      This is ok for the sandbox, but may crash production.
+      */
+
+      /*
+      This action does the following changes
+      1. Take the idea that the current user (who id is in the payload)
+         just reviwed and append it to the next user's Q of ideas to review.
+      2. Take the next idea in the current user's Q and give it to the current
+         user for review.
+      3. Special cases to handle weird corner cases
+      */
+      const { userId } = payload
+      const { reviewInfo } = state
+      const ideaId2Move = reviewInfo[userId]["curIdeaId"]
+      const nextUserPos =
+        (reviewInfo[userId]["pos"] + 1) % reviewInfo.userIds.length
+      const nextUserId = reviewInfo.userIds[nextUserPos]
+
+      let nextUserCurIdeaId
+      let nextUserIdeaQ
+      if (!reviewInfo[nextUserId]["curIdeaId"]) {
+        /*
+        If curIdeaId of next user is undefined, it means the next user
+        has emptied his/her Q and is waiting for the next idea to review.
+        Adding the idea to his/her empty Q will not automatically pop that
+        idea and give it to the user. Ideas are popped from the Q only when
+        a user clicks on "Next Idea", and if the user is waiting for more
+        idea, the "Next Idea" button is not presented (the next idea is
+        supposed to load automatically when it becomes available - which is
+        exactly what we are doing here.)
+
+        So instead of appending the idea to the next user's Q in this case
+        just give to the user for review and leave the Q untouched (i.e empty)
+        */
+        nextUserCurIdeaId = ideaId2Move
+        nextUserIdeaQ = reviewInfo[nextUserId]["ideaQ"]
+      } else {
+        /*
+        If the curIdeaId of next user is defined, it means he/she is still
+        reviewing an idea and will hit "Next Idea", which will pop the next
+        idea from his/her Q. So we can just append the idea to his/her Q and
+        leave the curIdeaId untouched.
+        */
+        nextUserCurIdeaId = reviewInfo[nextUserId]["curIdeaId"]
+        nextUserIdeaQ = reviewInfo[nextUserId]["ideaQ"].concat(ideaId2Move)
+      }
+
+      /*
+      If the next user is the one who created this idea, we need not give
+      this idea to him/her for review. We can just drop this idea and leave
+      the next users Q untouched.
+      */
+      const nextUserReviewInfo =
+        nextUserId === ideaFromId(state.ideas, ideaId2Move).creator
+          ? {
+              ...reviewInfo[nextUserId],
+              curIdeaId: nextUserCurIdeaId,
+              ideaQ: nextUserIdeaQ
+            }
+          : {
+              ...reviewInfo[nextUserId]
+            }
+
       return {
         ...state,
-        roundRobinInfo: {
-          ...state.roundRobinInfo,
-          idxInQ,
-          roundsToGo
+        reviewInfo: {
+          ...reviewInfo,
+          [userId]: {
+            ...reviewInfo[userId],
+            curIdeaId: reviewInfo[userId]["ideaQ"][0],
+            ideaQ: reviewInfo[userId]["ideaQ"].slice(1),
+            numIdeasToReview: reviewInfo[userId]["numIdeasToReview"] - 1
+          },
+          [nextUserId]: nextUserReviewInfo
         }
       }
     }
@@ -148,7 +241,7 @@ const activityReducer = (state, action) => {
 }
 
 const Activity = ({ activity, users, user, dispatch }) => {
-  const { ideas, details } = activity || {}
+  const { ideas, details, reviewInfo } = activity || {}
   const { settings } = activity || {}
   const { seeEveryonesIdeas, showStepwiseInstructions } = settings || false
   const { userId } = user || {}
@@ -188,16 +281,17 @@ const Activity = ({ activity, users, user, dispatch }) => {
                   />
                 )
               }
-              case BRAINSTORM_ROUND_ROBIN: {
+              case BRAINSTORM_REVIEW: {
                 return (
-                  <RoundRobin
-                    user={user}
-                    ideas={ideas}
-                    roundRobinInfo={activity.roundRobinInfo}
+                  <Review
+                    userId={userId}
+                    idea={ideaFromId(ideas, reviewInfo[userId]["curIdeaId"])}
+                    moreIdeas={reviewInfo[userId]["numIdeasToReview"] > 0}
                     updateIdeaHandler={(updatedIdea) =>
                       dispatch(updateIdea(updatedIdea))
                     }
-                    moveToNextRoundRR={() => dispatch(nextRoundRR())}
+                    getNextIdea={(userId) => dispatch(nextIdea(userId))}
+                    key={reviewInfo[userId]["curIdeaId"]}
                   />
                 )
               }
@@ -297,14 +391,10 @@ const activityListing = {
     videoLayout: "docked", // This should be either 'docked' or 'minimized' which tells how the video hub should be when your activity is launched
     // You can add other settings over here
     seeEveryonesIdeas: false,
-    showStepwiseInstructions: true
+    showStepwiseInstructions: false
   },
   currentStage: BRAINSTORM_NOT_STARTED,
-  roundRobinInfo: {
-    userIdQ: [],
-    idxInQ: {},
-    roundsToGo: -1
-  },
+  reviewInfo: {},
   ideas: []
 }
 

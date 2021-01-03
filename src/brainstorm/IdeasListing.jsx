@@ -1,5 +1,5 @@
 import React from "react"
-import Idea from "./Idea"
+import IdeaCard from "./IdeaCard"
 
 const IdeasListing = ({
   viewerId,
@@ -13,7 +13,7 @@ const IdeasListing = ({
     <>
       <div className="d-flex flex-wrap">
         {ideas.map((idea) => (
-          <Idea
+          <IdeaCard
             viewerId={viewerId}
             idea={idea}
             allowAnyoneToEdit={allowAnyoneToEdit}
