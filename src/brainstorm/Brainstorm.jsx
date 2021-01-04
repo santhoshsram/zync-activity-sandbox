@@ -47,11 +47,11 @@ const idea = {
   reviews: [
     {
       reviewer: "beta@aarvalabs.com",
-      review: "nice idea"
+      text: "nice idea"
     },
     {
       reviewer: "charlie@aarvalabs.com",
-      review: "let me make it a better idea, by adding sprinkling some magic"
+      text: "let me make it a better idea, by adding sprinkling some magic"
     }
   ]
 }
@@ -205,12 +205,12 @@ const activityReducer = (state, action) => {
       const nextUserReviewInfo =
         nextUserId === ideaFromId(state.ideas, ideaId2Move).creator
           ? {
+              ...reviewInfo[nextUserId]
+            }
+          : {
               ...reviewInfo[nextUserId],
               curIdeaId: nextUserCurIdeaId,
               ideaQ: nextUserIdeaQ
-            }
-          : {
-              ...reviewInfo[nextUserId]
             }
 
       return {

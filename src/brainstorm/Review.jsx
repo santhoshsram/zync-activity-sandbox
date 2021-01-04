@@ -35,7 +35,7 @@ const Review = ({
       reviews:
         reviewStr === ""
           ? idea.reviews
-          : idea.reviews.concat({ reviewer: userId, review: reviewStr })
+          : idea.reviews.concat({ reviewer: userId, text: reviewStr })
     }
     updateIdeaHandler(updatedIdea)
     getNextIdea(userId)
@@ -104,7 +104,14 @@ const Review = ({
             setTagsStr(event.target.value.split(/[\s,]+/).join(", "))
           }}
         />
-        <h4 className="text-danger">TODO: Previous comments should go here.</h4>
+        {idea.reviews.length > 0 && (
+          <div className="mb-4">
+            <h6>Previous Suggestions</h6>
+            {idea.reviews.map((review) => {
+              return <p className="border p-2 mb-2">{review.text}</p>
+            })}
+          </div>
+        )}
         <h6>How will you build on this idea?</h6>
         <textarea
           className="w-100 p-2 mb-2"
