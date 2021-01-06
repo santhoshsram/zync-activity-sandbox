@@ -10,3 +10,21 @@ export const ideasOfUser = (ideas, userId) =>
 
 export const ideaFromId = (ideas, ideaId) =>
   ideas.find((idea) => idea.id === ideaId)
+
+export const ideasOfOtherUsers = (ideas, userId) =>
+  ideas.filter((idea) => idea.creator !== userId)
+
+export const pickFirstIdeaFromReviewPool = (unreviewedIdeaIds, reviewPool) => {
+  for (const ideaId of reviewPool) {
+    if (unreviewedIdeaIds.includes(ideaId)) {
+      return ideaId
+    }
+  }
+}
+
+export const removeElementFromArray = (array, element) => {
+  const index = array.indexOf(element)
+  if (index !== -1) {
+    array.splice(index, 1)
+  }
+}

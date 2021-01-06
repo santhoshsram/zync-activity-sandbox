@@ -23,13 +23,15 @@ import NotStarted from "./NotStarted"
 import Converge from "./Converge"
 
 import {
-  ideasOfUser,
   ideaFromId,
   ID_LEN,
   BRAINSTORM_NOT_STARTED,
   BRAINSTORM_IDEATE,
   BRAINSTORM_REVIEW,
-  BRAINSTORM_CONVERGE
+  BRAINSTORM_CONVERGE,
+  ideasOfOtherUsers,
+  pickFirstIdeaFromReviewPool,
+  removeElementFromArray
 } from "./brainstormUtils"
 import ActivityControls from "./ActivityControls"
 
@@ -56,6 +58,60 @@ const idea = {
   ]
 }
 */
+
+/*
+function: refreshUserForReview
+Helper function to do
+1. select and return an unreviewed idea from a pool of ideas to
+   be reviewed. 
+2. remove the selected idea from the review pool as well as the
+   list of unreviewed ideas
+3. add the reviewed idea back to the review pool
+
+Parameters:
+  reviewedIdeaId:    Id of the idea that the user has just reviewed
+  unreviewedIdeaIds: Array of IDs of ideas that the user should review,
+                     but has not yet reviewed.
+  reviewPool:        Array of IDs of ideas that are available for review
+                     by users (i.e. ideas not currently being reviewed by
+                     any user).
+
+Return Value:
+ ideaIdBeingReviewed: Id of the idea selected to be reviewed by the user
+*/
+
+const refreshUserForReview = (
+  reviewedIdeaId,
+  unreviewedIdeaIds,
+  reviewPool
+) => {
+  /*
+  Pick an idea from the reviewPool that the user has not
+  already reviewed. The unreviewedIdeaIds is a list of idea
+  ids that the user should review but has not reviewed yet.
+  */
+  const ideaIdBeingReviewed = pickFirstIdeaFromReviewPool(
+    unreviewedIdeaIds,
+    reviewPool
+  )
+
+  /*
+  Remove the idea id of the idea being reviewed by this user from the
+  review pool as well as the unreviewed idea id list of this user
+  */
+  if (ideaIdBeingReviewed) {
+    removeElementFromArray(unreviewedIdeaIds, ideaIdBeingReviewed)
+    removeElementFromArray(reviewPool, ideaIdBeingReviewed)
+  }
+
+  /* Put the idea that the user just reviewed, back into the review pool */
+  if (reviewedIdeaId) {
+    reviewPool.push(reviewedIdeaId)
+  }
+
+  /* Return the idea that the user will now review */
+  return ideaIdBeingReviewed
+}
 
 const activityReducer = (state, action) => {
   const { type, payload } = action
@@ -110,31 +166,34 @@ const activityReducer = (state, action) => {
     case START_REVIEW: {
       const { userIds } = payload
 
-      // Set reviewInfo for each user
       let reviewInfo = {
-        userIds: userIds
+        reviewPool: state.ideas.map((idea) => idea.id),
+        users: {}
       }
-      userIds.forEach((userId, idx) => {
-        reviewInfo[userId] = {}
-        reviewInfo[userId]["pos"] = idx
-        reviewInfo[userId]["numIdeasToReview"] =
-          state.ideas.length - ideasOfUser(state.ideas, userId).length
-        /*
-        Now let's pre-fill this user's review Q with ideas of the
-        previous user i.e. the user to the left of the current user. 
-        */
-        const prevUserId =
-          userIds[(userIds.length + (idx - 1)) % userIds.length]
-        reviewInfo[userId]["ideaQ"] = []
-        ideasOfUser(state.ideas, prevUserId).forEach((idea) => {
-          reviewInfo[userId]["ideaQ"].push(idea.id)
-        })
+
+      userIds.forEach((userId) => {
+        reviewInfo["users"][userId] = {}
 
         /*
-        Set the idea that the user will review first.
-        Pop the first idea IDs from the queue and set it as the curIdeaId.
+        Get the ids of all ideas that this user did not create and
+        add it to this user's list of unreviewed ideas
         */
-        reviewInfo[userId]["curIdeaId"] = reviewInfo[userId]["ideaQ"].shift()
+        reviewInfo["users"][userId]["unreviewedIdeaIds"] = ideasOfOtherUsers(
+          state.ideas,
+          userId
+        ).map((idea) => idea.id)
+
+        /*
+        pick an idea id from review pool and set it as the one that
+        this user will review
+        */
+        reviewInfo["users"][userId][
+          "ideaIdBeingReviewed"
+        ] = refreshUserForReview(
+          undefined,
+          reviewInfo["users"][userId]["unreviewedIdeaIds"],
+          reviewInfo["reviewPool"]
+        )
       })
 
       return {
@@ -151,80 +210,65 @@ const activityReducer = (state, action) => {
       checks. Otherwise we'll have a mess in our hands.
 
       This is ok for the sandbox, but may crash production.
+
+      Besides, this does not check for the case where the review pool
+      becomes empty, which is quite possible.
       */
 
-      /*
-      This action does the following changes
-      1. Take the idea that the current user (who id is in the payload)
-         just reviwed and append it to the next user's Q of ideas to review.
-      2. Take the next idea in the current user's Q and give it to the current
-         user for review.
-      3. Special cases to handle weird corner cases
-      */
       const { userId } = payload
       const { reviewInfo } = state
-      const ideaId2Move = reviewInfo[userId]["curIdeaId"]
-      const nextUserPos =
-        (reviewInfo[userId]["pos"] + 1) % reviewInfo.userIds.length
-      const nextUserId = reviewInfo.userIds[nextUserPos]
-
-      let nextUserCurIdeaId
-      let nextUserIdeaQ
-      if (!reviewInfo[nextUserId]["curIdeaId"]) {
-        /*
-        If curIdeaId of next user is undefined, it means the next user
-        has emptied his/her Q and is waiting for the next idea to review.
-        Adding the idea to his/her empty Q will not automatically pop that
-        idea and give it to the user. Ideas are popped from the Q only when
-        a user clicks on "Next Idea", and if the user is waiting for more
-        idea, the "Next Idea" button is not presented (the next idea is
-        supposed to load automatically when it becomes available - which is
-        exactly what we are doing here.)
-
-        So instead of appending the idea to the next user's Q in this case
-        just give to the user for review and leave the Q untouched (i.e empty)
-        */
-        nextUserCurIdeaId = ideaId2Move
-        nextUserIdeaQ = reviewInfo[nextUserId]["ideaQ"]
-      } else {
-        /*
-        If the curIdeaId of next user is defined, it means he/she is still
-        reviewing an idea and will hit "Next Idea", which will pop the next
-        idea from his/her Q. So we can just append the idea to his/her Q and
-        leave the curIdeaId untouched.
-        */
-        nextUserCurIdeaId = reviewInfo[nextUserId]["curIdeaId"]
-        nextUserIdeaQ = reviewInfo[nextUserId]["ideaQ"].concat(ideaId2Move)
-      }
+      const reviewedIdeaId = reviewInfo["users"][userId]["ideaIdBeingReviewed"]
 
       /*
-      If the next user is the one who created this idea, we need not give
-      this idea to him/her for review. We can just drop this idea and leave
-      the next users Q untouched.
+      Create a deep copy of review info, so that we can update it
+      and set it in the state. Since review info has a nested structure
+      updating it property by property in the state can become cumbersome.
       */
-      const nextUserReviewInfo =
-        nextUserId === ideaFromId(state.ideas, ideaId2Move).creator
-          ? {
-              ...reviewInfo[nextUserId]
-            }
-          : {
-              ...reviewInfo[nextUserId],
-              curIdeaId: nextUserCurIdeaId,
-              ideaQ: nextUserIdeaQ
-            }
+      let newReviewInfo = JSON.parse(JSON.stringify(reviewInfo))
+
+      newReviewInfo["users"][userId][
+        "ideaIdBeingReviewed"
+      ] = refreshUserForReview(
+        reviewedIdeaId,
+        newReviewInfo["users"][userId]["unreviewedIdeaIds"],
+        newReviewInfo["reviewPool"]
+      )
+
+      /*
+      If any other user has pending ideas to review, but is currently waiting for
+      one of these ideas to show up in the review pool, refresh them to see if the
+      idea we put back in the pool can be reviewed by one of them.
+      */
+
+      for (const userId in newReviewInfo["users"]) {
+        if (
+          !newReviewInfo["users"][userId]["ideaIdBeingReviewed"] &&
+          newReviewInfo["users"][userId]["unreviewedIdeaIds"].length > 0
+        ) {
+          newReviewInfo["users"][userId][
+            "ideaIdBeingReviewed"
+          ] = refreshUserForReview(
+            undefined,
+            newReviewInfo["users"][userId]["unreviewedIdeaIds"],
+            newReviewInfo["reviewPool"]
+          )
+        }
+      }
 
       return {
         ...state,
-        reviewInfo: {
+        reviewInfo: newReviewInfo
+        /*         reviewInfo: {
           ...reviewInfo,
-          [userId]: {
-            ...reviewInfo[userId],
-            curIdeaId: reviewInfo[userId]["ideaQ"][0],
-            ideaQ: reviewInfo[userId]["ideaQ"].slice(1),
-            numIdeasToReview: reviewInfo[userId]["numIdeasToReview"] - 1
-          },
-          [nextUserId]: nextUserReviewInfo
-        }
+          reviewPool: newReviewPool,
+          users: {
+            ...reviewInfo.users,
+            [userId]: {
+              ideaIdBeingReviewed: ideaIdBeingReviewed,
+              unreviewedIdeaIds: newUnreviewedIdeaIds
+            }
+          }
+        } */
       }
     }
     case START_CONVERGING: {
@@ -285,13 +329,19 @@ const Activity = ({ activity, users, user, dispatch }) => {
                 return (
                   <Review
                     userId={userId}
-                    idea={ideaFromId(ideas, reviewInfo[userId]["curIdeaId"])}
-                    moreIdeas={reviewInfo[userId]["numIdeasToReview"] > 0}
+                    idea={ideaFromId(
+                      ideas,
+                      reviewInfo["users"][userId]["ideaIdBeingReviewed"]
+                    )}
+                    moreIdeas={
+                      reviewInfo["users"][userId]["unreviewedIdeaIds"].length >
+                      0
+                    }
                     updateIdeaHandler={(updatedIdea) =>
                       dispatch(updateIdea(updatedIdea))
                     }
                     getNextIdea={(userId) => dispatch(nextIdea(userId))}
-                    key={reviewInfo[userId]["curIdeaId"]}
+                    key={reviewInfo["users"][userId]["ideaIdBeingReviewed"]}
                   />
                 )
               }
