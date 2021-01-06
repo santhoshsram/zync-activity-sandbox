@@ -12,7 +12,7 @@ import {
   startConverging,
   loadSampleIdeas
 } from "./BrainstormActions"
-import { sampleIdeas } from "./sampleIdeas"
+import { activityIdeas } from "./sampleIdeas"
 
 const ActivityControls = ({ user, users, activityState, dispatch }) => {
   const { userId, role, userName } = user
@@ -31,7 +31,7 @@ const ActivityControls = ({ user, users, activityState, dispatch }) => {
           <a
             href="#!"
             className="text-decoration-none"
-            onClick={() => dispatch(loadSampleIdeas(sampleIdeas))}
+            onClick={() => dispatch(loadSampleIdeas(activityIdeas))}
           >
             Load Sample Ideas
           </a>
