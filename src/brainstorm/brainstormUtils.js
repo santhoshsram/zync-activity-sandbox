@@ -28,3 +28,7 @@ export const removeElementFromArray = (array, element) => {
     array.splice(index, 1)
   }
 }
+
+export const isUserHost = (user) => {
+  return user.role === "host" ? true : false
+}

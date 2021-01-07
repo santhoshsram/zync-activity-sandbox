@@ -74,3 +74,15 @@ export const nextIdea = (userId) => ({
     userId
   }
 })
+
+/*
+Action to set the current idea that the host has selected
+in the converge step
+*/
+export const SET_ACTIVE_CONVERGE_IDEA = "SET_ACTIVE_CONVERGE_IDEA"
+export const setActiveConvergeIdea = (selectedIdeaId) => ({
+  type: SET_ACTIVE_CONVERGE_IDEA,
+  payload: {
+    selectedIdeaId
+  }
+})

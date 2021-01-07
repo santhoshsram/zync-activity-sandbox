@@ -46,7 +46,7 @@ const Review = ({
     <div className="container">
       <h3>Review</h3>
       <hr />
-      <h5 className="mb-2">{brainstormQuestion}</h5>
+      <h5 className="font-italic mb-2">{brainstormQuestion}</h5>
       {!idea ? (
         <div>
           {moreIdeas ? (

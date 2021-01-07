@@ -24,10 +24,10 @@ const Ideate = ({
   const modalId = "ideateInstructionsModal"
 
   return (
-    <>
+    <div className="container">
       <h3>Ideate</h3>
       <hr />
-      <h5 className="mb-2">{brainstormQuestion}</h5>
+      <h5 className="font-italic mb-2">{brainstormQuestion}</h5>
       <AddNewIdea onAddClicked={onAddClicked} />
       <IdeasListing
         viewerId={userId}
@@ -41,7 +41,7 @@ const Ideate = ({
       {showInstructions && (
         <InstructionsModal instructions={ideateInstructions} id={modalId} />
       )}
-    </>
+    </div>
   )
 }
 

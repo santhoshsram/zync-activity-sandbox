@@ -10,11 +10,13 @@ import {
   START_REVIEW,
   NEXT_IDEA,
   START_CONVERGING,
+  SET_ACTIVE_CONVERGE_IDEA,
   LOAD_SAMPLE_IDEAS,
   addIdea,
   deleteIdea,
   updateIdea,
-  nextIdea
+  nextIdea,
+  setActiveConvergeIdea
 } from "./BrainstormActions"
 
 import Ideate from "./Ideate"
@@ -285,6 +287,15 @@ const activityReducer = (state, action) => {
         currentStage: BRAINSTORM_CONVERGE
       }
     }
+    case SET_ACTIVE_CONVERGE_IDEA: {
+      const { selectedIdeaId } = payload
+      return {
+        ...state,
+        convergeInfo: {
+          selectedIdeaId: selectedIdeaId
+        }
+      }
+    }
     default:
       return {
         ...state
@@ -293,7 +304,7 @@ const activityReducer = (state, action) => {
 }
 
 const Activity = ({ activity, users, user, dispatch }) => {
-  const { ideas, details, reviewInfo } = activity || {}
+  const { ideas, details, reviewInfo, convergeInfo } = activity || {}
   const { settings } = activity || {}
   const { seeEveryonesIdeas, showStepwiseInstructions } = settings || false
   const { userId } = user || {}
@@ -366,10 +377,16 @@ const Activity = ({ activity, users, user, dispatch }) => {
                 return (
                   <Converge
                     user={user}
+                    users={users}
+                    brainstormQuestion={brainstormQuestion}
+                    selectedIdeaId={convergeInfo.selectedIdeaId}
                     ideas={ideas}
                     deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
                     updateIdeaHandler={(updatedIdea) =>
                       dispatch(updateIdea(updatedIdea))
+                    }
+                    selectIdeaHandler={(selectedIdeaId) =>
+                      dispatch(setActiveConvergeIdea(selectedIdeaId))
                     }
                   />
                 )
@@ -463,6 +480,9 @@ const activityListing = {
   brainstormQuestion: "What are we brainstorming about?",
   currentStage: BRAINSTORM_NOT_STARTED,
   reviewInfo: {},
+  convergeInfo: {
+    selectedIdeaId: ""
+  },
   ideas: []
 }
 
