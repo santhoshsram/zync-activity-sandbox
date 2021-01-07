@@ -215,6 +215,14 @@ const activityReducer = (state, action) => {
       becomes empty, which is quite possible.
       */
 
+      /*
+      XXX Todo
+      Below scenarios are not explicitly tested and can possibly break.
+      These need to be covered and any gaps need to be fixed.
+      1. Number of users > number of ideas
+      2. An empty review pool
+      */
+
       const { userId } = payload
       const { reviewInfo } = state
       const reviewedIdeaId = reviewInfo["users"][userId]["ideaIdBeingReviewed"]
@@ -290,6 +298,13 @@ const Activity = ({ activity, users, user, dispatch }) => {
   const { seeEveryonesIdeas, showStepwiseInstructions } = settings || false
   const { userId } = user || {}
 
+  /*
+  XXX TODO
+  Need some way to pass this as a parameter from the sandbox or whoever
+  renders the Activity component.
+  */
+  const { brainstormQuestion } = activity || ""
+
   return (
     <>
       <div className="container-fluid">
@@ -312,6 +327,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
                 return (
                   <Ideate
                     user={user}
+                    brainstormQuestion={brainstormQuestion}
                     ideas={ideas}
                     seeEveryonesIdeas={seeEveryonesIdeas}
                     showInstructions={showStepwiseInstructions}
@@ -329,6 +345,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
                 return (
                   <Review
                     userId={userId}
+                    brainstormQuestion={brainstormQuestion}
                     idea={ideaFromId(
                       ideas,
                       reviewInfo["users"][userId]["ideaIdBeingReviewed"]
@@ -443,6 +460,7 @@ const activityListing = {
     seeEveryonesIdeas: false,
     showStepwiseInstructions: false
   },
+  brainstormQuestion: "What are we brainstorming about?",
   currentStage: BRAINSTORM_NOT_STARTED,
   reviewInfo: {},
   ideas: []

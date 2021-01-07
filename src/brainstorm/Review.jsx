@@ -15,6 +15,7 @@ const reviewInstructions = [
 
 const Review = ({
   userId,
+  brainstormQuestion,
   idea,
   moreIdeas,
   updateIdeaHandler,
@@ -41,96 +42,101 @@ const Review = ({
     getNextIdea(userId)
   }
 
-  return !idea ? (
-    <div className="container">
-      {moreIdeas ? (
-        <h4>Waiting for other users to send ideas your way...</h4>
-      ) : (
-        <h4>
-          You're done reviewing all the ideas. Wait for the moderator to start
-          the Converge phase.
-        </h4>
-      )}
-    </div>
-  ) : (
+  return (
     <div className="container">
       <h3>Review</h3>
       <hr />
-      <div className="pt-5 p-4 mb-4" style={{ backgroundColor: "#eee" }}>
-        <p className="lead">{idea.ideaContent}</p>
-        {like ? (
-          <FaThumbsUp
-            className="text-primary"
-            onClick={() => {
-              setLike(!like)
-            }}
-          />
-        ) : (
-          <FaRegThumbsUp
-            className="text-primary"
-            onClick={() => {
-              setLike(!like)
-              setUnlike(false)
-            }}
-          />
-        )}{" "}
-        {unlike ? (
-          <FaThumbsDown
-            className="text-dark ml-1 mt-2"
-            onClick={() => {
-              setUnlike(!unlike)
-            }}
-          />
-        ) : (
-          <FaRegThumbsDown
-            className="text-dark ml-1 mt-2"
-            onClick={() => {
-              setUnlike(!unlike)
-              setLike(false)
-            }}
-          />
-        )}
-      </div>
-      <div className="p-2">
-        <h6>Tags</h6>
-        <input
-          className="mb-4"
-          placeholder="tags..."
-          value={tagsStr}
-          onChange={(event) => {
-            setTagsStr(event.target.value)
-          }}
-          onBlur={(event) => {
-            setTagsStr(event.target.value.split(/[\s,]+/).join(", "))
-          }}
-        />
-        {idea.reviews.length > 0 && (
-          <div className="mb-4">
-            <h6>Previous Suggestions</h6>
-            {idea.reviews.map((review) => {
-              return <p className="border p-2 mb-2">{review.text}</p>
-            })}
-          </div>
-        )}
-        <h6>How will you build on this idea?</h6>
-        <textarea
-          className="w-100 p-2 mb-2"
-          placeholder="Your suggestion..."
-          value={reviewStr}
-          onChange={(event) => {
-            setReviewStr(event.target.value)
-          }}
-        />
-        <div className="text-right">
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => nextButtonHandler()}
-          >
-            Next Idea
-          </button>
+      <h5 className="mb-2">{brainstormQuestion}</h5>
+      {!idea ? (
+        <div>
+          {moreIdeas ? (
+            <h4>Waiting for other users to send ideas your way...</h4>
+          ) : (
+            <h4>
+              You're done reviewing all the ideas. Wait for the moderator to
+              start the Converge phase.
+            </h4>
+          )}
         </div>
-      </div>
+      ) : (
+        <div>
+          <div className="pt-5 p-4 mb-4" style={{ backgroundColor: "#eee" }}>
+            <p className="lead">{idea.ideaContent}</p>
+            {like ? (
+              <FaThumbsUp
+                className="text-primary"
+                onClick={() => {
+                  setLike(!like)
+                }}
+              />
+            ) : (
+              <FaRegThumbsUp
+                className="text-primary"
+                onClick={() => {
+                  setLike(!like)
+                  setUnlike(false)
+                }}
+              />
+            )}{" "}
+            {unlike ? (
+              <FaThumbsDown
+                className="text-dark ml-1 mt-2"
+                onClick={() => {
+                  setUnlike(!unlike)
+                }}
+              />
+            ) : (
+              <FaRegThumbsDown
+                className="text-dark ml-1 mt-2"
+                onClick={() => {
+                  setUnlike(!unlike)
+                  setLike(false)
+                }}
+              />
+            )}
+          </div>
+          <div className="p-2">
+            <h6>Tags</h6>
+            <input
+              className="mb-4"
+              placeholder="tags..."
+              value={tagsStr}
+              onChange={(event) => {
+                setTagsStr(event.target.value)
+              }}
+              onBlur={(event) => {
+                setTagsStr(event.target.value.split(/[\s,]+/).join(", "))
+              }}
+            />
+            {idea.reviews.length > 0 && (
+              <div className="mb-4">
+                <h6>Previous Suggestions</h6>
+                {idea.reviews.map((review) => {
+                  return <p className="border p-2 mb-2">{review.text}</p>
+                })}
+              </div>
+            )}
+            <h6>How will you build on this idea?</h6>
+            <textarea
+              className="w-100 p-2 mb-2"
+              placeholder="Your suggestion..."
+              value={reviewStr}
+              onChange={(event) => {
+                setReviewStr(event.target.value)
+              }}
+            />
+            <div className="text-right">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => nextButtonHandler()}
+              >
+                Next Idea
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

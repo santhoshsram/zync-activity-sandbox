@@ -12,6 +12,7 @@ const ideateInstructions = [
 
 const Ideate = ({
   user,
+  brainstormQuestion,
   ideas,
   seeEveryonesIdeas,
   showInstructions,
@@ -26,6 +27,7 @@ const Ideate = ({
     <>
       <h3>Ideate</h3>
       <hr />
+      <h5 className="mb-2">{brainstormQuestion}</h5>
       <AddNewIdea onAddClicked={onAddClicked} />
       <IdeasListing
         viewerId={userId}
