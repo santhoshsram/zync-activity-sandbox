@@ -4,10 +4,12 @@ import IdeaCard from "./IdeaCard"
 const IdeasListing = ({
   viewerId,
   ideas = [],
+  tags = [],
   allowAnyoneToEdit,
   allowNewComments,
   deleteIdeaHandler,
-  updateIdeaHandler
+  updateIdeaHandler,
+  addTagHandler
 }) => {
   return (
     <>
@@ -16,10 +18,12 @@ const IdeasListing = ({
           <IdeaCard
             viewerId={viewerId}
             idea={idea}
+            tags={tags}
             allowAnyoneToEdit={allowAnyoneToEdit}
             allowNewComments={allowNewComments}
             deleteIdeaHandler={deleteIdeaHandler}
             updateIdeaHandler={updateIdeaHandler}
+            addTagHandler={addTagHandler}
             key={idea.id}
           />
         ))}

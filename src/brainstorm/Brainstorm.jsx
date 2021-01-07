@@ -11,10 +11,12 @@ import {
   NEXT_IDEA,
   START_CONVERGING,
   LOAD_SAMPLE_IDEAS,
+  ADD_TAG,
   addIdea,
   deleteIdea,
   updateIdea,
-  nextIdea
+  nextIdea,
+  addTag
 } from "./BrainstormActions"
 
 import Ideate from "./Ideate"
@@ -136,6 +138,33 @@ const activityReducer = (state, action) => {
           tags: [],
           likes: 0,
           unlikes: 0
+        })
+      }
+    }
+    case ADD_TAG: {
+      const { ideaId, tagStr } = payload
+      const existingTag = (state.tags || []).find((tag) => tag.text === tagStr)
+      const tagId = existingTag?.id || nanoid(ID_LEN)
+
+      return {
+        ...state,
+        tags: existingTag
+          ? state.tags
+          : (state.tags || []).concat({
+              id: tagId,
+              text: tagStr
+            }),
+        ideas: state.ideas.map((idea) => {
+          if (idea.id === ideaId) {
+            const updatedIdea = {
+              ...idea,
+              tags: idea.tags.includes(tagId)
+                ? idea.tags
+                : idea.tags.concat(tagId)
+            }
+            return updatedIdea
+          }
+          return idea
         })
       }
     }
@@ -285,7 +314,7 @@ const activityReducer = (state, action) => {
 }
 
 const Activity = ({ activity, users, user, dispatch }) => {
-  const { ideas, details, reviewInfo } = activity || {}
+  const { ideas, details, reviewInfo, tags } = activity || {}
   const { settings } = activity || {}
   const { seeEveryonesIdeas, showStepwiseInstructions } = settings || false
   const { userId } = user || {}
@@ -313,6 +342,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
                   <Ideate
                     user={user}
                     ideas={ideas}
+                    tags={tags}
                     seeEveryonesIdeas={seeEveryonesIdeas}
                     showInstructions={showStepwiseInstructions}
                     onAddClicked={(ideaContent) => {
@@ -322,6 +352,9 @@ const Activity = ({ activity, users, user, dispatch }) => {
                     updateIdeaHandler={(updatedIdea) =>
                       dispatch(updateIdea(updatedIdea))
                     }
+                    addTagHandler={(ideaId, tagStr) => {
+                      dispatch(addTag(ideaId, tagStr))
+                    }}
                   />
                 )
               }

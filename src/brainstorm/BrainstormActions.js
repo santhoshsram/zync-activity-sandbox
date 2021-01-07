@@ -74,3 +74,15 @@ export const nextIdea = (userId) => ({
     userId
   }
 })
+
+/*
+Action to add a tag to an idea and update list of tags
+*/
+export const ADD_TAG = "ADD_TAG"
+export const addTag = (ideaId, tagStr) => ({
+  type: ADD_TAG,
+  payload: {
+    ideaId,
+    tagStr
+  }
+})
