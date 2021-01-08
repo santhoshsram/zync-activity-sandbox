@@ -1,7 +1,15 @@
 import React from "react"
 import IdeasListing from "./IdeasListing"
 
-const Converge = ({ user, ideas, deleteIdeaHandler, updateIdeaHandler }) => {
+const Converge = ({
+  user,
+  ideas,
+  tags,
+  deleteIdeaHandler,
+  updateIdeaHandler,
+  addTagHandler,
+  deleteTagHandler
+}) => {
   const { userId } = user
   return (
     <>
@@ -10,10 +18,13 @@ const Converge = ({ user, ideas, deleteIdeaHandler, updateIdeaHandler }) => {
       <IdeasListing
         viewerId={userId}
         ideas={ideas}
+        tags={tags}
         allowAnyoneToEdit={true}
         allowNewComments={true}
         deleteIdeaHandler={deleteIdeaHandler}
         updateIdeaHandler={updateIdeaHandler}
+        addTagHandler={addTagHandler}
+        deleteTagHandler={deleteTagHandler}
       />
     </>
   )

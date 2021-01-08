@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import TagList from "./TagList"
 import {
   FaThumbsUp,
   FaRegThumbsUp,
@@ -16,9 +17,12 @@ const reviewInstructions = [
 const Review = ({
   userId,
   idea,
+  tags,
   moreIdeas,
   updateIdeaHandler,
-  getNextIdea
+  getNextIdea,
+  addTagHandler,
+  deleteTagHandler
 }) => {
   const [like, setLike] = useState(false)
   const [unlike, setUnlike] = useState(false)
@@ -93,17 +97,13 @@ const Review = ({
       </div>
       <div className="p-2">
         <h6>Tags</h6>
-        <input
-          className="mb-4"
-          placeholder="tags..."
-          value={tagsStr}
-          onChange={(event) => {
-            setTagsStr(event.target.value)
-          }}
-          onBlur={(event) => {
-            setTagsStr(event.target.value.split(/[\s,]+/).join(", "))
-          }}
+        <TagList
+          idea={idea}
+          tags={tags}
+          addTagHandler={addTagHandler}
+          deleteTagHandler={deleteTagHandler}
         />
+
         {idea.reviews.length > 0 && (
           <div className="mb-4">
             <h6>Previous Suggestions</h6>

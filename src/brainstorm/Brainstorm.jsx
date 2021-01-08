@@ -396,6 +396,13 @@ const Activity = ({ activity, users, user, dispatch }) => {
                     }
                     getNextIdea={(userId) => dispatch(nextIdea(userId))}
                     key={reviewInfo["users"][userId]["ideaIdBeingReviewed"]}
+                    tags={tags}
+                    addTagHandler={(ideaId, tagStr) => {
+                      dispatch(addTag(ideaId, tagStr))
+                    }}
+                    deleteTagHandler={(ideaId, tagId) => {
+                      dispatch(deleteTag(ideaId, tagId))
+                    }}
                   />
                 )
               }
@@ -408,6 +415,13 @@ const Activity = ({ activity, users, user, dispatch }) => {
                     updateIdeaHandler={(updatedIdea) =>
                       dispatch(updateIdea(updatedIdea))
                     }
+                    tags={tags}
+                    addTagHandler={(ideaId, tagStr) => {
+                      dispatch(addTag(ideaId, tagStr))
+                    }}
+                    deleteTagHandler={(ideaId, tagId) => {
+                      dispatch(deleteTag(ideaId, tagId))
+                    }}
                   />
                 )
               }
