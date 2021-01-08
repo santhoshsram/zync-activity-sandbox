@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { ideaFromId, isUserHost } from "./brainstormUtils"
+import TagList from "./TagList"
 
 const Converge = ({
   user,
@@ -7,9 +8,12 @@ const Converge = ({
   brainstormQuestion,
   selectedIdeaId,
   ideas,
+  tags,
   deleteIdeaHandler,
   updateIdeaHandler,
-  selectIdeaHandler
+  selectIdeaHandler,
+  addTagHandler,
+  deleteTagHandler
 }) => {
   const [ideaIdx, setIdeaIdx] = useState(-1)
   const selectedIdea =
@@ -71,7 +75,12 @@ const Converge = ({
               <h6>Tags</h6>
               {isUserHost(user) ? (
                 <>
-                  <input className="mb-4" placeholder="tags..." />
+                  <TagList
+                    idea={selectedIdea}
+                    tags={tags}
+                    addTagHandler={addTagHandler}
+                    deleteTagHandler={deleteTagHandler}
+                  />
                   <h6>Action Items</h6>
                   <textarea
                     className="w-100 p-2 mb-4"
