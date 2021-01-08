@@ -86,3 +86,27 @@ export const setActiveConvergeIdea = (selectedIdeaId) => ({
     selectedIdeaId
   }
 })
+
+/*
+Action to add a tag to an idea and update list of tags
+*/
+export const ADD_TAG = "ADD_TAG"
+export const addTag = (ideaId, tagStr) => ({
+  type: ADD_TAG,
+  payload: {
+    ideaId,
+    tagStr
+  }
+})
+
+/*
+Action to delete a tag on an idea
+*/
+export const DELETE_TAG = "DELETE_TAG"
+export const deleteTag = (ideaId, tagId) => ({
+  type: DELETE_TAG,
+  payload: {
+    ideaId,
+    tagId
+  }
+})

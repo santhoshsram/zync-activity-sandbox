@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import TagList from "./TagList"
 import {
   FaThumbsUp,
   FaRegThumbsUp,
@@ -17,9 +18,12 @@ const Review = ({
   userId,
   brainstormQuestion,
   idea,
+  tags,
   moreIdeas,
   updateIdeaHandler,
-  getNextIdea
+  getNextIdea,
+  addTagHandler,
+  deleteTagHandler
 }) => {
   const [like, setLike] = useState(false)
   const [unlike, setUnlike] = useState(false)

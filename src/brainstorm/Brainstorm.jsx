@@ -12,11 +12,15 @@ import {
   START_CONVERGING,
   SET_ACTIVE_CONVERGE_IDEA,
   LOAD_SAMPLE_IDEAS,
+  ADD_TAG,
+  DELETE_TAG,
   addIdea,
   deleteIdea,
   updateIdea,
   nextIdea,
-  setActiveConvergeIdea
+  setActiveConvergeIdea,
+  addTag,
+  deleteTag
 } from "./BrainstormActions"
 
 import Ideate from "./Ideate"
@@ -138,6 +142,49 @@ const activityReducer = (state, action) => {
           tags: [],
           likes: 0,
           unlikes: 0
+        })
+      }
+    }
+    case ADD_TAG: {
+      const { ideaId, tagStr } = payload
+      const existingTag = (state.tags || []).find((tag) => tag.text === tagStr)
+      const tagId = existingTag?.id || nanoid(ID_LEN)
+
+      return {
+        ...state,
+        tags: existingTag
+          ? state.tags
+          : (state.tags || []).concat({
+              id: tagId,
+              text: tagStr
+            }),
+        ideas: state.ideas.map((idea) => {
+          if (idea.id === ideaId) {
+            const updatedIdea = {
+              ...idea,
+              tags: idea.tags.includes(tagId)
+                ? idea.tags
+                : idea.tags.concat(tagId)
+            }
+            return updatedIdea
+          }
+          return idea
+        })
+      }
+    }
+    case DELETE_TAG: {
+      const { ideaId, tagId } = payload
+      return {
+        ...state,
+        ideas: state.ideas.map((idea) => {
+          if (idea.id === ideaId) {
+            const updatedIdea = {
+              ...idea,
+              tags: idea.tags.filter((tag) => tag !== tagId)
+            }
+            return updatedIdea
+          }
+          return idea
         })
       }
     }
@@ -304,7 +351,7 @@ const activityReducer = (state, action) => {
 }
 
 const Activity = ({ activity, users, user, dispatch }) => {
-  const { ideas, details, reviewInfo, convergeInfo } = activity || {}
+  const { ideas, tags, details, reviewInfo, convergeInfo } = activity || {}
   const { settings } = activity || {}
   const { seeEveryonesIdeas, showStepwiseInstructions } = settings || false
   const { userId } = user || {}
@@ -340,6 +387,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
                     user={user}
                     brainstormQuestion={brainstormQuestion}
                     ideas={ideas}
+                    tags={tags}
                     seeEveryonesIdeas={seeEveryonesIdeas}
                     showInstructions={showStepwiseInstructions}
                     onAddClicked={(ideaContent) => {
@@ -349,6 +397,12 @@ const Activity = ({ activity, users, user, dispatch }) => {
                     updateIdeaHandler={(updatedIdea) =>
                       dispatch(updateIdea(updatedIdea))
                     }
+                    addTagHandler={(ideaId, tagStr) => {
+                      dispatch(addTag(ideaId, tagStr))
+                    }}
+                    deleteTagHandler={(ideaId, tagId) => {
+                      dispatch(deleteTag(ideaId, tagId))
+                    }}
                   />
                 )
               }
@@ -370,6 +424,13 @@ const Activity = ({ activity, users, user, dispatch }) => {
                     }
                     getNextIdea={(userId) => dispatch(nextIdea(userId))}
                     key={reviewInfo["users"][userId]["ideaIdBeingReviewed"]}
+                    tags={tags}
+                    addTagHandler={(ideaId, tagStr) => {
+                      dispatch(addTag(ideaId, tagStr))
+                    }}
+                    deleteTagHandler={(ideaId, tagId) => {
+                      dispatch(deleteTag(ideaId, tagId))
+                    }}
                   />
                 )
               }
@@ -388,6 +449,13 @@ const Activity = ({ activity, users, user, dispatch }) => {
                     selectIdeaHandler={(selectedIdeaId) =>
                       dispatch(setActiveConvergeIdea(selectedIdeaId))
                     }
+                    tags={tags}
+                    addTagHandler={(ideaId, tagStr) => {
+                      dispatch(addTag(ideaId, tagStr))
+                    }}
+                    deleteTagHandler={(ideaId, tagId) => {
+                      dispatch(deleteTag(ideaId, tagId))
+                    }}
                   />
                 )
               }

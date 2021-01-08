@@ -1,13 +1,17 @@
 import React from "react"
-import { FaRegTrashAlt, FaTags } from "react-icons/fa"
+import { FaRegTrashAlt } from "react-icons/fa"
+import TagList from "./TagList"
 
 const IdeaCard = ({
   viewerId,
   idea,
+  tags,
   allowAnyoneToEdit,
   allowNewComments,
   deleteIdeaHandler,
-  updateIdeaHandler
+  updateIdeaHandler,
+  addTagHandler,
+  deleteTagHandler
 }) => {
   const allowEdit = allowAnyoneToEdit || viewerId === idea.creator
 
@@ -20,16 +24,16 @@ const IdeaCard = ({
     updateIdeaHandler(newIdea)
   }
 
-  const updateTags = (event) => {
-    const newIdea = {
-      ...idea,
-      tags: event.target.value === "" ? [] : event.target.value.split(/[\s,]+/)
-    }
+  // const updateTags = (event) => {
+  //   const newIdea = {
+  //     ...idea,
+  //     tags: event.target.value === "" ? [] : event.target.value.split(/[\s,]+/)
+  //   }
 
-    updateIdeaHandler(newIdea)
-    event.target.value = newIdea.tags.join(", ")
-    event.target.setSelectionRange(0, 0)
-  }
+  //   updateIdeaHandler(newIdea)
+  //   event.target.value = newIdea.tags.join(", ")
+  //   event.target.setSelectionRange(0, 0)
+  // }
 
   return (
     <div>
@@ -37,6 +41,22 @@ const IdeaCard = ({
         className="card border pb-0 m-1 bg-light"
         style={{ maxWidth: "275px", minWidth: "175px" }}
       >
+        {allowEdit ? (
+          <div className="card-header px-2 pt-0 pb-2 border-0 bg-transparent">
+            <div className="card-text d-flex justify-content-right float-right">
+              <a href="#!">
+                <small>
+                  <FaRegTrashAlt
+                    className="text-dark"
+                    onClick={() => deleteIdeaHandler(idea.id)}
+                  />
+                </small>
+              </a>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
         <div className="card-body p-3">
           <p
             className="card-text"
@@ -49,30 +69,12 @@ const IdeaCard = ({
         </div>
         {allowEdit ? (
           <div className="card-footer px-2 pt-0 pb-2 border-0 bg-transparent">
-            <div className="card-text d-flex justify-content-between">
-              <span className="p-0 m-0 ml-2 text-truncate">
-                <small>
-                  <FaTags className="text-dark" />
-                  <input
-                    className="p-0 m-0 ml-1 text-primary bg-transparent text-truncate"
-                    style={{ border: "none", outline: "none", maxWidth: "80%" }}
-                    placeholder="tags..."
-                    defaultValue={idea.tags.join(", ")}
-                    onBlur={(event) => {
-                      updateTags(event)
-                    }}
-                  />
-                </small>
-              </span>
-              <a href="#!">
-                <small>
-                  <FaRegTrashAlt
-                    className="text-dark"
-                    onClick={() => deleteIdeaHandler(idea.id)}
-                  />
-                </small>
-              </a>
-            </div>
+            <TagList
+              idea={idea}
+              tags={tags}
+              addTagHandler={addTagHandler}
+              deleteTagHandler={deleteTagHandler}
+            />
           </div>
         ) : (
           ""

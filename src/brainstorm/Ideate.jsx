@@ -14,11 +14,14 @@ const Ideate = ({
   user,
   brainstormQuestion,
   ideas,
+  tags,
   seeEveryonesIdeas,
   showInstructions,
   onAddClicked,
   deleteIdeaHandler,
-  updateIdeaHandler
+  updateIdeaHandler,
+  addTagHandler,
+  deleteTagHandler
 }) => {
   const { userId } = user
   const modalId = "ideateInstructionsModal"
@@ -32,10 +35,13 @@ const Ideate = ({
       <IdeasListing
         viewerId={userId}
         ideas={seeEveryonesIdeas ? ideas : ideasOfUser(ideas, userId)}
+        tags={tags}
         allowAnyoneToEdit={false}
         allowNewComments={false}
         deleteIdeaHandler={deleteIdeaHandler}
         updateIdeaHandler={updateIdeaHandler}
+        addTagHandler={addTagHandler}
+        deleteTagHandler={deleteTagHandler}
       />
       {/* Instructions Modal */}
       {showInstructions && (
