@@ -87,7 +87,7 @@ const Converge = ({
                     placeholder="action items..."
                   />
                   <h6>Assignees</h6>
-                  <input className="mb-4" placeholder="assignees..." />
+                  <input className="px-2 mb-4" placeholder="assignees..." />
                   <br />
                   <button type="button" className="btn btn-primary">
                     Save
