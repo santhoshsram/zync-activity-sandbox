@@ -10,7 +10,8 @@ const IdeaCard = ({
   allowNewComments,
   deleteIdeaHandler,
   updateIdeaHandler,
-  addTagHandler
+  addTagHandler,
+  deleteTagHandler
 }) => {
   const allowEdit = allowAnyoneToEdit || viewerId === idea.creator
 
@@ -68,7 +69,12 @@ const IdeaCard = ({
         </div>
         {allowEdit ? (
           <div className="card-footer px-2 pt-0 pb-2 border-0 bg-transparent">
-            <TagList idea={idea} tags={tags} addTagHandler={addTagHandler} />
+            <TagList
+              idea={idea}
+              tags={tags}
+              addTagHandler={addTagHandler}
+              deleteTagHandler={deleteTagHandler}
+            />
           </div>
         ) : (
           ""

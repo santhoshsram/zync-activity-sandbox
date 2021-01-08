@@ -9,7 +9,8 @@ const IdeasListing = ({
   allowNewComments,
   deleteIdeaHandler,
   updateIdeaHandler,
-  addTagHandler
+  addTagHandler,
+  deleteTagHandler
 }) => {
   return (
     <>
@@ -24,6 +25,7 @@ const IdeasListing = ({
             deleteIdeaHandler={deleteIdeaHandler}
             updateIdeaHandler={updateIdeaHandler}
             addTagHandler={addTagHandler}
+            deleteTagHandler={deleteTagHandler}
             key={idea.id}
           />
         ))}

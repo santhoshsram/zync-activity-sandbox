@@ -1,7 +1,7 @@
 import { WithContext as ReactTags } from "react-tag-input"
 import "./ReactTagStyles.css"
 
-const TagList = ({ idea, tags, addTagHandler }) => {
+const TagList = ({ idea, tags, addTagHandler, deleteTagHandler }) => {
   const KeyCodes = {
     comma: 188,
     enter: 13
@@ -11,6 +11,10 @@ const TagList = ({ idea, tags, addTagHandler }) => {
 
   const onAddTag = (tag) => {
     addTagHandler(idea.id || "", tag.text)
+  }
+
+  const onDeleteTag = (i) => {
+    deleteTagHandler(idea.id, idea.tags[i])
   }
 
   const getTagsForIdea = (tagids) => {
@@ -32,6 +36,7 @@ const TagList = ({ idea, tags, addTagHandler }) => {
         labelField={"text"}
         allowDragDrop={false}
         handleAddition={(e) => onAddTag(e)}
+        handleDelete={(e) => onDeleteTag(e)}
         placeholder="add tags"
       />
     </div>

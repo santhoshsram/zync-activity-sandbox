@@ -86,3 +86,15 @@ export const addTag = (ideaId, tagStr) => ({
     tagStr
   }
 })
+
+/*
+Action to delete a tag on an idea
+*/
+export const DELETE_TAG = "DELETE_TAG"
+export const deleteTag = (ideaId, tagId) => ({
+  type: DELETE_TAG,
+  payload: {
+    ideaId,
+    tagId
+  }
+})

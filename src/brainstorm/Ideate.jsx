@@ -19,7 +19,8 @@ const Ideate = ({
   onAddClicked,
   deleteIdeaHandler,
   updateIdeaHandler,
-  addTagHandler
+  addTagHandler,
+  deleteTagHandler
 }) => {
   const { userId } = user
   const modalId = "ideateInstructionsModal"
@@ -38,6 +39,7 @@ const Ideate = ({
         deleteIdeaHandler={deleteIdeaHandler}
         updateIdeaHandler={updateIdeaHandler}
         addTagHandler={addTagHandler}
+        deleteTagHandler={deleteTagHandler}
       />
       {/* Instructions Modal */}
       {showInstructions && (

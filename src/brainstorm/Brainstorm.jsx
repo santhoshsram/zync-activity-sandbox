@@ -12,11 +12,13 @@ import {
   START_CONVERGING,
   LOAD_SAMPLE_IDEAS,
   ADD_TAG,
+  DELETE_TAG,
   addIdea,
   deleteIdea,
   updateIdea,
   nextIdea,
-  addTag
+  addTag,
+  deleteTag
 } from "./BrainstormActions"
 
 import Ideate from "./Ideate"
@@ -161,6 +163,22 @@ const activityReducer = (state, action) => {
               tags: idea.tags.includes(tagId)
                 ? idea.tags
                 : idea.tags.concat(tagId)
+            }
+            return updatedIdea
+          }
+          return idea
+        })
+      }
+    }
+    case DELETE_TAG: {
+      const { ideaId, tagId } = payload
+      return {
+        ...state,
+        ideas: state.ideas.map((idea) => {
+          if (idea.id === ideaId) {
+            const updatedIdea = {
+              ...idea,
+              tags: idea.tags.filter((tag) => tag !== tagId)
             }
             return updatedIdea
           }
@@ -354,6 +372,9 @@ const Activity = ({ activity, users, user, dispatch }) => {
                     }
                     addTagHandler={(ideaId, tagStr) => {
                       dispatch(addTag(ideaId, tagStr))
+                    }}
+                    deleteTagHandler={(ideaId, tagId) => {
+                      dispatch(deleteTag(ideaId, tagId))
                     }}
                   />
                 )
