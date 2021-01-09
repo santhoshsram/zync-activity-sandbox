@@ -7,7 +7,9 @@ export const sampleIdeas = [
     reviews: [],
     tags: ["etiquette", "nudge"],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "pcncQ9P_O90",
@@ -16,7 +18,9 @@ export const sampleIdeas = [
     tags: [],
     reviews: [],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "_QjzWgA4tED",
@@ -25,7 +29,9 @@ export const sampleIdeas = [
     tags: [],
     reviews: [],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "-1NqBaeNqFo",
@@ -34,7 +40,9 @@ export const sampleIdeas = [
     tags: [],
     reviews: [],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "MU-RmXV2sWu",
@@ -44,7 +52,9 @@ export const sampleIdeas = [
     reviews: [],
     tags: ["async", "sync"],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "IYXd1N-aatb",
@@ -53,7 +63,9 @@ export const sampleIdeas = [
     tags: [],
     reviews: [],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "0sV9zIPLbqa",
@@ -62,7 +74,9 @@ export const sampleIdeas = [
     tags: [],
     reviews: [],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "tevGhaEot9z",
@@ -71,7 +85,9 @@ export const sampleIdeas = [
     tags: [],
     reviews: [],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "b8q-tZzKLKC",
@@ -81,7 +97,9 @@ export const sampleIdeas = [
     reviews: [],
     tags: ["mindmap"],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "yfYX04JeX3H",
@@ -90,7 +108,9 @@ export const sampleIdeas = [
     tags: [],
     reviews: [],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "7ULXy5jyNlq",
@@ -99,7 +119,9 @@ export const sampleIdeas = [
     tags: [],
     reviews: [],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "xj_XNYQW_0f",
@@ -108,7 +130,9 @@ export const sampleIdeas = [
     tags: [],
     reviews: [],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "Lg1K_BEegy4",
@@ -118,7 +142,9 @@ export const sampleIdeas = [
     reviews: [],
     tags: ["prompts"],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "MOCcv0M-HQU",
@@ -127,7 +153,9 @@ export const sampleIdeas = [
     tags: [],
     reviews: [],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "k5uX81czkHd",
@@ -136,7 +164,9 @@ export const sampleIdeas = [
     tags: [],
     reviews: [],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "tpU2olNuMJE",
@@ -145,7 +175,9 @@ export const sampleIdeas = [
     tags: [],
     reviews: [],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   }
 ]
 
@@ -166,7 +198,9 @@ export const activityIdeas = [
       }
     ],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "idea2",
@@ -175,7 +209,9 @@ export const activityIdeas = [
     tags: [],
     reviews: [],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "idea3",
@@ -190,7 +226,9 @@ export const activityIdeas = [
       }
     ],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "idea4",
@@ -215,7 +253,9 @@ export const activityIdeas = [
       }
     ],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "idea5",
@@ -224,7 +264,9 @@ export const activityIdeas = [
     tags: [],
     reviews: [],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "idea6",
@@ -249,7 +291,9 @@ export const activityIdeas = [
       }
     ],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "idea7",
@@ -268,7 +312,9 @@ export const activityIdeas = [
       }
     ],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "idea8",
@@ -282,7 +328,9 @@ export const activityIdeas = [
       }
     ],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "idea9",
@@ -307,7 +355,9 @@ export const activityIdeas = [
       }
     ],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "idea10",
@@ -322,7 +372,9 @@ export const activityIdeas = [
       }
     ],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "idea11",
@@ -342,7 +394,9 @@ export const activityIdeas = [
       }
     ],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "idea12",
@@ -362,7 +416,9 @@ export const activityIdeas = [
       }
     ],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "idea13",
@@ -382,7 +438,9 @@ export const activityIdeas = [
       }
     ],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "idea14",
@@ -398,7 +456,9 @@ export const activityIdeas = [
       }
     ],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   },
   {
     id: "idea15",
@@ -414,6 +474,8 @@ export const activityIdeas = [
       }
     ],
     likes: 0,
-    unlikes: 0
+    unlikes: 0,
+    actionItems: "",
+    assignees: []
   }
 ]
