@@ -1,13 +1,17 @@
 import React, { useState } from "react"
 import { ideaFromId } from "./brainstormUtils"
+import TagList from "./TagList"
 
 const ConvergeHost = ({
   brainstormQuestion,
   selectedIdeaId,
   ideas,
+  tags,
   deleteIdeaHandler,
   updateIdeaHandler,
-  selectIdeaHandler
+  selectIdeaHandler,
+  addTagHandler,
+  deleteTagHandler
 }) => {
   const selectedIdea =
     selectedIdeaId !== "" ? ideaFromId(ideas, selectedIdeaId) : undefined
@@ -83,16 +87,11 @@ const ConvergeHost = ({
                 </div>
               )}
               <h6>Tags</h6>
-              <input
-                className="px-2 mb-4"
-                placeholder="tags..."
-                value={tagsStr}
-                onChange={(event) => {
-                  setTagsStr(event.target.value)
-                }}
-                onBlur={(event) => {
-                  setTagsStr(event.target.value.split(/[\s,]+/).join(", "))
-                }}
+              <TagList
+                idea={selectedIdea}
+                tags={tags}
+                addTagHandler={addTagHandler}
+                deleteTagHandler={deleteTagHandler}
               />
 
               <h6>Action Items</h6>

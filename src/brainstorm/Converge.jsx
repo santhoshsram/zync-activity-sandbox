@@ -21,15 +21,21 @@ const Converge = ({
       brainstormQuestion={brainstormQuestion}
       selectedIdeaId={selectedIdeaId}
       ideas={ideas}
+      tags={tags}
       deleteIdeaHandler={deleteIdeaHandler}
       updateIdeaHandler={updateIdeaHandler}
       selectIdeaHandler={selectIdeaHandler}
+      addTagHandler={addTagHandler}
+      deleteTagHandler={deleteTagHandler}
     />
   ) : (
     <ConvergeGuest
       brainstormQuestion={brainstormQuestion}
       selectedIdeaId={selectedIdeaId}
       ideas={ideas}
+      tags={tags}
+      addTagHandler={addTagHandler}
+      deleteTagHandler={deleteTagHandler}
     />
   )
 }

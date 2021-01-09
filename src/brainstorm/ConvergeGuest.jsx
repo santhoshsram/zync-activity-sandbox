@@ -1,7 +1,15 @@
 import React from "react"
 import { ideaFromId } from "./brainstormUtils"
+import TagList from "./TagList"
 
-const ConvergeGuest = ({ brainstormQuestion, selectedIdeaId, ideas }) => {
+const ConvergeGuest = ({
+  brainstormQuestion,
+  selectedIdeaId,
+  ideas,
+  tags,
+  addTagHandler,
+  deleteTagHandler
+}) => {
   const selectedIdea =
     selectedIdeaId !== "" ? ideaFromId(ideas, selectedIdeaId) : undefined
 
@@ -54,9 +62,12 @@ const ConvergeGuest = ({ brainstormQuestion, selectedIdeaId, ideas }) => {
               )}
               <h6>Tags</h6>
               <p className="font-weight-light ml-1 mb-4">
-                {selectedIdea.tags.join(", ") || (
-                  <small className="text-secondary">No tags</small>
-                )}
+                <TagList
+                  idea={selectedIdea}
+                  tags={tags}
+                  addTagHandler={addTagHandler}
+                  deleteTagHandler={deleteTagHandler}
+                />
               </p>
               <h6>Action Items</h6>
               <p className="ml-1 mb-4">
