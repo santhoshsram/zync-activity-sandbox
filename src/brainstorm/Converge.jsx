@@ -15,9 +15,24 @@ const Converge = ({
   addTagHandler,
   deleteTagHandler
 }) => {
-  const [ideaIdx, setIdeaIdx] = useState(-1)
   const selectedIdea =
     selectedIdeaId !== "" ? ideaFromId(ideas, selectedIdeaId) : undefined
+  const [tagsStr, setTagsStr] = useState(
+    selectedIdea ? selectedIdea.tags.join(", ") : ""
+  )
+  const [actionItems, setActionItems] = useState(selectedIdea.actionItems || "")
+  const [assignees, setAssignees] = useState(selectedIdea.assignees || "")
+
+  const saveButtonHandler = () => {
+    const updatedIdea = {
+      ...selectedIdea,
+      tags: tagsStr === "" ? [] : tagsStr.split(/[\s,]+/),
+      actionItems: actionItems,
+      assignees: assignees
+    }
+
+    updateIdeaHandler(updatedIdea)
+  }
 
   return (
     <div className="container">
@@ -29,7 +44,7 @@ const Converge = ({
           className="list-group"
           style={{ minWidth: "200px", maxWidth: "25%" }}
         >
-          {ideas.map((idea, idx) => {
+          {ideas.map((idea) => {
             const active = selectedIdeaId === idea.id ? " active" : ""
             const className =
               "text-truncate list-group-item list-group-item-action" + active
@@ -38,7 +53,6 @@ const Converge = ({
                 type="button"
                 className={className}
                 onClick={() => {
-                  setIdeaIdx(idx)
                   selectIdeaHandler(idea.id)
                 }}
                 key={idea.id}
@@ -46,7 +60,9 @@ const Converge = ({
                 {idea.ideaContent}
               </button>
             ) : (
-              <li className={className}>{idea.ideaContent}</li>
+              <li className={className} key={idea.id}>
+                {idea.ideaContent}
+              </li>
             )
           })}
         </div>
@@ -67,8 +83,12 @@ const Converge = ({
               {selectedIdea.reviews.length > 0 && (
                 <div className="mb-4">
                   <h6>Suggestions</h6>
-                  {selectedIdea.reviews.map((review) => {
-                    return <p className="border p-2 mb-2">{review.text}</p>
+                  {selectedIdea.reviews.map((review, idx) => {
+                    return (
+                      <p className="border p-2 mb-2" key={idx}>
+                        {review.text}
+                      </p>
+                    )
                   })}
                 </div>
               )}
@@ -85,18 +105,54 @@ const Converge = ({
                   <textarea
                     className="w-100 p-2 mb-4"
                     placeholder="action items..."
+                    value={actionItems}
+                    onChange={(event) => setActionItems(event.target.value)}
                   />
                   <h6>Assignees</h6>
-                  <input className="px-2 mb-4" placeholder="assignees..." />
+                  <input
+                    className="px-2 mb-4"
+                    placeholder="assignees..."
+                    value={assignees}
+                    onChange={(event) => setAssignees(event.target.value)}
+                  />
                   <br />
-                  <button type="button" className="btn btn-primary">
-                    Save
+                  <button
+                    type="button"
+                    className="mr-4 btn btn-outline-secondary"
+                    onClick={() => {
+                      deleteIdeaHandler(selectedIdeaId)
+                    }}
+                  >
+                    Delete Idea
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => saveButtonHandler()}
+                  >
+                    Save Idea
                   </button>
                 </>
               ) : (
-                <p className="font-weight-light">
-                  tags go here in read only mode
-                </p>
+                <>
+                  <p className="font-weight-light ml-1 mb-4">
+                    {tagsStr || (
+                      <small className="text-secondary">No tags</small>
+                    )}
+                  </p>
+                  <h6>Action Items</h6>
+                  <p className="ml-1 mb-4">
+                    {actionItems || (
+                      <small className="text-secondary">No action items</small>
+                    )}
+                  </p>
+                  <h6>Assignees</h6>
+                  <p className="ml-1 mb-4">
+                    {assignees || (
+                      <small className="text-secondary">No assignees</small>
+                    )}
+                  </p>
+                </>
               )}
             </div>
           </div>

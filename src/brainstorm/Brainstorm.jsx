@@ -48,7 +48,6 @@ const idea = {
   ideaId: "uuid",
   ideaContent: "This is an idea",
   creator: "alpha@aarvalabs.com",
-  assignee: "alpha@aarvalabs.com",
   tags: ["tag1", "tag2", "tag2"]
   likes: 2,
   unlikes: 1,
@@ -61,7 +60,9 @@ const idea = {
       reviewer: "charlie@aarvalabs.com",
       text: "let me make it a better idea, by adding sprinkling some magic"
     }
-  ]
+  ],
+  actionItems: "execute on the idea",
+  assignees: ["alpha@aarvalabs.com", "bravo@aarvalabs.com"]
 }
 */
 
@@ -190,9 +191,39 @@ const activityReducer = (state, action) => {
     }
     case DELETE_IDEA: {
       const { id } = payload
+
+      /*
+      If we are in converge stage and the idea being deleted
+      is the selected idea, then we have to update the selectedIdeaId
+      in converge info, otherwise converge step will blow up.
+      */
+      let newSelectedIdeaId = state.convergeInfo.selectedIdeaId
+
+      /*
+      If we are deleting the last element, let's reset selectedIdeaId
+      to empty string
+      */
+      if (state.ideas.length === 1) {
+        newSelectedIdeaId = ""
+      } else {
+        if (id === state.convergeInfo.selectedIdeaId) {
+          /*
+        Let's set the previous idea as the selected idea.
+        If the idea being deleted is the first idea, let's
+        set next idea as the selected idea.
+        */
+          const idx = state.ideas.findIndex((idea) => idea.id === id)
+          newSelectedIdeaId = state.ideas[idx === 0 ? 1 : idx - 1].id
+        }
+      }
+
       return {
         ...state,
-        ideas: state.ideas.filter((idea) => idea.id !== id)
+        ideas: state.ideas.filter((idea) => idea.id !== id),
+        convergeInfo: {
+          ...state.convergeInfo,
+          selectedIdeaId: newSelectedIdeaId
+        }
       }
     }
     case UPDATE_IDEA: {
@@ -440,7 +471,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
                     user={user}
                     users={users}
                     brainstormQuestion={brainstormQuestion}
-                    selectedIdeaId={convergeInfo.selectedIdeaId}
+                    selectedIdeaId={convergeInfo.selectedIdeaId || ideas[0].id}
                     ideas={ideas}
                     deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
                     updateIdeaHandler={(updatedIdea) =>

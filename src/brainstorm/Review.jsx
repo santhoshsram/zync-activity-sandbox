@@ -110,8 +110,12 @@ const Review = ({
             {idea.reviews.length > 0 && (
               <div className="mb-4">
                 <h6>Previous Suggestions</h6>
-                {idea.reviews.map((review) => {
-                  return <p className="border p-2 mb-2">{review.text}</p>
+                {idea.reviews.map((review, idx) => {
+                  return (
+                    <p className="border p-2 mb-2" key={idx}>
+                      {review.text}
+                    </p>
+                  )
                 })}
               </div>
             )}
