@@ -27,7 +27,6 @@ const Review = ({
 }) => {
   const [like, setLike] = useState(false)
   const [unlike, setUnlike] = useState(false)
-  const [tagsStr, setTagsStr] = useState(idea ? idea.tags.join(", ") : "")
   const [reviewStr, setReviewStr] = useState("")
 
   const nextButtonHandler = () => {
@@ -36,7 +35,6 @@ const Review = ({
       ...idea,
       likes: like ? idea.likes + 1 : idea.likes,
       unlikes: unlike ? idea.unlikes + 1 : idea.unlikes,
-      tags: tagsStr === "" ? [] : tagsStr.split(/[\s,]+/),
       reviews:
         reviewStr === ""
           ? idea.reviews
