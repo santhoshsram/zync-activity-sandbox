@@ -15,16 +15,12 @@ const ConvergeHost = ({
 }) => {
   const selectedIdea =
     selectedIdeaId !== "" ? ideaFromId(ideas, selectedIdeaId) : undefined
-  const [tagsStr, setTagsStr] = useState(
-    selectedIdea ? selectedIdea.tags.join(", ") : ""
-  )
   const [actionItems, setActionItems] = useState(selectedIdea.actionItems || "")
   const [assignees, setAssignees] = useState(selectedIdea.assignees || "")
 
   const saveButtonHandler = () => {
     const updatedIdea = {
       ...selectedIdea,
-      tags: tagsStr === "" ? [] : tagsStr.split(/[\s,]+/),
       actionItems: actionItems,
       assignees: assignees
     }
