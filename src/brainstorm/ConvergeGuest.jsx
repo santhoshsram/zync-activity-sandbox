@@ -3,7 +3,7 @@ import { ideaFromId } from "./brainstormUtils"
 import TagList from "./TagList"
 
 const ConvergeGuest = ({
-  brainstormQuestion,
+  topic,
   selectedIdeaId,
   ideas,
   tags,
@@ -17,7 +17,7 @@ const ConvergeGuest = ({
     <div className="container">
       <h3>Converge</h3>
       <hr />
-      <h5 className="font-italic mb-2">{brainstormQuestion}</h5>
+      <h5 className="font-italic mb-2">{topic}</h5>
       <div className="d-flex">
         <div
           className="list-group"

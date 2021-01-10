@@ -1,8 +1,7 @@
 import React from "react"
 
-const NotStarted = ({ user, details }) => {
+const NotStarted = ({ user, topic }) => {
   const { role } = user
-  const { title, agenda = "" } = details
 
   /*
     XXX TODO:
@@ -12,9 +11,7 @@ const NotStarted = ({ user, details }) => {
     */
   return (
     <div className="jumbotron">
-      <h1 className="display-4">
-        {title === "" ? <span className="text-secondary">[Title]</span> : title}
-      </h1>
+      <h1 className="display-4">Zync Brainstorming</h1>
       <p className="pt-3">
         {/* XXX TODO: Move hard coded instructions from here to activityListing or
         some other location. */}
@@ -41,16 +38,11 @@ const NotStarted = ({ user, details }) => {
       </p>
       <hr className="mb-4 mt-3 mr-5" />
       <div
-        className="container-flex bg-light p-3 mb-3"
+        className="container-flex px-3 pt-3 pb-1 bg-light p-0 mb-3"
         style={{ width: "75%" }}
       >
-        <h2>Agenda</h2>
         <p>
-          {agenda === "" ? (
-            <span className="text-secondary">[Agenda]</span>
-          ) : (
-            agenda
-          )}
+          <strong>Brainstorming ideas on </strong> <em>{topic}</em>
         </p>
       </div>
       {role !== "host" && (
