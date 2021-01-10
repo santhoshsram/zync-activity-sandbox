@@ -1,7 +1,6 @@
 // THIS IS BOILER PLATE FOR CREATING NEW ACTIVITY
 import React from "react"
 import { nanoid } from "nanoid"
-import { Switch } from "../components/Switch"
 import {
   ADD_IDEA,
   DELETE_IDEA,
@@ -382,17 +381,11 @@ const activityReducer = (state, action) => {
 }
 
 const Activity = ({ activity, users, user, dispatch }) => {
-  const { ideas, tags, details, reviewInfo, convergeInfo } = activity || {}
-  const { settings } = activity || {}
-  const { seeEveryonesIdeas, showStepwiseInstructions } = settings || false
+  const { ideas, tags, reviewInfo, convergeInfo } = activity || {}
   const { userId } = user || {}
-
-  /*
-  XXX TODO
-  Need some way to pass this as a parameter from the sandbox or whoever
-  renders the Activity component.
-  */
-  const { brainstormQuestion } = activity || ""
+  const { settings } = activity || {}
+  const topic =
+    settings.topic || "Too bad, not sure what we are brainstorming on."
 
   return (
     <>
@@ -410,17 +403,15 @@ const Activity = ({ activity, users, user, dispatch }) => {
           {(() => {
             switch (activity.currentStage) {
               case BRAINSTORM_NOT_STARTED: {
-                return <NotStarted user={user} details={details} />
+                return <NotStarted user={user} topic={topic} />
               }
               case BRAINSTORM_IDEATE: {
                 return (
                   <Ideate
                     user={user}
-                    brainstormQuestion={brainstormQuestion}
+                    topic={topic}
                     ideas={ideas}
                     tags={tags}
-                    seeEveryonesIdeas={seeEveryonesIdeas}
-                    showInstructions={showStepwiseInstructions}
                     onAddClicked={(ideaContent) => {
                       dispatch(addIdea(ideaContent, userId))
                     }}
@@ -441,7 +432,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
                 return (
                   <Review
                     userId={userId}
-                    brainstormQuestion={brainstormQuestion}
+                    topic={topic}
                     idea={ideaFromId(
                       ideas,
                       reviewInfo["users"][userId]["ideaIdBeingReviewed"]
@@ -470,7 +461,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
                   <Converge
                     user={user}
                     users={users}
-                    brainstormQuestion={brainstormQuestion}
+                    topic={topic}
                     selectedIdeaId={convergeInfo.selectedIdeaId || ideas[0].id}
                     ideas={ideas}
                     deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
@@ -507,16 +498,10 @@ const Activity = ({ activity, users, user, dispatch }) => {
 }
 
 const Settings = ({ settings, setLaunchSettings }) => {
-  const { seeEveryonesIdeas, showStepwiseInstructions } = settings || {}
-
-  const toggleSeeEveryonesIdeas = () => {
-    setLaunchSettings({ ...settings, seeEveryonesIdeas: !seeEveryonesIdeas })
-  }
-
-  const toggleShowStepwiseInstructions = () => {
+  const updateTopic = (topic) => {
     setLaunchSettings({
       ...settings,
-      showStepwiseInstructions: !showStepwiseInstructions
+      topic: topic
     })
   }
 
@@ -533,25 +518,11 @@ const Settings = ({ settings, setLaunchSettings }) => {
           justifyContent: "space-between"
         }}
       >
-        <label>Everyone see&rsquo;s everyone&rsquo;s ideas</label>
-        <Switch
-          id="seeEveryonesIdeas"
-          checked={seeEveryonesIdeas}
-          onChange={toggleSeeEveryonesIdeas}
-        />
-      </div>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between"
-        }}
-      >
-        <label>Show instructrions at the beginning of each step</label>
-        <Switch
-          id="showStepwiseInstructions"
-          checked={showStepwiseInstructions}
-          onChange={toggleShowStepwiseInstructions}
+        <label>Brainstorm ideas on...</label>
+        <input
+          type="text"
+          onBlur={(event) => updateTopic(event.target.value)}
+          style={{ width: "300px" }}
         />
       </div>
       <hr />
@@ -573,8 +544,7 @@ const activityListing = {
   settings: {
     videoLayout: "docked", // This should be either 'docked' or 'minimized' which tells how the video hub should be when your activity is launched
     // You can add other settings over here
-    seeEveryonesIdeas: false,
-    showStepwiseInstructions: false
+    topic: ""
   },
   brainstormQuestion: "What are we brainstorming about?",
   currentStage: BRAINSTORM_NOT_STARTED,
