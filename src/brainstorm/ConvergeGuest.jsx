@@ -37,11 +37,19 @@ const ConvergeGuest = ({
             style={{ backgroundColor: "#eee" }}
           >
             <p className="lead">{selectedIdea.ideaContent}</p>
-          </div>
-          <div className="ml-1">
-            <p className="font-italic font-weight-light mb-4">
+            <p className="font-italic font-weight-light ml-1">
               Upvotes: {selectedIdea.upvotes}
             </p>
+            <p className="font-weight-light">
+              <TagList
+                idea={selectedIdea}
+                tags={tags}
+                addTagHandler={addTagHandler}
+                deleteTagHandler={deleteTagHandler}
+              />
+            </p>
+          </div>
+          <div className="ml-1">
             {selectedIdea.reviews.length > 0 && (
               <div className="mb-4">
                 <h6>Suggestions</h6>
@@ -54,15 +62,6 @@ const ConvergeGuest = ({
                 })}
               </div>
             )}
-            <h6>Tags</h6>
-            <p className="font-weight-light ml-1 mb-4">
-              <TagList
-                idea={selectedIdea}
-                tags={tags}
-                addTagHandler={addTagHandler}
-                deleteTagHandler={deleteTagHandler}
-              />
-            </p>
             <h6>Action Items</h6>
             <p className="ml-1 mb-4">
               {selectedIdea.actionItems || (

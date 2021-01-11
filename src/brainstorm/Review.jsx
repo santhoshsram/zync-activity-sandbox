@@ -88,15 +88,16 @@ const Review = ({
                 <small>Upvote</small>
               </>
             )}
+            <div className="mt-4 mb-2">
+              <TagList
+                idea={idea}
+                tags={tags}
+                addTagHandler={addTagHandler}
+                deleteTagHandler={deleteTagHandler}
+              />
+            </div>
           </div>
           <div className="p-2">
-            <h6>Tags</h6>
-            <TagList
-              idea={idea}
-              tags={tags}
-              addTagHandler={addTagHandler}
-              deleteTagHandler={deleteTagHandler}
-            />
             {idea.reviews.length > 0 && (
               <div className="mb-4">
                 <h6>Previous Suggestions</h6>
