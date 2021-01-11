@@ -46,9 +46,19 @@ const Review = ({
 
   return (
     <div className="container">
-      <h3>Review</h3>
+      <h3>Jazz &lsquo;em</h3>
+      <p>
+        <em>
+          <small>
+            Say how you'll jazz up ideas other users have squeezed out.
+          </small>
+        </em>
+      </p>
       <hr />
-      <h5 className="font-italic mb-2">{topic}</h5>
+      <h6 className="mb-2">
+        Jazzing up ideas on
+        <em className="font-weight-light"> &rarr; {topic}</em>
+      </h6>
       {!idea ? (
         <div>
           {moreIdeas ? (

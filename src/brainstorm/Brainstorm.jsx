@@ -385,7 +385,8 @@ const Activity = ({ activity, users, user, dispatch }) => {
   const { userId } = user || {}
   const { settings } = activity || {}
   const topic =
-    settings.topic || "Too bad, not sure what we are brainstorming on."
+    settings.topic ||
+    "Too bad, looks like we have no idea what we are brainstorming about.!"
 
   return (
     <>

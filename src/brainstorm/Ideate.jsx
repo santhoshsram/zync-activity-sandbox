@@ -24,9 +24,19 @@ const Ideate = ({
 
   return (
     <div className="container">
-      <h3>Ideate</h3>
+      <h3>Squeeze &lsquo;em</h3>
+      <p>
+        <em>
+          <small>
+            Squeeze your brains and generate as many ideas as possible.
+          </small>
+        </em>
+      </p>
       <hr />
-      <h5 className="font-italic mb-2">{topic}</h5>
+      <h6 className="mb-2">
+        Squeeze out ideas for{" "}
+        <em className="font-weight-light"> &rarr; {topic}</em>
+      </h6>
       <AddNewIdea onAddClicked={onAddClicked} />
       <IdeasListing
         viewerId={userId}
