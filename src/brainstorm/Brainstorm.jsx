@@ -48,8 +48,7 @@ const idea = {
   ideaContent: "This is an idea",
   creator: "alpha@aarvalabs.com",
   tags: ["tag1", "tag2", "tag2"]
-  likes: 2,
-  unlikes: 1,
+  upvotes: 3,
   reviews: [
     {
       reviewer: "beta@aarvalabs.com",
@@ -140,8 +139,7 @@ const activityReducer = (state, action) => {
           creator,
           reviews: [],
           tags: [],
-          likes: 0,
-          unlikes: 0
+          upvotes: 0
         })
       }
     }
@@ -386,7 +384,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
   const { settings } = activity || {}
   const topic =
     settings.topic ||
-    "Too bad, looks like we have no idea what we are brainstorming about.!"
+    "Too bad, looks like we have no idea what we are brainstorming about."
 
   return (
     <>

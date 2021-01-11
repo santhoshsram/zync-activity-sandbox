@@ -6,8 +6,7 @@ export const sampleIdeas = [
     creator: "alpha@aarvalabs.com",
     reviews: [],
     tags: ["etiquette", "nudge"],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -17,8 +16,7 @@ export const sampleIdeas = [
     creator: "alpha@aarvalabs.com",
     tags: [],
     reviews: [],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -28,8 +26,7 @@ export const sampleIdeas = [
     creator: "alpha@aarvalabs.com",
     tags: [],
     reviews: [],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -39,8 +36,7 @@ export const sampleIdeas = [
     creator: "alpha@aarvalabs.com",
     tags: [],
     reviews: [],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -51,8 +47,7 @@ export const sampleIdeas = [
     creator: "bravo@aarvalabs.com",
     reviews: [],
     tags: ["async", "sync"],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -62,8 +57,7 @@ export const sampleIdeas = [
     creator: "bravo@aarvalabs.com",
     tags: [],
     reviews: [],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -73,8 +67,7 @@ export const sampleIdeas = [
     creator: "bravo@aarvalabs.com",
     tags: [],
     reviews: [],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -84,8 +77,7 @@ export const sampleIdeas = [
     creator: "bravo@aarvalabs.com",
     tags: [],
     reviews: [],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -96,8 +88,7 @@ export const sampleIdeas = [
     creator: "charlie@aarvalabs.com",
     reviews: [],
     tags: ["mindmap"],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -107,8 +98,7 @@ export const sampleIdeas = [
     creator: "charlie@aarvalabs.com",
     tags: [],
     reviews: [],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -118,8 +108,7 @@ export const sampleIdeas = [
     creator: "charlie@aarvalabs.com",
     tags: [],
     reviews: [],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -129,8 +118,7 @@ export const sampleIdeas = [
     creator: "charlie@aarvalabs.com",
     tags: [],
     reviews: [],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -141,8 +129,7 @@ export const sampleIdeas = [
     creator: "delta@aarvalabs.com",
     reviews: [],
     tags: ["prompts"],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -152,8 +139,7 @@ export const sampleIdeas = [
     creator: "delta@aarvalabs.com",
     tags: [],
     reviews: [],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -163,8 +149,7 @@ export const sampleIdeas = [
     creator: "delta@aarvalabs.com",
     tags: [],
     reviews: [],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -174,8 +159,7 @@ export const sampleIdeas = [
     creator: "delta@aarvalabs.com",
     tags: [],
     reviews: [],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   }
@@ -197,8 +181,7 @@ export const activityIdeas = [
         text: "Like! This can be a good team building thingy. Novel!"
       }
     ],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -208,8 +191,7 @@ export const activityIdeas = [
     creator: "alpha@aarvalabs.com",
     tags: [],
     reviews: [],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -225,8 +207,7 @@ export const activityIdeas = [
           "Special build up for mystery guest? Gradual reveal of voice / picture over time."
       }
     ],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -252,8 +233,7 @@ export const activityIdeas = [
           "Templates of agenda items. e.g. feedback, how we can help each other, starter scripts"
       }
     ],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -263,8 +243,7 @@ export const activityIdeas = [
     creator: "alpha@aarvalabs.com",
     tags: [],
     reviews: [],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -290,8 +269,7 @@ export const activityIdeas = [
           "This matches  with a lot of amazon style meetings where we read a doc for like 30 mins in the meeting. Def some UI/experience around doc reading, ability to indicate that we need more time, done etc"
       }
     ],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -311,8 +289,7 @@ export const activityIdeas = [
         text: "plug into known backends such as trello, atlassian etc"
       }
     ],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -327,8 +304,7 @@ export const activityIdeas = [
         text: "Automatically identify action items based on meeting transcript"
       }
     ],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -354,8 +330,7 @@ export const activityIdeas = [
         text: "Ways to encourage shy participants?  Someone takes notes ?"
       }
     ],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -371,8 +346,7 @@ export const activityIdeas = [
         text: "Kitchen ZYNC - hahaha amazing !"
       }
     ],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -393,8 +367,7 @@ export const activityIdeas = [
           "AI agent that is a meeting assistant that can do tasks on command ... either voice or typed...."
       }
     ],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -415,8 +388,7 @@ export const activityIdeas = [
         text: "Interactive presentations."
       }
     ],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -437,8 +409,7 @@ export const activityIdeas = [
           "How can we do this without recreating trello or opening a new browser tab ? "
       }
     ],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -455,8 +426,7 @@ export const activityIdeas = [
           "Maybe have a set of predefined questions? Partially solved problems that need debugging."
       }
     ],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   },
@@ -473,8 +443,7 @@ export const activityIdeas = [
           "Integration from slack would be great. Ability to remote type into another person's IDE could be powerful.  Can be extended for customer support. IT support. Get on a call and let them then control your device."
       }
     ],
-    likes: 0,
-    unlikes: 0,
+    upvotes: 0,
     actionItems: "",
     assignees: []
   }

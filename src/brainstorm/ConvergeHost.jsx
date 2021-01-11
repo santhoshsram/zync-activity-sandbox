@@ -62,8 +62,7 @@ const ConvergeHost = ({
           </div>
           <div className="ml-1">
             <p className="font-italic font-weight-light mb-4">
-              Thumbs Up: {selectedIdea.likes} | Thumbs Down:{" "}
-              {selectedIdea.unlikes}
+              Upvotes: {selectedIdea.upvotes}
             </p>
             {selectedIdea.reviews.length > 0 && (
               <div className="mb-4">
