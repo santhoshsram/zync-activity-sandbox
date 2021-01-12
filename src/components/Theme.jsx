@@ -79,7 +79,7 @@ export const ActivityTitle = styled.div`
 `
 
 export const ActivityIcon = styled.img`
-  width: 78px;
+  width: 64px;
   height: 64px;
 `
 
