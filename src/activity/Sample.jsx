@@ -3,23 +3,7 @@ import React from "react"
 import { Switch } from "../components/Switch"
 import { Button } from "../components/Theme"
 
-const activityReducer = (state, action) => {
-  switch (action.type) {
-    case "ADD_MESSAGE":
-      let msg = Object.assign([], state.messages)
-      msg.push({ sender: action.userId, text: action.text })
-      return {
-        ...state,
-        messages: msg
-      }
-    default:
-      return {
-        ...state
-      }
-  }
-}
-
-const Activity = ({ activity, users, user, dispatch }) => {
+const Activity = ({ activity, users, user, eventDispatch }) => {
   const { messages } = activity || {}
   const { userId, role, userName } = user || {}
 
@@ -30,7 +14,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
       </h1>
       <Button
         onClick={() =>
-          dispatch({ type: "ADD_MESSAGE", userId, text: "BAZINGA" })
+          eventDispatch({ type: "ADD_MESSAGE", userId, text: "BAZINGA" })
         }
       >
         BAZINGA
@@ -75,18 +59,4 @@ const Summary = ({ activity, users, user }) => {
   return <div> Summary - Activity Summary</div>
 }
 
-const activityListing = {
-  activityId: "bazinga",
-  details: {
-    title: "Bazinga",
-    description: "You say bazinga. I say bazinga. ",
-    icon: "https://aarvalabs.imfast.io/mydawn/activiity_icon.png"
-  },
-  settings: {
-    videoLayout: "docked", // This should be either 'docked' or 'minimized' which tells how the video hub should be when your activity is launched
-    // You can add other settings over here
-    booleanValue: true
-  }
-}
-
-export { Activity, Settings, Summary, activityReducer, activityListing }
+export { Activity, Settings, Summary }

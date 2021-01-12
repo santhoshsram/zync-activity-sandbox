@@ -1,13 +1,9 @@
 import "./App.css"
 import styled from "styled-components"
 import React, { useReducer } from "react"
-import {
-  Activity,
-  activityReducer,
-  Summary,
-  Settings,
-  activityListing
-} from "./activity/Activity"
+import { Activity, Summary, Settings } from "./activity/Sample"
+import { activityReducer } from "./activity/sampleActivity"
+import { activityListing } from "./activity/activityListing"
 import {
   Button,
   Border,
@@ -72,10 +68,12 @@ const meetingReducer = (state, action) => {
   }
 }
 
+const initActivityState = activityReducer(activityListing, {type: "LAUNCH_ACTIVITY"})
+
 const initMeetingState = {
   activities: {
     activity_instance: {
-      ...activityListing,
+      ...initActivityState,
       instanceId: "activity_instance"
     }
   },
@@ -154,7 +152,7 @@ const Setup = ({ meetingState, sandboxDispatch, meetingDispatch }) => {
   const { users } = state || {}
   const { activityId, settings } = activity_instance || {}
   const { details } = activity_instance || {}
-  const { title, description, icon } = details || {}
+  const { title, description, iconUrl } = details || {}
 
   return (
     <div style={{ padding: "20px" }}>
@@ -176,7 +174,7 @@ const Setup = ({ meetingState, sandboxDispatch, meetingDispatch }) => {
         <p style={{ fontSize: "13px", marginTop: "0px", color: "#333" }}>
           ActivityId: {activityId}
         </p>
-        <ActivityIcon src={icon} alt={`icon`}></ActivityIcon>
+        <ActivityIcon src={iconUrl} alt={`icon`}></ActivityIcon>
         <ActivityTitle>{title}</ActivityTitle>
         <ActivityDescription>{description}</ActivityDescription>
       </Border>
@@ -258,7 +256,7 @@ const TabbedView = (props) => {
           activity={activity_instance}
           users={users}
           user={users[activeTab]}
-          dispatch={meetingDispatch}
+          eventDispatch={meetingDispatch}
         />
       )}
     </div>
