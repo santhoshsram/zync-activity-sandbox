@@ -24,17 +24,6 @@ const IdeaCard = ({
     updateIdeaHandler(newIdea)
   }
 
-  // const updateTags = (event) => {
-  //   const newIdea = {
-  //     ...idea,
-  //     tags: event.target.value === "" ? [] : event.target.value.split(/[\s,]+/)
-  //   }
-
-  //   updateIdeaHandler(newIdea)
-  //   event.target.value = newIdea.tags.join(", ")
-  //   event.target.setSelectionRange(0, 0)
-  // }
-
   return (
     <div>
       <div
