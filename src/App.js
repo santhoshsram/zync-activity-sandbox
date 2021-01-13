@@ -1,9 +1,9 @@
 import "./App.css"
 import styled from "styled-components"
 import React, { useReducer } from "react"
-import { Activity, Summary, Settings } from "./activity/Sample"
-import { activityReducer } from "./activity/sampleActivity"
-import { activityListing } from "./activity/activityListing"
+import { Activity, Summary, Settings } from "./brainstorm/Brainstorm"
+import { activityReducer } from "./brainstorm/Brainstorm"
+import { activityListing } from "./brainstorm/Brainstorm"
 import {
   Button,
   Border,
