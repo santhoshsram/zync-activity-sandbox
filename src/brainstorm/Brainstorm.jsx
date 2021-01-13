@@ -378,7 +378,7 @@ const activityReducer = (state, action) => {
   }
 }
 
-const Activity = ({ activity, users, user, dispatch }) => {
+const Activity = ({ activity, users, user, eventDispatch }) => {
   const { ideas, tags, reviewInfo, convergeInfo } = activity || {}
   const { userId } = user || {}
   const { settings } = activity || {}
@@ -393,7 +393,7 @@ const Activity = ({ activity, users, user, dispatch }) => {
           user={user}
           users={users}
           activityState={activity}
-          dispatch={dispatch}
+          dispatch={eventDispatch}
         />
         <hr />
       </div>
@@ -412,17 +412,17 @@ const Activity = ({ activity, users, user, dispatch }) => {
                     ideas={ideas}
                     tags={tags}
                     onAddClicked={(ideaContent) => {
-                      dispatch(addIdea(ideaContent, userId))
+                      eventDispatch(addIdea(ideaContent, userId))
                     }}
-                    deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
+                    deleteIdeaHandler={(id) => eventDispatch(deleteIdea(id))}
                     updateIdeaHandler={(updatedIdea) =>
-                      dispatch(updateIdea(updatedIdea))
+                      eventDispatch(updateIdea(updatedIdea))
                     }
                     addTagHandler={(ideaId, tagStr) => {
-                      dispatch(addTag(ideaId, tagStr))
+                      eventDispatch(addTag(ideaId, tagStr))
                     }}
                     deleteTagHandler={(ideaId, tagId) => {
-                      dispatch(deleteTag(ideaId, tagId))
+                      eventDispatch(deleteTag(ideaId, tagId))
                     }}
                   />
                 )
@@ -441,16 +441,16 @@ const Activity = ({ activity, users, user, dispatch }) => {
                       0
                     }
                     updateIdeaHandler={(updatedIdea) =>
-                      dispatch(updateIdea(updatedIdea))
+                      eventDispatch(updateIdea(updatedIdea))
                     }
-                    getNextIdea={(userId) => dispatch(nextIdea(userId))}
+                    getNextIdea={(userId) => eventDispatch(nextIdea(userId))}
                     key={reviewInfo["users"][userId]["ideaIdBeingReviewed"]}
                     tags={tags}
                     addTagHandler={(ideaId, tagStr) => {
-                      dispatch(addTag(ideaId, tagStr))
+                      eventDispatch(addTag(ideaId, tagStr))
                     }}
                     deleteTagHandler={(ideaId, tagId) => {
-                      dispatch(deleteTag(ideaId, tagId))
+                      eventDispatch(deleteTag(ideaId, tagId))
                     }}
                   />
                 )
@@ -463,19 +463,19 @@ const Activity = ({ activity, users, user, dispatch }) => {
                     topic={topic}
                     selectedIdeaId={convergeInfo.selectedIdeaId || ideas[0].id}
                     ideas={ideas}
-                    deleteIdeaHandler={(id) => dispatch(deleteIdea(id))}
+                    deleteIdeaHandler={(id) => eventDispatch(deleteIdea(id))}
                     updateIdeaHandler={(updatedIdea) =>
-                      dispatch(updateIdea(updatedIdea))
+                      eventDispatch(updateIdea(updatedIdea))
                     }
                     selectIdeaHandler={(selectedIdeaId) =>
-                      dispatch(setActiveConvergeIdea(selectedIdeaId))
+                      eventDispatch(setActiveConvergeIdea(selectedIdeaId))
                     }
                     tags={tags}
                     addTagHandler={(ideaId, tagStr) => {
-                      dispatch(addTag(ideaId, tagStr))
+                      eventDispatch(addTag(ideaId, tagStr))
                     }}
                     deleteTagHandler={(ideaId, tagId) => {
-                      dispatch(deleteTag(ideaId, tagId))
+                      eventDispatch(deleteTag(ideaId, tagId))
                     }}
                   />
                 )
@@ -538,7 +538,8 @@ const activityListing = {
   details: {
     title: "Zync Brainstorming",
     description: "Virtual brainstorming made effective.",
-    icon: "https://aarvalabs.imfast.io/mydawn/activiity_icon.png"
+    icon:
+      "https://res.cloudinary.com/zync/image/upload/v1608690626/activity_icons/bazinga_zmp0uw.png"
   },
   settings: {
     videoLayout: "docked", // This should be either 'docked' or 'minimized' which tells how the video hub should be when your activity is launched
