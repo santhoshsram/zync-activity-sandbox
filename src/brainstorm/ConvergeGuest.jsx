@@ -21,10 +21,14 @@ const ConvergeGuest = ({
         {ideas.map((idea) => {
           const active = selectedIdeaId === idea.id ? " active" : ""
           const className =
-            "text-truncate list-group-item list-group-item-action" + active
+            "list-group-item list-group-item-action d-flex justify-content-between align-items-center" +
+            active
           return (
             <li className={className} key={idea.id}>
-              {idea.ideaContent}
+              <span className="text-truncate">{idea.ideaContent}</span>
+              <span className="badge badge-dark badge-pill">
+                {idea.upvotes}
+              </span>
             </li>
           )
         })}
@@ -40,14 +44,14 @@ const ConvergeGuest = ({
             <p className="font-italic font-weight-light ml-1">
               Upvotes: {selectedIdea.upvotes}
             </p>
-            <p className="font-weight-light">
+            <div className="font-weight-light mb-3">
               <TagList
                 idea={selectedIdea}
                 tags={tags}
                 addTagHandler={addTagHandler}
                 deleteTagHandler={deleteTagHandler}
               />
-            </p>
+            </div>
           </div>
           <div className="ml-1">
             {selectedIdea.reviews.length > 0 && (
