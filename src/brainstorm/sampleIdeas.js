@@ -170,7 +170,7 @@ export const activityIdeas = [
     id: "idea1",
     ideaContent: "Games to play with friends - Board games",
     creator: "alpha@aarvalabs.com",
-    tags: [],
+    tags: ["KT3bUl2Tl31"],
     reviews: [
       {
         reviewer: "bravo@aarvalabs.com",
@@ -189,7 +189,7 @@ export const activityIdeas = [
     id: "idea2",
     ideaContent: "Online quiz show activity - timer / buzzer - points ",
     creator: "alpha@aarvalabs.com",
-    tags: [],
+    tags: ["Za2n9B015r9"],
     reviews: [],
     upvotes: 0,
     actionItems: "",
@@ -199,7 +199,7 @@ export const activityIdeas = [
     id: "idea3",
     ideaContent: "Celebrity invited events",
     creator: "alpha@aarvalabs.com",
-    tags: [],
+    tags: ["cB1VeiZGUtw"],
     reviews: [
       {
         reviewer: "bravo@aarvalabs.com",
@@ -216,7 +216,7 @@ export const activityIdeas = [
     ideaContent:
       "1-1 meetings - special backgrounds depending on where you want to meet",
     creator: "alpha@aarvalabs.com",
-    tags: [],
+    tags: ["d11lS-n6qUm"],
     reviews: [
       {
         reviewer: "bravo@aarvalabs.com",
@@ -252,7 +252,7 @@ export const activityIdeas = [
     ideaContent:
       "Sync/Async Meetings: Ability to create and host meetings, where say first 30 mins can be viewed async at people's own time (ex: code review, demoes, presentations etc) and then next 30 mins is in sync time where everyone gets on at the same time and discuss.",
     creator: "bravo@aarvalabs.com",
-    tags: [],
+    tags: ["d11lS-n6qUm"],
     reviews: [
       {
         reviewer: "alpha@aarvalabs.com",
@@ -354,7 +354,7 @@ export const activityIdeas = [
     id: "idea11",
     ideaContent: "Her zync - Talk to an AI when you're feeling lonely.",
     creator: "charlie@aarvalabs.com",
-    tags: [],
+    tags: ["TYsZ11OqxMx"],
     reviews: [
       {
         reviewer: "alpha@aarvalabs.com",
@@ -397,7 +397,7 @@ export const activityIdeas = [
     ideaContent:
       "Trello board grooming: Get to collaborate on creating and updating tasks on a trello board.",
     creator: "delta@aarvalabs.com",
-    tags: [],
+    tags: ["HUMgL-afgPe"],
     reviews: [
       {
         reviewer: "bravo@aarvalabs.com",
@@ -418,7 +418,7 @@ export const activityIdeas = [
     ideaContent:
       "Interview activity: Tech and non tech. How to sort of have white board style coding activities",
     creator: "delta@aarvalabs.com",
-    tags: [],
+    tags: ["TYsZ11OqxMx"],
     reviews: [
       {
         reviewer: "charlie@aarvalabs.com",
@@ -435,7 +435,7 @@ export const activityIdeas = [
     ideaContent:
       "Paired programming: Can we integrate with an IDE and provide a paired programming experience for a couple of devs to pow-wow on a small component",
     creator: "delta@aarvalabs.com",
-    tags: [],
+    tags: ["TYsZ11OqxMx"],
     reviews: [
       {
         reviewer: "alpha@aarvalabs.com",
@@ -446,5 +446,32 @@ export const activityIdeas = [
     upvotes: 0,
     actionItems: "",
     assignees: []
+  }
+]
+
+export const activityTags = [
+  {
+    id: "KT3bUl2Tl31",
+    text: "games"
+  },
+  {
+    id: "Za2n9B015r9",
+    text: "quiz"
+  },
+  {
+    id: "cB1VeiZGUtw",
+    text: "celeb"
+  },
+  {
+    id: "d11lS-n6qUm",
+    text: "meeting"
+  },
+  {
+    id: "HUMgL-afgPe",
+    text: "trello"
+  },
+  {
+    id: "TYsZ11OqxMx",
+    text: "tech"
   }
 ]

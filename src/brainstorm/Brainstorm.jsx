@@ -124,10 +124,11 @@ const activityReducer = (state, action) => {
   const { type, payload } = action
   switch (type) {
     case LOAD_SAMPLE_IDEAS: {
-      const { sampleIdeas } = payload
+      const { sampleIdeas, sampleTags } = payload
       return {
         ...state,
-        ideas: sampleIdeas
+        ideas: sampleIdeas,
+        tags: sampleTags
       }
     }
     case ADD_IDEA: {

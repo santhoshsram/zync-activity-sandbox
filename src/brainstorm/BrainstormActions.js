@@ -57,10 +57,11 @@ export const startConverging = () => ({ type: START_CONVERGING })
 Action to load sample ideas
 */
 export const LOAD_SAMPLE_IDEAS = "LOAD_SAMPLE_IDEAS"
-export const loadSampleIdeas = (sampleIdeas) => ({
+export const loadSampleIdeas = (sampleIdeas, sampleTags) => ({
   type: LOAD_SAMPLE_IDEAS,
   payload: {
-    sampleIdeas
+    sampleIdeas,
+    sampleTags
   }
 })
 
