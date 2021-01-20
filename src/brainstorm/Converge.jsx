@@ -10,6 +10,8 @@ const Converge = ({
   selectedIdeaId,
   ideas,
   tags,
+  selectedTags,
+  selectTagHandler,
   deleteIdeaHandler,
   updateIdeaHandler,
   selectIdeaHandler,
@@ -36,9 +38,11 @@ const Converge = ({
           selectedIdeaId={selectedIdeaId}
           ideas={ideas}
           tags={tags}
+          selectedTags={selectedTags}
           deleteIdeaHandler={deleteIdeaHandler}
           updateIdeaHandler={updateIdeaHandler}
           selectIdeaHandler={selectIdeaHandler}
+          selectTagHandler={selectTagHandler}
           addTagHandler={addTagHandler}
           deleteTagHandler={deleteTagHandler}
         />
@@ -47,6 +51,8 @@ const Converge = ({
           selectedIdeaId={selectedIdeaId}
           ideas={ideas}
           tags={tags}
+          selectedTags={selectedTags}
+          selectTagHandler={selectTagHandler}
           addTagHandler={addTagHandler}
           deleteTagHandler={deleteTagHandler}
         />

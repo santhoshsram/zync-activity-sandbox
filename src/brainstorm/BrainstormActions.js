@@ -110,3 +110,14 @@ export const deleteTag = (ideaId, tagId) => ({
     tagId
   }
 })
+
+/*
+Action to add a tag to list of selected tags in the converge step
+*/
+export const SELECT_TAG = "SELECT_TAG"
+export const addToSelectedTags = (selectedTagId) => ({
+  type: SELECT_TAG,
+  payload: {
+    selectedTagId
+  }
+})

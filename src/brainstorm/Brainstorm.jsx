@@ -10,6 +10,7 @@ import {
   NEXT_IDEA,
   START_CONVERGING,
   SET_ACTIVE_CONVERGE_IDEA,
+  SELECT_TAG,
   LOAD_SAMPLE_IDEAS,
   ADD_TAG,
   DELETE_TAG,
@@ -19,6 +20,7 @@ import {
   nextIdea,
   setActiveConvergeIdea,
   addTag,
+  addToSelectedTags,
   deleteTag
 } from "./BrainstormActions"
 
@@ -364,10 +366,40 @@ const activityReducer = (state, action) => {
     }
     case SET_ACTIVE_CONVERGE_IDEA: {
       const { selectedIdeaId } = payload
+
+      const updatedConvergeInfo = state.convergeInfo
+      updatedConvergeInfo.selectedIdeaId = selectedIdeaId
+      return {
+        ...state,
+        convergeInfo: updatedConvergeInfo
+      }
+    }
+    case SELECT_TAG: {
+      const { selectedTagId } = payload
+
+      // Remove tag from selectedTags if it already exists. Add if it doesn't already exist.
+      const updatedSelectedTags = (
+        state.convergeInfo.selectedTags || []
+      ).includes(selectedTagId)
+        ? state.convergeInfo.selectedTags.filter((tag) => tag !== selectedTagId)
+        : (state.convergeInfo.selectedTags || []).concat(selectedTagId)
+
+      // If selectedTags is empty, select all ideas. Otherwise, filter ideas by tags in selectedTags.
+      const updatedFilteredIdeas =
+        updatedSelectedTags && updatedSelectedTags.length > 0
+          ? state.ideas.filter((idea) => {
+              return (
+                idea.tags.filter((t) => updatedSelectedTags.includes(t))
+                  .length > 0
+              )
+            })
+          : state.ideas
+
       return {
         ...state,
         convergeInfo: {
-          selectedIdeaId: selectedIdeaId
+          selectedTags: updatedSelectedTags,
+          filteredIdeas: updatedFilteredIdeas
         }
       }
     }
@@ -462,7 +494,12 @@ const Activity = ({ activity, users, user, eventDispatch }) => {
                     users={users}
                     topic={topic}
                     selectedIdeaId={convergeInfo.selectedIdeaId || ideas[0].id}
-                    ideas={ideas}
+                    ideas={
+                      convergeInfo.selectedTags &&
+                      convergeInfo.selectedTags.length > 0
+                        ? convergeInfo.filteredIdeas
+                        : ideas
+                    }
                     deleteIdeaHandler={(id) => eventDispatch(deleteIdea(id))}
                     updateIdeaHandler={(updatedIdea) =>
                       eventDispatch(updateIdea(updatedIdea))
@@ -471,6 +508,10 @@ const Activity = ({ activity, users, user, eventDispatch }) => {
                       eventDispatch(setActiveConvergeIdea(selectedIdeaId))
                     }
                     tags={tags}
+                    selectedTags={convergeInfo.selectedTags}
+                    selectTagHandler={(selectedTagId) =>
+                      eventDispatch(addToSelectedTags(selectedTagId))
+                    }
                     addTagHandler={(ideaId, tagStr) => {
                       eventDispatch(addTag(ideaId, tagStr))
                     }}
@@ -550,7 +591,9 @@ const activityListing = {
   currentStage: BRAINSTORM_NOT_STARTED,
   reviewInfo: {},
   convergeInfo: {
-    selectedIdeaId: ""
+    filteredIdeas: [],
+    selectedIdeaId: "",
+    selectedTags: []
   },
   ideas: []
 }

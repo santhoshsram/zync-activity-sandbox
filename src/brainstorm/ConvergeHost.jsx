@@ -6,6 +6,8 @@ const ConvergeHost = ({
   selectedIdeaId,
   ideas,
   tags,
+  selectedTags,
+  selectTagHandler,
   deleteIdeaHandler,
   updateIdeaHandler,
   selectIdeaHandler,
@@ -118,6 +120,32 @@ const ConvergeHost = ({
           </div>
         </div>
       )}
+
+      <div
+        className="list-group"
+        style={{ minWidth: "150px", maxWidth: "15%" }}
+      >
+        {tags &&
+          tags.map((tag) => {
+            const active = (selectedTags || []).includes(tag.id)
+              ? " active"
+              : ""
+            const className =
+              "text-truncate list-group-item list-group-item-action" + active
+            return (
+              <button
+                type="button"
+                className={className}
+                onClick={() => {
+                  selectTagHandler(tag.id)
+                }}
+                key={tag.id}
+              >
+                {tag.text}
+              </button>
+            )
+          })}
+      </div>
     </div>
   )
 }
