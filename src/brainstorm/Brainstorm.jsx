@@ -489,18 +489,21 @@ const Activity = ({ activity, users, user, eventDispatch }) => {
                 )
               }
               case BRAINSTORM_CONVERGE: {
+                const filteredIdeas =
+                  convergeInfo.selectedTags &&
+                  convergeInfo.selectedTags.length > 0
+                    ? convergeInfo.filteredIdeas
+                    : ideas
+
                 return (
                   <Converge
                     user={user}
                     users={users}
                     topic={topic}
-                    selectedIdeaId={convergeInfo.selectedIdeaId || ideas[0].id}
-                    ideas={
-                      convergeInfo.selectedTags &&
-                      convergeInfo.selectedTags.length > 0
-                        ? convergeInfo.filteredIdeas
-                        : ideas
+                    selectedIdeaId={
+                      convergeInfo.selectedIdeaId || filteredIdeas[0].id
                     }
+                    ideas={filteredIdeas}
                     deleteIdeaHandler={(id) => eventDispatch(deleteIdea(id))}
                     updateIdeaHandler={(updatedIdea) =>
                       eventDispatch(updateIdea(updatedIdea))

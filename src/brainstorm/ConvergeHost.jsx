@@ -15,7 +15,9 @@ const ConvergeHost = ({
   deleteTagHandler
 }) => {
   const selectedIdea =
-    selectedIdeaId !== "" ? ideaFromId(ideas, selectedIdeaId) : undefined
+    selectedIdeaId !== "" ? ideaFromId(ideas, selectedIdeaId) : ideas[0].id
+  selectedIdeaId = selectedIdea.id
+
   const [actionItems, setActionItems] = useState(selectedIdea.actionItems || "")
   const [assignees, setAssignees] = useState(selectedIdea.assignees || "")
 
